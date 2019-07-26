@@ -1,0 +1,48 @@
+---
+title: |
+       | Supplementary Materials for "PAPER"
+author: 
+- "Danilo Freire[^freire]"
+- "Manoel Galdino[^galdino]"
+- "Umberto Mignozzetti[^mignozzetti]"
+- "Jessica Voigt[^voigt]"
+date: July 26, 2019
+fontfamily: libertine
+fontawesome: yes
+fontsize: 12pt
+monospace-url: yes
+spacing: double
+papersize: a4paper
+bibliography: references.bib
+biblio-style: apalike
+output:
+  pdf_document:
+    citation_package: natbib
+    fig_caption: yes
+    number_sections: yes
+    toc: true
+    keep_tex: no
+    template: template.latex
+---
+
+[^freire]: Postdoctoral Research Associate, The Political Theory Project, Brown University, Providence, RI 02912, USA, <danilofreire@brown.edu>, <http://danilofreire.github.io>.
+
+[^galdino]: Executive Diretor, Transparência Brazil, São Paulo, SP, Brazil, [mcz.fea@gmail.com](mailto:mcz.fea@gmail.com), <https://www.transparencia.org.br>.
+
+[^mignozzetti]: School of International Relations, Fundação Getulio Vargas, São Paulo, SP, Brazil and Wilf Family Department of Politics, NYU, NY, USA, [umberto.mig@nyu.edu](mailto:umberto.mig@nyu.edu), <http://umbertomig.com>. Corresponding author.
+
+[^voigt]: Data Scientist, Transparência Brasil, São Paulo, SP, Brazil, [voigt.jessica@gmail.com](mailto:voigt.jessica@gmail.com), <https://www.linkedin.com/in/voigtjessica>.
+
+```{r setup, echo=FALSE}
+```
+
+
+# Latin American Elite Survey \label{sec:latam}
+
+\setlength{\parindent}{1cm}
+\setlength{\parskip}{0pt}
+
+Lorem ipsum. 
+
+
+# Bibliography
