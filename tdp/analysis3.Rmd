@@ -1,0 +1,1927 @@
+---
+title: "Analysis Tá de Pé"
+author: "Umberto Mignozzetti"
+date: "7/26/2019"
+header-includes:
+   - \usepackage[utf8]{inputenc}
+   - \usepackage{tipa}
+   - \usepackage{caption,tabularx,booktabs,dcolumn}
+output: pdf_document
+---
+
+```{r, include=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+####
+## Pre-processing
+####
+
+# Needed packages
+pkgs <- c('tidyverse', 'dummies',
+          'haven', 'compareGroups',
+          'devtools', 'lubridate', 'brazilmaps',
+          'abjutils', 'lfe', 'cobalt', 'stargazer',
+          'MatchIt', 'ri2', 'DeclareDesign', 'knitr',
+          'DiagrammeR', 'DiagrammeRsvg', 'rsvg', 
+          'flextable', 'officer')
+
+# Install if not already installed
+installIfNot <- function(x) {
+  if(x %in% rownames(installed.packages()) == FALSE) 
+    install.packages(x, dependencies = T)
+} 
+lapply(pkgs, installIfNot)
+
+# Load scripts
+lapply(pkgs, require, character.only = T)
+rm(pkgs, installIfNot)
+rm(list=ls())
+```
+
+```{r, include=FALSE, warning=FALSE, cache=TRUE}
+####
+## Load data 
+####
+
+# Data block randomization
+setwd("~/Dropbox/Academic/Projects/TDP/2_analysis/")
+load('./bucket/final_bucket.RData')
+
+# Aux function
+calcATEs <- function(outcs, treats, ctrls, fes, cls, dat, wts = NULL, ...) {
+  ctrls_mod <- paste(ctrls, collapse = '+')
+  fes_mod <- paste(fes, collapse = '+')
+  moddescr <- data.frame()
+  mods <- list()
+  if(is.null(wts)) {
+    dat <- dat %>%
+      select(one_of(c(outcs, treats, ctrls, fes, cls))) %>%
+      na.omit()
+  } else {
+    dat <- dat %>%
+      select(one_of(c(outcs, treats, ctrls, fes, cls, wts))) %>%
+      na.omit()
+    wts <- dat[,wts]
+  }
+  k <- 1
+  for (i in treats) {
+    for (j in outcs) {
+      # No controls and no fes
+      mods[[k]] <- felm(as.formula(
+        paste(c(j,paste(i,paste('',0,0,cls, sep = '|'), sep = '')),
+              collapse = '~')), data = dat, weights = wts)
+      moddescr <- rbind(moddescr, 
+                        data.frame(outc = j, 
+                                   treat = i,
+                                   hCtrls = F,
+                                   hFEs = F))
+      print(k); k = k+1
+      # Controls and no fes
+      mods[[k]] <- felm(as.formula(
+        paste(c(j,paste(paste(c(i,ctrls_mod), collapse = '+'),
+                        paste('',0,0,cls, sep = '|'), sep = '')),
+              collapse = '~')), data = dat, weights = wts)
+      moddescr <- rbind(moddescr, 
+                        data.frame(outc = j, 
+                                   treat = i,
+                                   hCtrls = T,
+                                   hFEs = F))
+      print(k); k = k+1
+      # No controls and fes
+      mods[[k]] <- felm(
+        as.formula(paste(c(j,paste(paste(c(i), collapse = '+'),
+                                   paste('',fes_mod,0,cls, sep = '|'), sep = '')),
+                         collapse = '~')), data = dat, weights = wts)
+      moddescr <- rbind(moddescr, 
+                        data.frame(outc = j, 
+                                   treat = i,
+                                   hCtrls = F,
+                                   hFEs = T))
+      print(k); k = k+1
+      # Controls and fes
+      mods[[k]] <- felm(as.formula(
+        paste(c(j,paste(paste(c(i,ctrls_mod), collapse = '+'),
+                        paste('',fes_mod,0,cls, sep = '|'), sep = '')),
+              collapse = '~')), data = dat, weights = wts)
+      moddescr <- rbind(moddescr, 
+                        data.frame(outc = j, 
+                                   treat = i,
+                                   hCtrls = T,
+                                   hFEs = T))
+      print(k); k = k+1
+    }
+  }
+  return(list(moddescr, mods))
+}
+
+####
+## Analysis Intervention 1
+####
+
+## Covariate balance
+aux <- select(impEvalph1, 
+              treatOriginal, logPop2015,
+              ideb_ai_2015, ideb_af_2015, log_poorFam2010,
+              log_totTransf2016) %>%
+  unique()
+resu1 <- compareGroups(treatOriginal ~ 
+                         logPop2015 + 
+                         log_poorFam2010 +
+                         log_totTransf2016 +
+                         ideb_ai_2015 + 
+                         ideb_af_2015, 
+                       data = aux)
+tabIE1balance <- createTable(resu1, digits = 3)
+row.names(tabIE1balance$descr) <- 
+  c('Log Population (2015)', 
+    'Log Poor Families (2010)', 
+    'Log Total Transfers (2016)', 
+    'IDEB Inicial Years (2015)', 
+    'IDEB Final Years (2015)')
+
+## Manipulation Stats
+
+## Map GA intervention 1
+mapbr <- get_brmap('City')
+gaaux <- filter(ga, phase1 == 1)
+gaaux <- select(gaaux, ibge_code7, downl)
+gaaux <- rename(gaaux, City = ibge_code7)
+gaaux <- unique(gaaux)
+gaaux$City <- as.numeric(gaaux$City)
+gaaux2 <- data.frame(City = mapbr$City)
+gaaux <- left_join(gaaux2, gaaux); rm(gaaux2)
+gaaux$downl[is.na(gaaux$downl)] = 0
+gaaux$Downloads <- factor(gaaux$downl, labels = c('No Downloads', 'Downloads'))
+pMapDownloadsInt1 <-
+  plot_brmap(mapbr,
+             data_to_join = gaaux,
+             join_by = c("City" = "City"),
+             var = "Downloads") +
+  labs(title = 'App Downloads -- Intervention 1')
+
+# Frequency downloads
+tab <- filter(ga, phase1 == 1) %>%
+  group_by(data) %>%
+  summarize(NewUsers = sum(novos_usuarios))
+names(tab) <- c('Date', 'Frequency')
+pFreqUserDownloadsInt1 <- ggplot(tab, aes(x=Date, y=Frequency, group=1)) +
+  geom_line() + geom_point()
+
+## ATEs 
+outcs <- c('percExecBegin', 'percExecEnd',
+           'deltaPercExec', 'isFinished',
+           'isCancelled', 'updDate')
+treats <- c('treat')
+ctrls <- c('logPop2015', 'ideb_ai_2015','ideb_af_2015',
+           'log_poorFam2010', 'log_totTransf2016')
+fes <- c('state')
+cls <- c('municipality')
+
+resInt1 <- calcATEs(outcs, treats, ctrls, fes, cls, dat = impEvalph1)
+
+## Nearest Neighborhood Matching
+datMatchIPW <- impEvalph1 %>%
+  select(treat, logPop2015, ideb_ai_2015, ideb_af_2015,
+         log_poorFam2010, log_totTransf2016,
+         percExecBegin, percExecEnd, deltaPercExec, isFinished,
+         isCancelled, updDate, state, municipality) %>%
+  na.omit() %>%
+  mutate(treat = 2-as.numeric(treat))
+
+row.names(datMatchIPW) <- NULL
+
+resMatch <- matchit(treat ~ logPop2015 + ideb_ai_2015 + ideb_af_2015 + 
+                      log_poorFam2010 + log_totTransf2016,
+                    method = "nearest", data = datMatchIPW, distance = 'mahalanobis')
+
+datMatch <- match.data(resMatch)
+
+datMatch <- datMatch %>% 
+  mutate(treat = 1-treat) %>%
+  mutate(treat = factor(treat, levels = c(0, 1), 
+                        labels = c('Control', 'Treatment')))
+
+resInt1match <- calcATEs(outcs, treats, ctrls, fes, cls, dat = datMatch)
+
+# Propensity score matching not used because of simple inference
+
+####
+## Analysis Intervention 2
+####
+
+## Covariate balance
+aux <- select(impEvalph2, logPop2015,
+              treatApp, ideb_ai_2015,
+              ideb_af_2015, log_poorFam2010,
+              log_totTransf2016)
+resu1 <- compareGroups(treatApp ~ 
+                         logPop2015 + 
+                         log_poorFam2010 +
+                         log_totTransf2016 +
+                         ideb_ai_2015 + 
+                         ideb_af_2015,
+                       data = aux)
+tabIE2Balance <- createTable(resu1, digits = 3)
+row.names(tabIE2Balance$descr) <- 
+  c('Log Population (2015)', 
+    'Log Poor Families (2010)', 
+    'Log Total Transfers (2016)', 
+    'IDEB Inicial Years (2015)', 
+    'IDEB Final Years (2015)')
+
+## ATEs
+resInt2 <- calcATEs(outcs, 'treatApp', ctrls, fes, cls, dat = impEvalph2)
+
+## Genetic Neighborhood Matching
+datMatchIPW <- impEvalph2 %>%
+  select(id_project, treatApp, logPop2015, ideb_ai_2015, ideb_af_2015,
+         log_poorFam2010, log_totTransf2016,
+         percExecBegin, percExecEnd, deltaPercExec, isFinished,
+         isCancelled, updDate, state, municipality) %>%
+  na.omit() %>%
+  mutate(treatApp = 2-as.numeric(treatApp))
+
+row.names(datMatchIPW) <- NULL
+
+resMatch <- matchit(treatApp ~ logPop2015 + ideb_ai_2015 + ideb_af_2015 + 
+                      log_poorFam2010 + log_totTransf2016,
+                    method = "nearest", data = datMatchIPW, distance = 'mahalanobis')
+
+datMatch <- match.data(resMatch)
+
+datMatch <- datMatch %>% 
+  mutate(treatApp = 1-treatApp) %>%
+  mutate(treatApp = factor(treatApp, levels = c(0, 1), labels = c('Control', 'Treatment')))
+
+resInt2match <- calcATEs(outcs, 'treatApp', ctrls, fes, cls, dat = datMatch)
+
+# Regression applying inverse probability weights
+resInt2IPW <- 
+  calcATEs(outcs, 'treatApp', ctrls, fes, 
+                       cls, dat = impEvalph2, wts = 'IPW_intheapp')
+
+####
+## Analysis Intervention 3
+####
+
+# Covariate balance
+aux <- select(impEvalph2, logPop2015,
+              treatCampaign, ideb_ai_2015,
+              ideb_af_2015, log_poorFam2010,
+              log_totTransf2016)
+resu1 <- compareGroups(treatCampaign ~ 
+                         logPop2015 + 
+                         log_poorFam2010 +
+                         log_totTransf2016 +
+                         ideb_ai_2015 + 
+                         ideb_af_2015, 
+                       data = aux)
+tabIE3Balance <- createTable(resu1, digits = 3)
+row.names(tabIE3Balance$descr) <- 
+  c('Log Population (2015)', 
+    'Log Poor Families (2010)', 
+    'Log Total Transfers (2016)',
+    'IDEB Inicial Years (2015)', 
+    'IDEB Final Years (2015)')
+
+# ATE Campaign
+outcs <- c('percExecBegin', 'percExecEnd',
+           'deltaPercExec', 'isFinished',
+           'isCancelled', 'updDate')
+treats <- c('treatCampaign')
+ctrls <- c('logPop2015','ideb_ai_2015','ideb_af_2015',
+           'log_poorFam2010', 'log_totTransf2016')
+fes <- c('state')
+cls <- c('municipality')
+
+res <- calcATEs(outcs, treats, ctrls, fes, cls, dat = impEvalph2)
+
+## Nearest Neighborhood Matching
+datMatchIPW <- impEvalph2 %>%
+  select(id_project, treatCampaign, logPop2015, ideb_ai_2015, ideb_af_2015,
+         log_poorFam2010, log_totTransf2016,
+         percExecBegin, percExecEnd, deltaPercExec, isFinished,
+         isCancelled, updDate, state, municipality) %>%
+  na.omit() %>%
+  mutate(treatCampaign = 2-as.numeric(treatCampaign))
+
+row.names(datMatchIPW) <- NULL
+
+resMatch <- matchit(treatCampaign ~ logPop2015 + ideb_ai_2015 + 
+                      ideb_af_2015 + log_totTransf2016 + log_poorFam2010,
+                    method = "nearest", data = datMatchIPW, distance = 'mahalanobis')
+
+datMatch <- match.data(resMatch)
+
+datMatch <- datMatch %>% 
+  mutate(treatCampaign = 1-treatCampaign) %>%
+  mutate(treatCampaign = factor(treatCampaign, levels = c(0, 1), labels = c('Control', 'Treatment')))
+
+resInt3match <- calcATEs(outcs, 'treatCampaign', ctrls, fes, 
+                         cls, dat = datMatch)
+
+# Regression applying inverse probability weights
+resInt3IPW <- calcATEs(outcs, 'treatCampaign', ctrls, fes, 
+                       cls, dat = impEvalph2, wts = 'IPW_campaign')
+```
+
+# Executive Summary
+
+## What have we done?
+
+In this impact evaluation, we study the effect of the **Tá de Pé** App and Campaign. **Tá de Pé** (TDP) is an initiative to improve the responsiveness in Education Infrastructure public expenditures. From August 2017 to February 2019, we studied the impact of the App and the impact of an online email campaign designed to pressure all municipalities known to have delayed school constructions according to the Brazilian Federal government Ministry of Education.
+
+## Why should we care?
+
+Despite being among the ten largest economies in the world, Brazil scores consistently in the last positions at the PISA education exam. Many public school constructions in Brazil are delayed or unfinished due to inefficiencies and corruption. This impacts the long-run productivity and welfare in the country and limits the returns of investments in the country.
+
+## How did we do?
+
+We evaluated three interventions:
+
+1. The effect of the App introduction, from August 2017 to February 2018.
+2. The effect of the App introduction, from August 2018 to February 2019.
+3. The effect of the TDP Campaign, where the schools with delayed constructions received an automated email requesting information, in December 2018.
+
+To access the impact, we randomize a set of schools and municipalities not to receive the intervention. We then studied construction execution statistics, construction status, and construction finishing dates.
+
+## What did we find?
+
+The first intervention found that the introduction of the App increased the likelihood of school completion by `r round(100*resInt1[[2]][[16]]$coefficients[1], 2)` percent. The second intervention found that the App pressure over the bureaucracy increased the investment in the schools by `r round(100*resInt2match[[2]][[12]]$coefficients[1], 2)` percent. The last intervention had a null impact on school constructions statistics. 
+
+## How can we improve?
+
+For further development, we suggest the following:
+
+1. Gamification of the App, to attract younger users: younger people have more time to use the App. Focusing on this group may improve App usage and the end-line impact on school constructions. For example, a partnership with *Pokemon Go*, to put Pokemons over the school constructions, together with banners embedded in the game that incentivize reporting, could increase the end-line impact.
+
+2. Expansion of the intervention scope: school construction is only part of a much broader set of educational services provided. School quality and teacher attendance are also essential and problematic in Brazil. Moreover, the design can be easily transported to other fields, such as health care. This could make the App a comprehensive whistleblowing tool for both education and health care systems.
+
+3. Shocks in the cost-benefits of using the App: improve the cost-benefit equation could increase the potential number of users. This can be done by providing *Tinder*, *Rappi*, *Uber*, or *Google Play* credits for users that effectively report.
+
+# The TDP Project
+
+The **Tá de Pé** project is an initiative carried out by the Transparência Brasil (Brazilian Transparency) to foster bottom-up accountability. The App was built to facilitate people to go to school construction sites, check their status, and request information to the public authorities about the steps toward finishing the school constructions.
+
+The app works as follows. From a list of constructions available in the Ministry of Education website, the Brazilian Transparency mapped all the schools and made them available in the Ta de Pé App. Any person with the App can go to a construction site and take pictures. The Ta de Pé bot sends the images for engineers to evaluate the execution and suggest whether to report the construction site as *delayed*. If the construction is reported, then the App sends a request to the mayor's office asking the public officials to explain why the building is unfinished and requesting better completion estimates.
+
+The App has received the 2016 Google Social Impact grant, with more than 200 thousand popular votes and it has been online since April 2017.
+
+## Impact evaluation design
+
+We divided the impact evaluation into three interventions. The first two interventions will evaluate the impact of the App on reported school constructions outcomes. The last intervention will assess the result of a campaign run by the **Tá de Pé** bot, that reported all the school constructions marked as delayed in the Ministry of Education dataset.
+
+## Randomization
+
+In the first intervention, we use simple randomization, placing 150 municipalities in the control group. In the second and third interventions, we use block randomization, randomizing by three characteristics: Brazilian State, Construction Status (delayed, ongoing, stopped), and above median executed indicator.
+
+To evaluate the random assignment, we used the following pre-treatment variables:
+
+1. Log of Municipal Population in 2015
+2. Log of Number of Poor Families (2010 IBGE Census)
+3. Log of Total Federal Transfers to the Municipality in 2016
+4. IDEB Indicator for primary school quality (2015 Ministry of Education)
+5. IDEB Indicator for secondary school quality (2015 Ministry of Education)
+
+For the first randomization, we used the core R function `sample.` For the block randomization, we use the package `randomizr` for R. We take the approach of a small control group, as this was a sensitive condition to not prevent the app from being evaluated. In the first intervention, we select 150 municipalities. In the second and third interventions, we selected around 600 construction sites. The difference in the randomization procedure is due to better information about construction sites during the second and third interventions.
+
+Qualitatively, the intervention in each step consists of the following:
+
+1. *Intervention 1*: We selected `r as.numeric(table(impEvalph1$treatOriginal)[1])` construction sites to not appear in the app.
+
+2. *Intervention 2*: We selected `r as.numeric(table(impEvalph2$treatApp)[1])` construction sites to not appear in the app.
+
+3. *Intervention 3*: We select `r as.numeric(table(impEvalph2$treatCampaign)[1])` construction sites to not receive the TDP bot campaign.
+
+## Outcomes
+
+We investigated the impact on six outcomes of interest:
+
+1. Percentage of the investment executed before the impact evaluation started (placebo)
+2. Percentage of the investment performed by the end of the impact evaluation period
+3. The difference of the percentage invested in the end and at the beginning of the impact evaluation period
+4. Indicator for a construction finished during the impact evaluation period
+5. Indicator for a construction canceled during the impact evaluation period
+6. Indicator for an updated conclusion date for the construction during the impact evaluation period
+
+Our hypothesis, conditional on the app having a positive effect in terms of welfare, is to find that:
+
+1. The *percentage of the investment executed before the impact evaluation started* should **remain unchanged**
+2. The *percentage of the investment executed by the end of the impact evaluation period* should **increase**, meaning that the App is speeding up the construction.
+3. The *difference of the percentage invested in the end and at the beginning of the impact evaluation period* should **increase** meaning that the app is increasing the amount invested in the project.
+4. The *indicator for a construction finished during the impact evaluation period* should **increase** meaning that constructions are being finished at a higher rate.
+5. The *indicator for a construction canceled during the impact evaluation period* should **increase** is **ambiguous**, as it is good to cancel constructions that were not started, but not as much to cancel constructions that are half-way through the work.
+6. The *indicator for an updated conclusion date for the construction during the impact evaluation period* should **increase**, meaning that the public officials are giving better estimates of the finishing times.
+
+## Manipulation
+
+To check the manipulation, we look at the number and places of app download.
+
+## Estimation
+
+For the estimation, we use the following regression equation:
+
+$$ Y_i \ = \ \alpha + \beta T_i + \gamma X_i + \theta Z_i + \varepsilon_i $$
+
+$i$ indexes the case. $Y_i$ in an outcome, as described in the previous section. $\beta$ is the quantity of interest (Average Treatment Effect). $T_i$ is the treatment that in our case, is an intervention occurrence indicator with two values, zero (no intervention) and one (intervention). $\gamma$ is a vector of fixed effects, and $X_i$ is a matrix of Brazilian states' fixed effects. $\theta$ is a vector of controls and $Z_i$ an array of controls for the case $i$. $\varepsilon_i$ is the error term.
+
+We cluster the standard errors at the municipal level, as the investment decisions are taken by the mayor's offices.
+
+As robustness, we fit two extra models. First, we re-run the main model where we have the following: (i) we ran a model without controls or fixed effects; (ii) we run the models adding the control variables, which are the same as the ones used in the covariate balance tests; (iii) we run the regression model with State fixed effects. The results are in the Appendix.
+
+Second, we run the main models using inverse probability weights where we used block randomization and a one-to-one nearest neighborhood matching. We use the control variables as matching characteristics. These robustness checks are intended to correct the imbalance caused by the minimal control group approach that we employed in all three interventions.
+
+## Partial implementation and potential issues in the causal identification
+
+In the first intervention, the municipalities in the control group were displayed in the treatment group for about two weeks, in January 2018. When the mistake was detected, the towns were removed promptly. A few municipalities have App activity, but controlling and/or excluding these municipalities from the estimation does not change the results. Note also that this problem lowers the chance to detect an existant effect, making the estimator more conservative.
+
+In the second and third interventions, there were no threats to the identification, with the treatment being fully implemented.
+
+# Intervention 1
+
+The intervention one was designed to evaluate the impact of launching the first version of the App. The first version was built for Android only, and was launched in August 2017 and lasted until February 2018.
+
+## Randomization
+
+The randomization was performed at the municipal level. We selected 150 municipalities for the control group while the rest were placed in the treatment group. The control group worked by deleting all the construction sites in control assigned cities.
+
+In the next Table, we display the balance test, showing that the covariates are balanced in the treatment and control groups.
+
+```{r impeval2, echo=FALSE}
+tabIE1balance
+```
+
+As expected, in the treatment and the control, there are no statistically significant differences in terms of Population in 2015, the number of Poor Families in the 2010 IBGE Census, total and FUNDEB transfers to the municipality in 2016, and the IDEB education quality indicators.
+
+## Manipulation
+
+Manipulation in experiments is defined as the extent through which the treatment was successfully delivered. In the case of the App intervention, it represents whether having the App improved the results in terms of school construction completion rates. We present two manipulation indicators. First, we look into the municipalities where we had a successful download and use of the App.
+
+```{r, echo=FALSE, warning=FALSE, fig.align='center', fig.width=4.5, fig.height=4.5}
+pMapDownloadsInt1
+```
+
+Second, we look into App downloads during the intervention 1 period in the following graph.
+
+```{r, echo=FALSE, warning=FALSE, fig.align='center', fig.width=4.5, fig.height=4.5}
+pFreqUserDownloadsInt1
+```
+
+The map displays a good territorial variability. There were `r length(unique(ga$municipality[ga$phase1==1]))` downloads in the `r length(unique(impEvalph1$municipality[impEvalph1$treatOriginal==1]))` municipalities originally in the dataset at the beginning of the impact evaluation. Downloads peak during the Facebook TDP campaign, right after the App launch in August, then diminishes over time.
+
+In terms of manipulation, there were downloads in 44.6% of the municipalities, and the downloads were temporally concentrated. This indicates that the Facebook campaign worked, but in terms of manipulation, represents a weak treatment delivery. This because the step-by-step usage of the App involves:
+
+1. Download the App.
+2. Find a school nearby.
+3. Go to school and take pictures.
+
+As the App download is the first step, this represents low manipulation.
+
+## Results
+
+```{r, results = 'asis', echo=FALSE}
+# Results intervention 1
+stargazer(resInt1[[2]][[4]],resInt1[[2]][[8]],resInt1[[2]][[12]],
+          resInt1[[2]][[16]],resInt1[[2]][[20]],resInt1[[2]][[24]],
+          title = 'Impact Evaluation -- Intervention 1', 
+          keep='treatTreatment', type = 'latex',
+          covariate.labels = 'ATE',
+          column.labels = c('Inv. Before','Inv. After',
+                             'Delta Inv.','Finished Constr.',
+                             'Cancel. Constr.','Updt. Date'),
+          dep.var.labels.include=F,
+          omit.stat=c('adj.rsq', 'ser'), style='qje',
+          align=T, digits=3,
+          notes = 'Cluster-robust SEs at the Municipal Level.',
+          notes.append = T, header=FALSE)
+```
+
+The intervention was sufficient to improve the school completion rate. It increased in `r round(100*resInt1[[2]][[16]]$coefficients[1], 2)` percent the chance that a school construction becomes reported as finished by the end of the intervention. All other coefficients were not statistically significant at conventional levels.
+
+This finding is positive in the sense that bottom-up pressure exerted by the App worked to increase the completion rate of constructions.
+
+## Results using nearest neighborhood matching
+
+In the randomization, we adopted a minimal control group approach. This has implications for statistical power and sensitivity of the results, as much of the variation is placed on the treatment versus the control group. To increase the reliability of the results, we run the main using one-to-one Nearest Neighborhood Matching with Mahalanobis distance. The findings follow below.
+
+```{r, results = 'asis', echo=FALSE}
+stargazer(resInt1match[[2]][[4]],resInt1match[[2]][[8]],resInt1match[[2]][[12]],
+          resInt1match[[2]][[16]],resInt1match[[2]][[20]],resInt1match[[2]][[24]],
+          title = 'Impact Evaluation -- Intervention 1 (matched results)', 
+          keep='treatTreatment', type = 'latex',
+          covariate.labels = 'ATE',
+          column.labels = c('Inv. Before','Inv. After',
+                             'Delta Inv.','Finished Constr.',
+                             'Cancel. Constr.','Updt. Date'),
+          dep.var.labels.include=F,
+          omit.stat=c('adj.rsq', 'ser'), style='qje',
+          align=T, digits=3,
+          notes = 'Cluster-robust SEs at the Municipal Level.',
+          notes.append = T, header=FALSE)
+```
+
+As we can see, the impact of the App on the school construction completion resists the robustness checks. This reinforces the reliability of this effect.
+
+## Discussion
+
+The introduction of App had a positive effect on the school construction completion rates.
+
+# Intervention 2
+
+In intervention 2, we study the impact of the presence of the App on school construction outcomes. Intervention 2 is similar to intervention 1 in all but three characteristics. First, the TDP App was now available for iOS devices. Second, the randomization is now performed at the school level, blocking by characteristics noted below. Finally, the intervention period is August 2018 to February 2019.
+
+## Randomization
+
+We randomize the App at the school level, placing 15% of schools that could potentially appear in the App in the control group. We used block randomization, blocking by four characteristics:
+
+1. The Brazilian State
+2. Status (Under construction, stopped, unfinished)
+3. Above median spent resources
+
+The blocks and the inverse probability weights are located in the Appendix. The next table shows that the randomization is balanced by the municipal pre-treatment variables.
+
+```{r, echo=FALSE}
+tabIE2Balance
+```
+
+## Manipulation
+
+In terms of manipulation, we analyze two outcomes: municipality App downloads and downloads over time.
+
+*Downloads by municipality*:
+```{r, echo=FALSE, warning=FALSE, fig.align='center', fig.width=4.5, fig.height=4.5}
+## Map GA phase 2: number downloads
+mapbr <- get_brmap('City')
+gaaux <- filter(ga, phase2 == 1)
+gaaux <- select(gaaux, ibge_code7, downl)
+gaaux <- rename(gaaux, City = ibge_code7)
+gaaux <- unique(gaaux)
+gaaux$City <- as.numeric(gaaux$City)
+gaaux2 <- data.frame(City = mapbr$City)
+gaaux <- left_join(gaaux2, gaaux); rm(gaaux2)
+gaaux$downl[is.na(gaaux$downl)] = 0
+gaaux$Downloads <- factor(gaaux$downl, labels = c('No Downloads', 'Downloads'))
+p <- plot_brmap(mapbr,
+                data_to_join = gaaux,
+                join_by = c("City" = "City"),
+                var = "Downloads") +
+  labs(title = 'App Downloads -- Phase 2')
+p
+```
+
+*Downloads over time -- Intervention 2*:
+```{r, echo=FALSE, warning=FALSE, fig.align='center', fig.width=4.5, fig.height=4.5}
+# Phase 2 -- manipulation
+tab <- filter(ga, phase2 == 1) %>%
+  group_by(data) %>%
+  summarize(NewUsers = sum(novos_usuarios))
+names(tab) <- c('Date', 'Frequency')
+p <- ggplot(tab, aes(x=Date, y=Frequency, group=1)) +
+  geom_line() + geom_point()
+p
+```
+
+The total number of municipalities that had downloads of the App is `r sum(gaaux$Downloads == 'Downloads')`. There are two spikes in the usage of the App. One in August, right after the intervention start and a second spike around December. The first spike is a result of a TDP social media campaign for boosting App usage. The second spike is a spillover from the TDP reporting campaign, here known as the intervention 3.
+
+The number of downloads is considerably smaller in this second intervention when compared with intervention 1. As we discussed, this represents a weak manipulation, making detecting treatment effects a hard task.
+
+## Results from the full model
+
+The full model shows us null effects in all the studied outcomes.
+
+```{r, results = 'asis', echo=FALSE}
+# Results intervention 2
+stargazer(resInt2[[2]][[4]],resInt2[[2]][[8]],resInt2[[2]][[12]],
+          resInt2[[2]][[16]],resInt2[[2]][[20]],resInt2[[2]][[24]],
+          title = 'Impact Evaluation -- Intervention 2', 
+          keep='treatAppTreatment', type = 'latex',
+          covariate.labels = 'ATE',
+          column.labels = c('Inv. Before','Inv. After',
+                             'Delta Inv.','Finished Constr.',
+                             'Cancel. Constr.','Updt. Date'),
+          dep.var.labels.include=F,
+          omit.stat=c('adj.rsq', 'ser'), style='qje',
+          align=T, digits=3,
+          notes = 'Cluster-robust SEs at the Municipal Level.',
+          notes.append = T, header=FALSE)
+```
+
+## Results using inverse probability weights
+
+As we used block randomization, the treatment effect is only corrected estimated when we use the inverse probability weights to reweight the outcomes. The results follow in the table below, showing null effects.
+
+```{r, results = 'asis', echo=FALSE}
+stargazer(resInt2IPW[[2]][[4]],resInt2IPW[[2]][[8]],resInt2IPW[[2]][[12]],
+          resInt2IPW[[2]][[16]],resInt2IPW[[2]][[20]],resInt2IPW[[2]][[24]],
+          title = 'Impact Evaluation -- Intervention 2 (IPW)', 
+          keep='treatAppTreatment', type = 'latex',
+          covariate.labels = 'ATE',
+          column.labels = c('Inv. Before','Inv. After',
+                             'Delta Inv.','Finished Constr.',
+                             'Cancel. Constr.','Updt. Date'),
+          dep.var.labels.include=F,
+          omit.stat=c('adj.rsq', 'ser'), style='qje',
+          align=T, digits=3,
+          notes = 'Cluster-robust SEs at the Municipal Level.',
+          notes.append = T, header=FALSE)
+```
+
+## Results using nearest neighborhood matching
+
+Using nearest neighborhood matching the results improve a little, and we can see that the App improved the difference between the baseline and the end-line reported investment by `r round(100*resInt2match[[2]][[12]]$coefficients[1], 2)` percent.
+
+```{r, results = 'asis', echo=FALSE}
+stargazer(resInt2match[[2]][[4]],resInt2match[[2]][[8]],resInt2match[[2]][[12]],
+          resInt2match[[2]][[16]],resInt2match[[2]][[20]],resInt2match[[2]][[24]],
+          title = 'Impact Evaluation -- Intervention 2 (nearest neighborhood matching)', 
+          keep='treatAppTreatment', type = 'latex',
+          covariate.labels = 'ATE',
+          column.labels = c('Inv. Before','Inv. After',
+                             'Delta Inv.','Finished Constr.',
+                             'Cancel. Constr.','Updt. Date'),
+          dep.var.labels.include=F,
+          omit.stat=c('adj.rsq', 'ser'), style='qje',
+          align=T, digits=3,
+          notes = 'Cluster-robust SEs at the Municipal Level.',
+          notes.append = T, header=FALSE)
+```
+
+Although there were no completion effects as in intervention 1, we had a substantial impact investment in the nearest neighborhood matched sample.
+
+## Discussion
+
+We have null treatment effects in all but one outcome, in the nearest neighborhood matched sample. In the NN-matching, we find that the App improves the percentage of the executed budget.
+
+# Intervention 3
+
+Intervention 3 focused on the effect of a TDP Campaign to boost response, in a top-down email campaign to select schools in December 2018.
+
+## Randomization
+
+We randomize the TDP Campaign, placing 15% of schools that could potentially receive the email campaign advocacy in the control group. We used block randomization, blocking by four characteristics:
+
+1. The Brazilian State
+2. Status (Under construction, stopped, unfinished)
+3. Above median spent resources
+
+The blocks and the inverse probability weights are located in the Appendix. The next table shows that the randomization is balanced by the municipal pre-treatment variables.
+
+```{r, echo=FALSE, warning=FALSE}
+tabIE3Balance
+```
+
+## Manipulation
+
+In the manipulation, let us analyze the ex-post effect by looking into responses.
+
+First, we have the following chart for the validity of the responses. We coded the validity of responses in three categories. First, a valid answer provides a minimal explanation that covers the inquiries made by the campaign email. An invalid answer represents an answer without any explanation. Not answer means that the campaign email has not been addressed by the :
+
+```{r, echo=FALSE, warning=FALSE, fig.align='center', fig.width=4.5, fig.height=4.5}
+# Status answer by state
+tab <- data.frame(table(allalert$status2, allalert$state))
+names(tab) <- c('Status', 'State', 'Frequency')
+p<-ggplot(data=tab, aes(x=State, y=Frequency, fill=Status)) +
+  geom_bar(stat="identity") + coord_flip()
+p
+```
+
+As we can see, the state with the most valid responses was the Rio Grande do Sul, while the state with the most significant number of non-response was Maranhao. Maranhao is also the state with most school constructions in the Campaign, which can partially explain their rates. Para is a positive outlier in this analysis, as it has the second-largest number of schools in the campaign, but it managed to answer almost half of the requests with valid answers. Amapa is a negative outlier in the analysis, as no campaign emails have been answered.
+
+The campaign has a higher manipulation impact, which is expected since it consists of sending emails and monitoring responses. One caveat is that the advantage of the App is that it has a more personal component attached to it. Combining these elements could be a good alternative here.
+
+## Results from the full model
+
+In the model below, we show that the campaign, despite the sizeable manipulation, had null effects on the studied outcomes.
+
+```{r, results = 'asis', echo=FALSE}
+stargazer(res[[2]][[4]],res[[2]][[8]],res[[2]][[12]],
+          res[[2]][[16]],res[[2]][[20]],res[[2]][[24]],
+          title = 'Impact Evaluation -- Intervention 3', 
+          keep='treatCampaignTreatment', type = 'latex',
+          covariate.labels = 'ATE',
+          column.labels = c('Inv. Before','Inv. After',
+                             'Delta Inv.','Finished Constr.',
+                             'Cancel. Constr.','Updt. Date'),
+          dep.var.labels.include=F,
+          omit.stat=c('adj.rsq', 'ser'), style='qje',
+          align=T, digits=3,
+          notes = 'Cluster-robust SEs at the Municipal Level.',
+          notes.append = T, header=FALSE)
+```
+
+## Results using inverse probability weights
+
+Using inverse probability weights given by the block randomization, we show again that the campaign had null effects on the studied outcomes.
+
+```{r, results = 'asis', echo=FALSE}
+stargazer(resInt3IPW[[2]][[4]],resInt3IPW[[2]][[8]],resInt3IPW[[2]][[12]],
+          resInt3IPW[[2]][[16]],resInt3IPW[[2]][[20]],resInt3IPW[[2]][[24]],
+          title = 'Impact Evaluation -- Intervention 3 (IPW)', 
+          keep='treatCampaignTreatment', type = 'latex',
+          covariate.labels = 'ATE',
+          column.labels = c('Inv. Before','Inv. After',
+                             'Delta Inv.','Finished Constr.',
+                             'Cancel. Constr.','Updt. Date'),
+          dep.var.labels.include=F,
+          omit.stat=c('adj.rsq', 'ser'), style='qje',
+          align=T, digits=3,
+          notes = 'Cluster-robust SEs at the Municipal Level.',
+          notes.append = T, header=FALSE)
+```
+
+## Results using nearest neighborhood matching
+
+Finally, using the nearest neighborhood matching, we still have a consistent null effect of the campaign on the studied outcomes.
+
+```{r, results = 'asis', echo=FALSE}
+stargazer(resInt3match[[2]][[4]],resInt3match[[2]][[8]],resInt3match[[2]][[12]],
+          resInt3match[[2]][[16]],resInt3match[[2]][[20]],resInt3match[[2]][[24]],
+          title = 'Impact Evaluation -- Intervention 3 (nearest neighborhood matching)', 
+          keep='treatCampaignTreatment', type = 'latex',
+          covariate.labels = 'ATE',
+          column.labels = c('Inv. Before','Inv. After',
+                             'Delta Inv.','Finished Constr.',
+                             'Cancel. Constr.','Updt. Date'),
+          dep.var.labels.include=F,
+          omit.stat=c('adj.rsq', 'ser'), style='qje',
+          align=T, digits=3,
+          notes = 'Cluster-robust SEs at the Municipal Level.',
+          notes.append = T, header=FALSE)
+```
+
+
+## Discussion
+
+The campaign had a consistent null effect across all treatments. This goes per most email campaigns aimed at improving development outcomes. 
+
+# Conclusion
+
+In this report, we evaluated the TDP App (interventions 1 and 2) and the TDP campaign (intervention 3). We find that the campaign has a consistent null effect across all the analysis.
+
+In terms of suggestions, for the first two interventions, we strongly suggest measures to improve the manipulation, such as gamification of the App and shocks in the cost-benefit calculations (such as bonuses for using the App, discount coupons in widely used Apps, and others). For the third intervention, a recent paper by Larreguy et al. (2019) showed that repeating Facebook boosting campaign has a strong effect, as saturation is key for achieving positive results in terms of online campaigns. Therefore, repeating the intervention for small periods of time (i.e., monthly, could improve the effects).
+
+# Appendix
+
+In this appendix, we put the APSA Experimental Section report.
+
+## APSA Experimental Section Standard Report for Experimental Research
+
+### A. Hypothesis
+
+* **Main intervention questions:** The experiment studies two problems. First, whether the introduction of the Ta de Pe App improved the governmental school constructions in Brazil. Second, whether a top-down campaign to pressure the bureaucracies to deliver the school infrastructure enhanced outcomes. Therefore, the project here studies how technology facilitates bottom-up and top-down pressure to improve service provision.
+
+* **Hypothesis**: There is a set of findings showing that bottom-up peer pressure improves outcomes in developing economies. The main work in the field shows positive peer-pressure effects:
+
+  + Bjorkman, Martina and Jakob Svensson. 2009. “Power to the People: Evidence from a randomized field experiment of a community-based monitoring project in Uganda.” Quarterly Journal of Economics 124(2):735–769.
+
+  + Bjorkman, Martina and Jakob Svensson. 2010. “When is community-based monitoring effective? Evidence from a randomized experiment in primary health in Uganda.” Journal of the European Economic Association 8(2-3):571–581.
+
+  + Bjorkman Nyqvist, Martina, Damien de Walque and Jakob Svensson. 2017. “Experimental evidence on the long-run impact of community-based monitoring.” American Economic Journal: Applied Economics 9(1):33–69.
+
+However, a set of recent papers set out to recheck these hypotheses, finding an overall null result:
+
+  + Raffler, Pia, Dan Posner, and Doug Parkerson. The Weakness of Bottom-up Accountability: Experimental evidence from the Ugandan health sector. URL: (http://egap.org/sites/default/files/Posner%2C%20Dan_Paper.pdf)
+
+This project is essential to reevaluate this dispute and try to propose new means to understand how bottom-up accountability works. First, we are conducting this experiment in a middle-income country, that within the country has municipalities with social indicators close to developed European countries in some areas and developing economies such as African countries, in some other areas. Second, we are evaluating school constructions, and the presence of schools have essential consequences in terms of long-run economic development, the household income composition, and woman empowerment.
+
+### B. Subjects and Context
+
+* **Eligibility and Exclusion criteria**: We selected all school projects that received Federal fundings from the Brazilian Ministry of Education. By an agreement with the Brazilian Ministry of Education, they allowed us to have the data of all school constructions receiving funds from them.
+
+All schools constructions funded by the Brazilian Ministry of Education participated in this study. We had no schools excluded from the program.
+
+* **Interventions' dates**: We had three interventions here:
+
+1. *App impact evaluation 1*: From August 2017 to February 2018. We call this Intervention 1 throughout the text.
+2. *App impact evaluation 2*: From August 2018 to February 2019. We call this Intervention 2 throughout the text.
+3. *Top-down pressure by email impact evaluation*: In December 2018, the TDP bot sent an email to all delayed school constructions in the dataset.
+
+### C. Allocation Methods
+
+* **Assignment procedure**: The treatment here was assigned by the municipality in the first intervention, and at the school level in the second and third interventions.
+
+1. For intervention one, we selected 150 municipalities that were placed in the control group.
+
+The randomization code was:
+
+```
+vectreat <- c(rep(0,150), rep(1, nrow(dat)-150))
+
+AIC_info = numeric()
+for (i in 1:5000) {
+  vectreat <- sample(vectreat, length(vectreat))
+  mod <- glm(formula(paste('vectreat', vars, sep = '~')), 
+             family = binomial, data = dat)
+  if(sum(summary(mod)$coefficients[-1,4]<.2)==0) {
+    dat = data.frame(dat, vtreat = vectreat)
+    AIC_info = c(AIC_info, AIC(mod))
+  }
+}
+```
+
+And then we checked whether the randomization had one of the covariates selected here significantly predicting the random assignment. We presented a vector of acceptable random assignment in these grounds, and the Brazilian Transparency selected the one we are using in the first intervention.
+
+2. For interventions 2 and 3, we selected 15% of the schools in the dataset that could either be placed in the treatment or in control in each of the interventions.
+
+In interventions 1 and 2, the schools in the control group did not show up in the App. In the intervention 3, the mayors' office has not received emails from the Ta de Pe bot.
+
+The `randomizr` code for intervention 2 follows below. `OnApp` means treatment and `OffApp` means the control for this intervention:
+
+```
+decl_intheapp <- declare_ra(blocks = dat_intheapp$var_blocking, 
+                            prob_each = c(.85,.15),
+                            conditions = c('OnApp', 'OffApp'))
+
+dat_intheapp$Z_intheapp <- block_ra(blocks = dat_intheapp$var_blocking, 
+                       conditions = c('OnApp', 'OffApp'),
+                       prob_each = c(.85,.15))
+
+dat_intheapp$IPW_intheapp <- 1/obtain_condition_probabilities(decl_intheapp, 
+                                                              dat_intheapp$Z_intheapp)
+```
+
+The `randomizr` code for intervention 3 follows below. `Campaign` means treatment and `ControlCampaign` means the control for this intervention:
+
+```
+decl_campaign <- declare_ra(blocks = dat_campaign$var_blocking, 
+                          prob_each = c(.85,.15),
+                          conditions = c('Campaign', 'ControlCampaign'))
+
+dat_campaign$Z_campaign <- block_ra(blocks = dat_campaign$var_blocking, 
+              conditions = c('Campaign', 'ControlCampaign'),
+              prob_each = c(.85,.15))
+
+dat_campaign$IPW_campaign <- 1/obtain_condition_probabilities(decl_campaign, 
+                                                              dat_campaign$Z_campaign)
+```
+
+***Block randomization**: We used simple randomization in the first assignment. In the second and third interventions, we blocked by the Brazilian State, the construction status, and above the median execution. The summary of the blocks, with the IPWs assigned follow below.
+
+```{r, echo=FALSE, results='asis'}
+aux <- rand2018 %>%
+  select(state, status, above_median_executed, 
+         var_blocking, Z_campaign, IPW_campaign) %>% 
+  unique() %>%
+  na.omit()
+kable(aux, caption = 'Block randomization -- Intervention 2')
+```
+
+```{r, echo=FALSE, results='asis'}
+aux <- rand2018 %>%
+  select(state, status, above_median_executed, 
+         var_blocking, Z_intheapp, IPW_intheapp) %>% 
+  unique() %>%
+  na.omit()
+kable(aux, caption = 'Block randomization -- Intervention 3')
+```
+
+As pre-treatment variables, we used the municipal-level characteristics below:
+
+1. Log of Municipal Population in 2015
+2. Log of Number of Poor Families (2010 IBGE Census)
+3. Log of Total Federal Transfers to the Municipality in 2016
+4. IDEB Indicator for primary school quality (2015 Ministry of Education)
+5. IDEB Indicator for secondary school quality (2015 Ministry of Education)
+
+All the pre-treatment variables were not significant, as displayed in the main text.
+
+### D. Treatments
+
+* **Treatment groups**:
+  + *Intervention 1*: Municipality with all schools funded by the Ministry of Education showing up in the App.
+  + *Intervention 2*: School construction showing up in the App.
+  + *Intervention 3*: Mayor's office received an email from the Ta de Pe bot requesting information about why the construction is delayed.
+
+* **Control groups**:
+  + *Intervention 1*: Municipality with all schools funded by the Ministry of Education **not** showing up in the App.
+  + *Intervention 2*: Selected school constructions **not** showing up in the App.
+  + *Intervention 3*: Mayor's office **not** receiving an email from the Ta de Pe bot.
+
+* **Method of manipulation delivery**:
+  + *Intervention 1*: The municipalities in the treatment had all their school constructions showing up in the App.
+  + *Intervention 2*: The schools in the treatment group were showing up in the App.
+  + *Intervention 3*: The mayor's office in the treatment group received a message from the Ta de Pe bot, requesting information about the school construction.
+
+* **Software**: The TDP App is an Android and iOS Application developed to facilitate bottom-up pressure on school constructions in Brazil.
+
+### E. Results
+
+* **Outcome measures**: We use six outcome measures, all taken from the Ministry of Education biannual report:
+
+1. Percentage of the investment executed before the impact evaluation started (placebo)
+2. Percentage of the investment executed by the end of the impact evaluation period
+3. The difference of the percentage invested in the end and in the beginning of the impact evaluation period
+4. Indicator for a construction finished during the impact evaluation period
+5. Indicator for a construction canceled during the impact evaluation period
+6. Indicator for an updated conclusion date for the construction during the impact evaluation period
+
+* **CONSORT**
+
+Below follows the CONSORT chartflow:
+
+  + *Intervention 1*:
+
+```{r, echo=FALSE}
+# Values ------------------------------------------------------------------
+# Total dataset
+ntotini <- dim(impEvalph1)[1]
+
+# Excluded
+excld <- sum(is.na(impEvalph1$treat))
+
+# Total used randomization
+diffrand <- ntotini-excld
+
+# On treatment
+tralloc <- sum(impEvalph1$treat=='Treatment', na.rm = T)
+
+# Control
+ctrlalloc <- sum(impEvalph1$treat=='Control', na.rm = T)
+
+# Attrition treatment
+lostfollowuptreat <- 0
+
+# Attrition control
+lostfollowupctrl <- 0
+
+# Analyzed treatment
+analtreat <- tralloc-lostfollowuptreat
+
+# Analyzed control
+analctrl <- ctrlalloc-lostfollowupctrl
+
+values <- c(ntotini, excld, diffrand, tralloc, ctrlalloc, 
+            lostfollowuptreat, lostfollowupctrl, analtreat, analctrl)
+ 
+# Defining Text Labels ----------------------------------------------------
+text <- c('Assessment for\neligibility',
+          'Excluded',
+          'Randomized',
+          'Allocated to\nTreatment',
+          'Allocated to\nControl',
+          'Lost to follow-up',
+          'Lost to follow-up',
+          'Analysed',
+          'Analysed')
+ 
+# Defining Function -------------------------------------------------------
+paste1 <- function(x, y){
+  paste0(x, ' (n=', y, ')')
+}
+ 
+# Concatenating Values and Text Labels ------------------------------------
+LABS <- paste1(text, values)
+
+ndf <-
+  create_node_df(
+    n = 21,
+    label = c('Enrollment', 'Allocation', 'Follow-Up', 'Analysis',
+              LABS, rep("", 8)),
+    style = c(rep("solid", 13), rep('invis', 8)),
+    shape = c(rep("plaintext", 4), 
+              rep("box", 9),
+              rep("point", 8)),
+    width = c(rep(2, 4), rep(2.5, 9), rep(0.001, 8)),
+    hight = c(rep(0.5, 13), rep(0.001, 8)),
+    fontsize = c(rep(14, 4), rep(10, 17)),
+    fontname = c(rep('Arial Rounded MT Bold', 4), rep('Courier New', 17)),
+    penwidth = 2.0,
+    fixedsize = "true")
+
+edf <-
+  create_edge_df(
+    arrowhead = c(rep('none', 3), rep("vee", 3), rep('none', 2), "vee", rep('none', 6),
+                  rep("vee", 3), rep("none", 3), "vee", rep("none", 10)),
+    color = c(rep('#00000000', 3), rep('black', 6), rep('#00000000', 6),
+              rep('black', 3), rep('#00000000', 3), rep('black', 1),
+              rep('#00000000', 2), rep('black', 2), 
+              rep('#00000000', 6)),
+    constraint = c(rep("true", 18), rep('false', 14)),
+    from = c(1, 19, 20, 16, 8, 10, # column 1
+             5, 14, 7, 15, 2, 3, # column 2
+             18, 6, 21, 17, 9, 11, # column 3
+             1, 5, # row 1
+             19, 14, # row 2
+             20, 7, # row 3
+             16, 15, # row 4
+             8, 2, # row 5
+             10, 3, # row 6
+             12, 4), # row 7
+    to = c(19, 20, 16, 8, 10, 12, # column 1
+           14, 7, 15, 2, 3, 4, # column 2
+           6, 21, 17, 9, 11, 13, # column 3
+           5, 18, # row 1
+           14, 6, # row 2
+           7, 21, # row 3
+           15, 17, # row 4
+           2, 9, # row 5
+           3, 11, # row 6
+           4, 13)) # row 7
+
+# Create Graph ------------------------------------------------------------
+g <- create_graph(ndf, 
+                  edf,
+                  attr_theme = NULL)
+ 
+# Plotting ----------------------------------------------------------------
+render_graph(g)
+```
+
+  + *Intervention 2*:
+
+```{r, echo=FALSE}
+# Values ------------------------------------------------------------------
+# Total dataset
+ntotini <- dim(impEvalph2)[1]
+
+# Excluded
+excld <- sum(is.na(impEvalph2$treatApp))
+
+# Total used randomization
+diffrand <- ntotini-excld
+
+# On treatment
+tralloc <- sum(impEvalph2$treatApp=='Treatment', na.rm = T)
+
+# Control
+ctrlalloc <- sum(impEvalph2$treatApp=='Control', na.rm = T)
+
+# Attrition treatment
+lostfollowuptreat <- 0
+
+# Attrition control
+lostfollowupctrl <- 0
+
+# Analyzed treatment
+analtreat <- tralloc-lostfollowuptreat
+
+# Analyzed control
+analctrl <- ctrlalloc-lostfollowupctrl
+
+values <- c(ntotini, excld, diffrand, tralloc, ctrlalloc, 
+            lostfollowuptreat, lostfollowupctrl, analtreat, analctrl)
+ 
+# Defining Text Labels ----------------------------------------------------
+text <- c('Assessment for\neligibility',
+          'Excluded',
+          'Randomized',
+          'Allocated to\nTreatment',
+          'Allocated to\nControl',
+          'Lost to follow-up',
+          'Lost to follow-up',
+          'Analysed',
+          'Analysed')
+ 
+# Defining Function -------------------------------------------------------
+paste1 <- function(x, y){
+  paste0(x, ' (n=', y, ')')
+}
+ 
+# Concatenating Values and Text Labels ------------------------------------
+LABS <- paste1(text, values)
+
+ndf <-
+  create_node_df(
+    n = 21,
+    label = c('Enrollment', 'Allocation', 'Follow-Up', 'Analysis',
+              LABS, rep("", 8)),
+    style = c(rep("solid", 13), rep('invis', 8)),
+    shape = c(rep("plaintext", 4), 
+              rep("box", 9),
+              rep("point", 8)),
+    width = c(rep(2, 4), rep(2.5, 9), rep(0.001, 8)),
+    hight = c(rep(0.5, 13), rep(0.001, 8)),
+    fontsize = c(rep(14, 4), rep(10, 17)),
+    fontname = c(rep('Arial Rounded MT Bold', 4), rep('Courier New', 17)),
+    penwidth = 2.0,
+    fixedsize = "true")
+
+edf <-
+  create_edge_df(
+    arrowhead = c(rep('none', 3), rep("vee", 3), rep('none', 2), "vee", rep('none', 6),
+                  rep("vee", 3), rep("none", 3), "vee", rep("none", 10)),
+    color = c(rep('#00000000', 3), rep('black', 6), rep('#00000000', 6),
+              rep('black', 3), rep('#00000000', 3), rep('black', 1),
+              rep('#00000000', 2), rep('black', 2), 
+              rep('#00000000', 6)),
+    constraint = c(rep("true", 18), rep('false', 14)),
+    from = c(1, 19, 20, 16, 8, 10, # column 1
+             5, 14, 7, 15, 2, 3, # column 2
+             18, 6, 21, 17, 9, 11, # column 3
+             1, 5, # row 1
+             19, 14, # row 2
+             20, 7, # row 3
+             16, 15, # row 4
+             8, 2, # row 5
+             10, 3, # row 6
+             12, 4), # row 7
+    to = c(19, 20, 16, 8, 10, 12, # column 1
+           14, 7, 15, 2, 3, 4, # column 2
+           6, 21, 17, 9, 11, 13, # column 3
+           5, 18, # row 1
+           14, 6, # row 2
+           7, 21, # row 3
+           15, 17, # row 4
+           2, 9, # row 5
+           3, 11, # row 6
+           4, 13)) # row 7
+
+# Create Graph ------------------------------------------------------------
+g <- create_graph(ndf, 
+                  edf,
+                  attr_theme = NULL)
+ 
+# Plotting ----------------------------------------------------------------
+render_graph(g)
+```
+
+*Intervention 3*:
+
+```{r, echo=FALSE}
+# Values ------------------------------------------------------------------
+# Total dataset
+ntotini <- dim(impEvalph2)[1]
+
+# Excluded
+excld <- sum(is.na(impEvalph2$treatCampaign))
+
+# Total used randomization
+diffrand <- ntotini-excld
+
+# On treatment
+tralloc <- sum(impEvalph2$treatCampaign=='Treatment', na.rm = T)
+
+# Control
+ctrlalloc <- sum(impEvalph2$treatCampaign=='Control', na.rm = T)
+
+# Attrition treatment
+lostfollowuptreat <- 0
+
+# Attrition control
+lostfollowupctrl <- 0
+
+# Analyzed treatment
+analtreat <- tralloc-lostfollowuptreat
+
+# Analyzed control
+analctrl <- ctrlalloc-lostfollowupctrl
+
+values <- c(ntotini, excld, diffrand, tralloc, ctrlalloc, 
+            lostfollowuptreat, lostfollowupctrl, analtreat, analctrl)
+ 
+# Defining Text Labels ----------------------------------------------------
+text <- c('Assessment for\neligibility',
+          'Excluded',
+          'Randomized',
+          'Allocated to\nTreatment',
+          'Allocated to\nControl',
+          'Lost to follow-up',
+          'Lost to follow-up',
+          'Analysed',
+          'Analysed')
+ 
+# Defining Function -------------------------------------------------------
+paste1 <- function(x, y){
+  paste0(x, ' (n=', y, ')')
+}
+ 
+# Concatenating Values and Text Labels ------------------------------------
+LABS <- paste1(text, values)
+
+ndf <-
+  create_node_df(
+    n = 21,
+    label = c('Enrollment', 'Allocation', 'Follow-Up', 'Analysis',
+              LABS, rep("", 8)),
+    style = c(rep("solid", 13), rep('invis', 8)),
+    shape = c(rep("plaintext", 4), 
+              rep("box", 9),
+              rep("point", 8)),
+    width = c(rep(2, 4), rep(2.5, 9), rep(0.001, 8)),
+    hight = c(rep(0.5, 13), rep(0.001, 8)),
+    fontsize = c(rep(14, 4), rep(10, 17)),
+    fontname = c(rep('Arial Rounded MT Bold', 4), rep('Courier New', 17)),
+    penwidth = 2.0,
+    fixedsize = "true")
+
+edf <-
+  create_edge_df(
+    arrowhead = c(rep('none', 3), rep("vee", 3), rep('none', 2), "vee", rep('none', 6),
+                  rep("vee", 3), rep("none", 3), "vee", rep("none", 10)),
+    color = c(rep('#00000000', 3), rep('black', 6), rep('#00000000', 6),
+              rep('black', 3), rep('#00000000', 3), rep('black', 1),
+              rep('#00000000', 2), rep('black', 2), 
+              rep('#00000000', 6)),
+    constraint = c(rep("true", 18), rep('false', 14)),
+    from = c(1, 19, 20, 16, 8, 10, # column 1
+             5, 14, 7, 15, 2, 3, # column 2
+             18, 6, 21, 17, 9, 11, # column 3
+             1, 5, # row 1
+             19, 14, # row 2
+             20, 7, # row 3
+             16, 15, # row 4
+             8, 2, # row 5
+             10, 3, # row 6
+             12, 4), # row 7
+    to = c(19, 20, 16, 8, 10, 12, # column 1
+           14, 7, 15, 2, 3, 4, # column 2
+           6, 21, 17, 9, 11, 13, # column 3
+           5, 18, # row 1
+           14, 6, # row 2
+           7, 21, # row 3
+           15, 17, # row 4
+           2, 9, # row 5
+           3, 11, # row 6
+           4, 13)) # row 7
+
+# Create Graph ------------------------------------------------------------
+g <- create_graph(ndf, 
+                  edf,
+                  attr_theme = NULL)
+ 
+# Plotting ----------------------------------------------------------------
+render_graph(g)
+```
+
+* **Reasons for exclusion in the CONSORT:**
+
+  + *Intervention 1*: Constructions that were not in the App when the intervention started.
+
+  + *Intervention 2*: Constructions that were not in the App when the intervention started.
+
+  + *Intervention 3*: Constructions that e-mail contact information was not provided by the Ministry of Education website.
+
+* **Statistical analysis**:
+
+For all interventions, we run the following regression model:
+
+$$ Y_i \quad = \quad \alpha + \beta T_i + \gamma X_i + \theta F_i + \varepsilon_i $$
+
+Where $i$ indexes a given school observed in the intervention. $Y_i$ represents an outcome variable. $T_i$ represents a treatment indicator. $\beta$ represents the estimated Average Treatment Effect. $\gamma$ is a vector of pre-treatment coefficient effects and $X_i$ a vector of pre-treatment covariates. $\theta$ represents a vector of fixed effects estimands and $F_i$ the Brazilian state level fixed effects indicator vector. $\varepsilon_i$ is the common error term.
+
+We run three types of analysis:
+
+1. Full regressions with all data available
+2. Full regressions using Inverse Probability Weights
+3. Regression where we match the control group with a same-size treatment group on the proximity of covariates using Genetic matching.
+
+All models use municipal-level cluster robust standard errors and state-level fixed effects. For all models, we also run regressions without clustering and without fixed effects.
+
+* **Software**: We use `r R.version.string`. For the regression models estimation, we use the package `lfe`. For the Genetic matching, we use the package `MatchIt`. Everything in this report is fully automated and can be reproduced using R Markdown.
+
+Further information about the workstation follows below:
+
+```{r}
+sessionInfo()
+```
+
+### F. Other information
+
+* **IRB**: FGV exempted the primary investigator from getting IRB approval because this research mostly worked online data and was approved by the Brazilian Ministry of Education.
+
+* **Pre-registration**: this research has been pre-registered on the EGAP pre-registry tool: (https://egap.org/registration/4505)
+
+* **Replication materials**: The replication materials for this project are available here: (https://github.com/umbertomig/TDPImpactEval)
+
+* **Funding**: This research received funding from the Google Social Impact initiative. Google did not interfere in any aspects of the research design and analysis.
+
+* **Conflict of interests**: The authors of this analysis declare no conflict of interest.
+
+## Intervention 1
+
+### Percentage concluded before the intervention started (placebo test)
+
+```{r, echo=FALSE, warning=FALSE}
+# Percentage Concluded before intervention (placebo)
+stargazer(resInt1[[2]][[1]],resInt1[[2]][[2]],resInt1[[2]][[3]],resInt1[[2]][[4]],
+          title = 'Percentage Concluded Before (placebo)', 
+          keep='treatTreatment', type = 'text',
+          covariate.labels = 'ATE',
+          column.labels = NULL,
+          dep.var.labels.include=F, label='placph1',
+          omit.stat=c('adj.rsq', 'ser'), style='qje', 
+          model.numbers = T, align=T, digits=3,
+          add.lines = list(c('FEs', 'No', 'No', 'Yes', 'Yes'),
+                           c('Controls', 'No', 'Yes', 'No', 'Yes')),
+          notes = 'Cluster-robust SEs at the Municipal Level.',
+          notes.append = T)
+```
+
+The placebo test remains not significant, as expected. Note that we are using a p-value of 10%, adding extra sensitivy to the hypothesis tests carried out here. 
+
+### Percentage concluded by the end of the intervention
+
+Next, consider the percentage of construction that was carried out in this phase of the impact evaluation. The table below displays the results, presenting a null effect of the app over this indicator.
+
+```{r, echo=FALSE, warning=FALSE}
+# Percentage Concluded
+stargazer(resInt1[[2]][[5]],resInt1[[2]][[6]],resInt1[[2]][[7]],resInt1[[2]][[8]],
+          title = 'Percentage Concluded', 
+          keep='treatTreatment', type = 'text',
+          covariate.labels = 'ATE',
+          column.labels = NULL,
+          dep.var.labels.include=F, label='placph1',
+          omit.stat=c('adj.rsq', 'ser'), style='qje', 
+          model.numbers = T, align=T, digits=3,
+          add.lines = list(c('FEs', 'No', 'No', 'Yes', 'Yes'),
+                           c('Controls', 'No', 'Yes', 'No', 'Yes')),
+          notes = 'Cluster-robust Standard Errors at the Municipal Level.',
+          notes.append = T)
+```
+
+### Delta Percentage of Execution
+
+We take the difference between the inicial and final percentage of the executed construction in this impact evaluation. This aims to capture changes in the construction pace, that the app could have positively impacted.
+
+```{r impevaldeltapercph1, echo=FALSE, warning=FALSE}
+# Delta Percentage
+stargazer(resInt1[[2]][[9]],resInt1[[2]][[10]],resInt1[[2]][[11]],resInt1[[2]][[12]],
+          title = 'Difference Percentage Begin and End', 
+          keep='treatTreatment', type = 'text',
+          covariate.labels = 'ATE',
+          column.labels = NULL,
+          dep.var.labels.include=F, label='placph1',
+          omit.stat=c('adj.rsq', 'ser'), style='qje', 
+          model.numbers = T, align=T, digits=3,
+          add.lines = list(c('FEs', 'No', 'No', 'Yes', 'Yes'),
+                           c('Controls', 'No', 'Yes', 'No', 'Yes')),
+          notes = 'Cluster-robust Standard Errors at the Municipal Level.',
+          notes.append = T)
+```
+
+### Finished indicator
+
+A finished school in the period was labelled the schools that were still not concluded by the begining of the intervention, in August 2017, but that were finished by March 2018, when the intervention stopped. The regressions here are linear probability models, and the coefficients can be interpreted as improving the chance of XXXX.
+
+```{r impevaldisfinishph1, echo=FALSE, warning=FALSE}
+# Is it finished?
+stargazer(resInt1[[2]][[13]],resInt1[[2]][[14]],resInt1[[2]][[15]],resInt1[[2]][[16]],
+          title = 'Finished Construction Indicator', 
+          keep='treatTreatment', type = 'text',
+          covariate.labels = 'ATE',
+          column.labels = NULL,
+          dep.var.labels.include=F, label='placph1',
+          omit.stat=c('adj.rsq', 'ser'), style='qje', 
+          model.numbers = T, align=T, digits=3,
+          add.lines = list(c('FEs', 'No', 'No', 'Yes', 'Yes'),
+                           c('Controls', 'No', 'Yes', 'No', 'Yes')),
+          notes = 'Cluster-robust Standard Errors at the Municipal Level.',
+          notes.append = T)
+```
+
+In this indicator, we witness a strong and consistent effect around of 5% impact. This represents that the presence of the App increased in around 5% the chance that the construction finished.
+
+### Cancelled indicator
+
+A cancelled school in the period is the schools that were still not concluded by the begining of the intervention, in August 2017, but that the construction was abandoned by March 2018, when the intervention stopped. The regressions here are linear probability models, and the coefficients can be interpreted as improving the chance of a cancellation, whenever the coefficient is positive.
+
+```{r impevaliscancelledph1, echo=FALSE, warning=FALSE}
+# Is it cancelled?
+stargazer(resInt1[[2]][[17]],resInt1[[2]][[18]],resInt1[[2]][[19]],resInt1[[2]][[20]],
+          title = 'Cancelled Construction Indicator', 
+          keep='treatTreatment', type = 'text',
+          covariate.labels = 'ATE',
+          column.labels = NULL,
+          dep.var.labels.include=F, label='placph1',
+          omit.stat=c('adj.rsq', 'ser'), style='qje', 
+          model.numbers = T, align=T, digits=3,
+          add.lines = 
+            list(c('FEs', 'No', 'No', 'Yes', 'Yes'),
+                 c('Controls', 'No', 'Yes', 'No', 'Yes')),
+          notes = 'Cluster-robust Standard Errors at the Municipal Level.',
+          notes.append = T)
+```
+
+Again, the results are significant, and around 2.8%. We interpret this result as the App pressure making the policy-makers more resolute. They either work toward finish the constructions, or they report them cancelled, voiding the impact of the App.
+
+### Updated end date for the construction
+
+This indicator reports whether the construction date was updated in the Federal Government databases. An update can mean a change toward a more realistic conclusion date, ameliorating the expectations of the citizens. The results below show that there were no changes in this indicator.
+
+```{r impevalupddateph1, echo=FALSE, warning=FALSE}
+# End Date Update Indicator
+stargazer(resInt1[[2]][[21]],resInt1[[2]][[22]],resInt1[[2]][[23]],resInt1[[2]][[24]],
+          title = 'End Date Update Indicator', 
+          keep='treatTreatment', type = 'text',
+          covariate.labels = 'ATE',
+          column.labels = NULL,
+          dep.var.labels.include=F, label='placph1',
+          omit.stat=c('adj.rsq', 'ser'), style='qje', 
+          model.numbers = T, align=T, digits=3,
+          add.lines = list(c('FEs', 'No', 'No', 'Yes', 'Yes'),
+                           c('Controls', 'No', 'Yes', 'No', 'Yes')),
+          notes = 'Cluster-robust Standard Errors at the Municipal Level.',
+          notes.append = T)
+
+```
+
+## Intervention 2
+
+### Percentage concluded before the intervention (placebo)
+
+```{r impevalp2plac, echo=FALSE, warning=FALSE}
+# Percentage Concluded before intervention (placebo)
+stargazer(resInt2[[2]][[1]],resInt2[[2]][[2]],resInt2[[2]][[3]],resInt2[[2]][[4]],
+          title = 'Percentage Concluded Before (placebo)', 
+          keep='treatApp', type = 'text',
+          covariate.labels = 'ATE',
+          column.labels = NULL,
+          dep.var.labels.include=F,
+          omit.stat=c('adj.rsq', 'ser'), style='qje', 
+          model.numbers = T, align=T, digits=3,
+          add.lines = 
+            list(c('FEs', 'No', 'No', 'Yes', 'Yes'),
+                 c('Controls', 'No', 'Yes', 'No', 'Yes')),
+          notes = 'Cluster-robust Standard Errors at the Municipal Level.',
+          notes.append = T)
+```
+
+Placebo not significant, as expected.
+
+### Percentage construction concluded
+
+```{r impevalp2pctconcl, echo=FALSE, warning=FALSE}
+# Percentage Concluded
+stargazer(resInt2[[2]][[5]],resInt2[[2]][[6]],resInt2[[2]][[7]],resInt2[[2]][[8]],
+          title = 'Percentage Concluded', 
+          keep='treatApp', type = 'text',
+          covariate.labels = 'ATE',
+          column.labels = NULL,
+          dep.var.labels.include=F,
+          omit.stat=c('adj.rsq', 'ser'), style='qje', 
+          model.numbers = T, align=T, digits=3,
+          add.lines = list(c('FEs', 'No', 'No', 'Yes', 'Yes'),
+                           c('Controls', 'No', 'Yes', 'No', 'Yes')),
+          notes = 'Cluster-robust Standard Errors at the Municipal Level.',
+          notes.append = T)
+```
+
+App did not affected the percentage concluded. Moreover, the sign is flipped, suggesting that it could potentially have a negative impact on the percentage concluded.
+
+### Difference between begin and end of percentage concluded
+
+```{r impevalp2deltaapp, echo=FALSE, warning=FALSE}
+# Delta Percentage
+stargazer(resInt2[[2]][[9]],resInt2[[2]][[10]],resInt2[[2]][[11]],resInt2[[2]][[12]],
+          title = 'Difference Percentage Begin and End', 
+          keep='treatApp', type = 'text',
+          covariate.labels = 'ATE',
+          column.labels = NULL,
+          dep.var.labels.include=F,
+          omit.stat=c('adj.rsq', 'ser'), style='qje', 
+          model.numbers = T, align=T, digits=3,
+          add.lines = list(c('FEs', 'No', 'No', 'Yes', 'Yes'),
+                           c('Controls', 'No', 'Yes', 'No', 'Yes')),
+          notes = 'Cluster-robust Standard Errors at the Municipal Level.',
+          notes.append = T)
+```
+
+No effect in the difference between begin and end.
+
+### Finished construction indicator
+
+```{r impevalp2appfinish, echo=FALSE, warning=FALSE}
+# Is it finished?
+stargazer(resInt2[[2]][[13]],resInt2[[2]][[14]],resInt2[[2]][[15]],resInt2[[2]][[16]],
+          title = 'Finished Construction Indicator', 
+          keep='treatApp', type = 'text',
+          covariate.labels = 'ATE',
+          column.labels = NULL,
+          dep.var.labels.include=F,
+          omit.stat=c('adj.rsq', 'ser'), style='qje', 
+          model.numbers = T, align=T, digits=3,
+          add.lines = list(c('FEs', 'No', 'No', 'Yes', 'Yes'),
+                           c('Controls', 'No', 'Yes', 'No', 'Yes')),
+          notes = 'Cluster-robust Standard Errors at the Municipal Level.',
+          notes.append = T)
+```
+
+No impact in the second phase of the app on the finishing of a construction.
+
+### Indicator for cancelled construction
+
+```{r impevalp2appcancelled, echo=FALSE, warning=FALSE}
+# Is it cancelled?
+stargazer(resInt2[[2]][[17]],resInt2[[2]][[18]],resInt2[[2]][[19]],resInt2[[2]][[20]],
+          title = 'Cancelled Construction Indicator', 
+          keep='treatApp', type = 'text',
+          covariate.labels = 'ATE',
+          column.labels = NULL,
+          dep.var.labels.include=F,
+          omit.stat=c('adj.rsq', 'ser'), style='qje', 
+          model.numbers = T, align=T, digits=3,
+          add.lines = list(c('FEs', 'No', 'No', 'Yes', 'Yes'),
+                           c('Controls', 'No', 'Yes', 'No', 'Yes')),
+          notes = 'Cluster-robust Standard Errors at the Municipal Level.',
+          notes.append = T)
+```
+
+No effect of the App on cancelling of constructions.
+
+### Updating end date
+
+```{r impevalp2appupd, echo=FALSE, warning=FALSE}
+# End Date Update Indicator
+stargazer(resInt2[[2]][[21]],resInt2[[2]][[22]],resInt2[[2]][[23]],resInt2[[2]][[24]],
+          title = 'End Date Update Indicator', 
+          keep='treatApp', type = 'text',
+          covariate.labels = 'ATE',
+          column.labels = NULL,
+          dep.var.labels.include=F,
+          omit.stat=c('adj.rsq', 'ser'), style='qje', 
+          model.numbers = T, align=T, digits=3,
+          add.lines = list(c('FEs', 'No', 'No', 'Yes', 'Yes'),
+                           c('Controls', 'No', 'Yes', 'No', 'Yes')),
+          notes = 'Cluster-robust Standard Errors at the Municipal Level.',
+          notes.append = T)
+```
+
+Small effect on update, in the model without Fixed effects and with controls. Very weak evidence to conclude anything concrete here.
+
+## Campaign Impact Evaluation
+
+
+All covariate balanced. Note that the data is not sufficient to compute the differences in the campaign for the FUNDEB transfers indicator.
+
+
+##### Percentage concluded before (placebo)
+
+```{r, echo=FALSE, warning=FALSE}
+# Percentage Concluded before intervention (placebo)
+stargazer(res[[2]][[1]],res[[2]][[2]],res[[2]][[3]],res[[2]][[4]],
+          title = 'Percentage Concluded Before (placebo)', 
+          keep='treatCampaignTreatment', type = 'text',
+          covariate.labels = 'ATE',
+          column.labels = NULL,
+          dep.var.labels.include=F,
+          omit.stat=c('adj.rsq', 'ser'), style='qje', 
+          model.numbers = T, align=T, digits=3,
+          add.lines = list(c('FEs', 'No', 'No', 'Yes', 'Yes'),
+                           c('Controls', 'No', 'Yes', 'No', 'Yes')),
+          notes = 'Cluster-robust Standard Errors at the Municipal Level.',
+          notes.append = T)
+```
+
+No effect of the campaign on the placebo.
+
+##### Campaign impact on percentage concluded
+
+```{r impevalp2percconclcamp, echo=FALSE, warning=FALSE}
+# Percentage Concluded
+stargazer(res[[2]][[5]],res[[2]][[6]],res[[2]][[7]],res[[2]][[8]],
+          title = 'Percentage Concluded', 
+          keep='treatCampaignTreatment', type = 'text',
+          covariate.labels = 'ATE',
+          column.labels = NULL,
+          dep.var.labels.include=F,
+          omit.stat=c('adj.rsq', 'ser'), style='qje', 
+          model.numbers = T, align=T, digits=3,
+          add.lines = list(c('FEs', 'No', 'No', 'Yes', 'Yes'),
+                           c('Controls', 'No', 'Yes', 'No', 'Yes')),
+          notes = 'Cluster-robust Standard Errors at the Municipal Level.',
+          notes.append = T)
+```
+
+No effect of campaign on percentage concluded.
+
+##### Impact of campaign on the difference between begin and end percentage concluded
+
+```{r impevalp2deltaperccamp, echo=FALSE, warning=FALSE}
+# Delta Percentage
+stargazer(res[[2]][[9]],res[[2]][[10]],res[[2]][[11]],res[[2]][[12]],
+          title = 'Difference Percentage Begin and End', 
+          keep='treatCampaignTreatment', type = 'text',
+          covariate.labels = 'ATE',
+          column.labels = NULL,
+          dep.var.labels.include=F,
+          omit.stat=c('adj.rsq', 'ser'), style='qje', 
+          model.numbers = T, align=T, digits=3,
+          add.lines = list(c('FEs', 'No', 'No', 'Yes', 'Yes'),
+                           c('Controls', 'No', 'Yes', 'No', 'Yes')),
+          notes = 'Cluster-robust Standard Errors at the Municipal Level.',
+          notes.append = T)
+```
+
+Small negative effect in the uncontrolled models. Not strong evidence enough to conclude that the campaign affected the changes in percentages reported.
+
+##### Impact of campaign in constructions reported finished in the period
+
+```{r impevalp2isfinishcamp, echo=FALSE, warning=FALSE}
+# Is it finished?
+stargazer(res[[2]][[13]],res[[2]][[14]],res[[2]][[15]],res[[2]][[16]],
+          title = 'Finished Construction Indicator', 
+          keep='treatCampaignTreatment', type = 'text',
+          covariate.labels = 'ATE',
+          column.labels = NULL,
+          dep.var.labels.include=F,
+          omit.stat=c('adj.rsq', 'ser'), style='qje', 
+          model.numbers = T, align=T, digits=3,
+          add.lines = list(c('FEs', 'No', 'No', 'Yes', 'Yes'),
+                           c('Controls', 'No', 'Yes', 'No', 'Yes')),
+          notes = 'Cluster-robust Standard Errors at the Municipal Level.',
+          notes.append = T)
+```
+
+Again, very small evidence on the uncontrolled models. Suspicion: the controls have missings in particular points that make the models insignificant. Suggestion: run Amelia, or another missing data simulation device to check for the possibility of differential missing.
+
+
+##### Campaign impact on constructions reported cancelled
+
+```{r impevalp2cancelcamp, echo=FALSE, warning=FALSE}
+# Is it cancelled?
+stargazer(res[[2]][[17]],res[[2]][[18]],res[[2]][[19]],res[[2]][[20]],
+          title = 'Cancelled Construction Indicator', 
+          keep='treatCampaignTreatment', type = 'text',
+          covariate.labels = 'ATE',
+          column.labels = NULL,
+          dep.var.labels.include=F,
+          omit.stat=c('adj.rsq', 'ser'), style='qje', 
+          model.numbers = T, align=T, digits=3,
+          add.lines = list(c('FEs', 'No', 'No', 'Yes', 'Yes'),
+                           c('Controls', 'No', 'Yes', 'No', 'Yes')),
+          notes = 'Cluster-robust Standard Errors at the Municipal Level.',
+          notes.append = T)
+```
+
+Here the results are strong and robust. The campaign reduces the amount of constructions reported as cancelled by around 9%. This represents an important outcome in terms of constructions, as fewer constructions were abandoned as an effect of the campaign.
+
+##### Campaign effect on enddate updating
+
+```{r impevalp2updcamp, echo=FALSE, warning=FALSE}
+# End Date Update Indicator
+stargazer(res[[2]][[21]],res[[2]][[22]],res[[2]][[23]],res[[2]][[24]],
+          title = 'End Date Update Indicator', 
+          keep='treatCampaignTreatment', type = 'text',
+          covariate.labels = 'ATE',
+          column.labels = NULL,
+          dep.var.labels.include=F,
+          omit.stat=c('adj.rsq', 'ser'), style='qje', 
+          model.numbers = T, align=T, digits=3,
+          add.lines = list(c('FEs', 'No', 'No', 'Yes', 'Yes'),
+                           c('Controls', 'No', 'Yes', 'No', 'Yes')),
+          notes = 'Cluster-robust Standard Errors at the Municipal Level.',
+          notes.append = T)
+
+```
+
+Small effect, specially in the controlled and fixed effect model. However, the effect is small and we advice caution in interpreting this as an evidence that the implementer changed the dates for a better estimate.
+
+## Descriptive stats
+
+```{r descrpt}
+# Visible App Begin
+tab <- data.frame(table(impEvalph1$visAppIni))
+names(tab) <- c('VisibleApp', 'Frequency')
+tab
+p<-ggplot(data=tab, aes(x=VisibleApp, y=Frequency)) +
+  geom_bar(stat="identity")
+p
+```
+
+```{r, echo=FALSE, warning=FALSE}
+# Control and Treatment
+tab <- data.frame(table(impEvalph1$treat))
+names(tab) <- c('TreatmentStatus', 'Frequency')
+tab
+p<-ggplot(data=tab, aes(x=TreatmentStatus, y=Frequency)) +
+  geom_bar(stat="identity")
+p
+```
+
+```{r, echo=FALSE, warning=FALSE}
+# Schooling responsible
+tab <- data.frame(table(impEvalph1$govLevelAdmin))
+names(tab) <- c('ResponsibleParty', 'Frequency')
+tab
+p<-ggplot(data=tab, aes(x=ResponsibleParty, y=Frequency)) +
+  geom_bar(stat="identity")
+p
+```
+
+```{r, echo=FALSE, warning=FALSE}
+## Alerts Graphs
+# Graph alert date
+tab <- data.frame(table(allalert$year_month[allalert$campaign_alert=='App']))
+names(tab) <- c('Date', 'Frequency')
+tab
+p <- ggplot(tab, aes(x=Date, y=Frequency, group=1)) +
+  geom_line() + geom_point()
+p
+```
+
+```{r, echo=FALSE, warning=FALSE}
+# Graph phase alert
+tab <- data.frame(table(allalert$phase[allalert$campaign_alert=='App']))
+names(tab) <- c('Phase', 'Alerts')
+tab
+p<-ggplot(data=tab, aes(x=Phase, y=Alerts)) +
+  geom_bar(stat="identity")
+p
+```
+
+```{r, echo=FALSE, warning=FALSE}
+# Campaign x app alert
+tab <- data.frame(table(allalert$campaign_alert))
+names(tab) <- c('Source', 'Frequency')
+tab
+p<-ggplot(data=tab, aes(x=Source, y=Frequency)) +
+  geom_bar(stat="identity")
+p
+```
+
+```{r, echo=FALSE, warning=FALSE}
+## Map GA phase 1: city with
+mapbr <- get_brmap('City')
+gaaux <- filter(ga, phase1 == 1)
+gaaux <- select(gaaux, ibge_code7, downl)
+gaaux <- rename(gaaux, City = ibge_code7)
+gaaux <- unique(gaaux)
+gaaux$City <- as.numeric(gaaux$City)
+gaaux2 <- data.frame(City = mapbr$City)
+gaaux <- left_join(gaaux2, gaaux); rm(gaaux2)
+gaaux$downl[is.na(gaaux$downl)] = 0
+gaaux$Downloads <- factor(gaaux$downl, labels = c('No Downloads', 'Downloads'))
+head(gaaux)
+plot_brmap(mapbr,
+           data_to_join = gaaux,
+           join_by = c("City" = "City"),
+           var = "Downloads") +
+  labs(title = 'App Downloads -- Phase 1')
+```
+
+```{r, echo=FALSE, warning=FALSE}
+## Map GA phase 2: number downloads
+mapbr <- get_brmap('City')
+gaaux <- filter(ga, phase2 == 1)
+gaaux <- select(gaaux, ibge_code7, downl)
+gaaux <- rename(gaaux, City = ibge_code7)
+gaaux <- unique(gaaux)
+gaaux$City <- as.numeric(gaaux$City)
+gaaux2 <- data.frame(City = mapbr$City)
+gaaux <- left_join(gaaux2, gaaux); rm(gaaux2)
+gaaux$downl[is.na(gaaux$downl)] = 0
+gaaux$Downloads <- factor(gaaux$downl, labels = c('No Downloads', 'Downloads'))
+head(gaaux)
+p <- plot_brmap(mapbr,
+                data_to_join = gaaux,
+                join_by = c("City" = "City"),
+                var = "Downloads") +
+  labs(title = 'App Downloads -- Phase 2')
+p
+```
+
+```{r, echo=FALSE, warning=FALSE}
+## Aggregate by date and graph daily downloads
+
+# Phase 1
+tab <- filter(ga, phase1 == 1) %>%
+  group_by(data) %>%
+  summarize(NewUsers = sum(novos_usuarios))
+names(tab) <- c('Date', 'Frequency')
+tab
+p <- ggplot(tab, aes(x=Date, y=Frequency, group=1)) +
+  geom_line() + geom_point()
+p
+```
+
+
+
+## Alerts
+
+## Analyzing the campaign alerts
+
+#### Alerts by Date
+
+```{r alertbydate}
+tab <- data.frame(table(allalert$answeredBy))
+names(tab) <- c('AnsweredBy', 'Frequency')
+tab
+p<-ggplot(data=tab, aes(x=AnsweredBy, y=Frequency)) +
+  geom_bar(stat="identity")
+p
+```
+
+#### Alerts by construction
+
+
+```{r numconstr}
+# Number by construction
+tab <- data.frame(table(table(allalert$project_id)))
+names(tab) <- c('AlertsSameConstruction', 'Frequency')
+tab
+p<-ggplot(data=tab, aes(x=AlertsSameConstruction, y=Frequency)) +
+  geom_bar(stat="identity")
+p
+```
+
+#### Alert Answers
+
+```{r alertsAnswered}
+# Alerts Answered
+tab <- data.frame(table(allalert$status))
+names(tab) <- c('Status', 'Frequency')
+tab
+p<-ggplot(data=tab, aes(x=Status, y=Frequency)) +
+  geom_bar(stat="identity")
+p
+```
+
+#### Alerts by validity
+
+```{r statusAlert}
+tab <- data.frame(table(allalert$status2))
+names(tab) <- c('Status', 'Frequency')
+tab
+p<-ggplot(data=tab, aes(x=Status, y=Frequency)) +
+  geom_bar(stat="identity")
+p
+```
+
+#### Frequency of Alerts by State
+
+
+```{r alertsByState}
+# Alerts by state
+tab <- data.frame(sort(table(allalert$state)))
+names(tab) <- c('State', 'Frequency')
+tab
+p<-ggplot(data=tab, aes(x=State, y=Frequency)) +
+  geom_bar(stat="identity") + coord_flip()
+p
+```
+
+#### Frequency of Alerts by State by Total of State's Construction
+
+Barchart with frequency of alerts by each construction. This Figure shows the amount of alerts divided by the amount of schools in a given State. Increasing this number denotes that more schools are 
+
+```{r alertsByStateRelative}
+# Alerts by state over total
+tab <- data.frame(sort(table(allalert$state)))
+tab2 <- data.frame(sort(table(unique(impEvalph2[,c('id_project','state')])$state)))
+names(tab) <- c('State', 'Frequency')
+names(tab2) <- c('State', 'Total')
+tab <- left_join(tab, tab2)
+tab$Proportion = 100*(tab$Frequency/tab$Total)
+tab <- tab[order(tab$Proportion),]
+tab$State <- factor(tab$State, levels = tab$State[order(tab$Proportion)])
+tab
+p<-ggplot(data=tab, aes(x=State, y=Proportion)) +
+  geom_bar(stat="identity") + coord_flip()
+p
+```
+
+
+#### Frequency of Alerts by State and Status
+
+```{r statusByState}
+# Status answer by state
+tab <- data.frame(table(allalert$status2, allalert$state))
+names(tab) <- c('Status', 'State', 'Frequency')
+tab
+p<-ggplot(data=tab, aes(x=State, y=Frequency, fill=Status)) +
+  geom_bar(stat="identity") + coord_flip()
+p
+```
+
+```{r mapNotAnsweredByState}
+# Map not answered by state
+stateCode <- pop2015[,c('ibge_code7', 'state')]
+stateCode$State <- substr(stateCode$ibge_code7, 1,2)
+stateCode$ibge_code7 <- NULL
+stateCode <- unique(stateCode)
+tab <- data.frame(table(allalert$status2, allalert$state))
+tab <- tab[tab$Var1=='Not Answered',]; row.names(tab) <- NULL
+names(tab) <- c('Status', 'state', 'NotAnswered')
+tab <- left_join(tab, stateCode)
+tab$State <- as.numeric(tab$State)
+rm(stateCode)
+tab$state <- NULL
+tab
+mapbr <- get_brmap('State')
+plot_brmap(mapbr,
+           data_to_join = tab,
+           join_by = c("State" = "State"),
+           var = "NotAnswered") +
+  labs(title = 'Frequency Not Answered by State')
+```
+
+```{r mapValidAnsByState}
+# Map valid answer by state
+stateCode <- pop2015[,c('ibge_code7', 'state')]
+stateCode$State <- substr(stateCode$ibge_code7, 1,2)
+stateCode$ibge_code7 <- NULL
+stateCode <- unique(stateCode)
+tab <- data.frame(table(allalert$status2, allalert$state))
+tab <- tab[tab$Var1=='Valid Answer',]; row.names(tab) <- NULL
+names(tab) <- c('Status', 'state', 'ValidAnswer')
+tab <- left_join(tab, stateCode)
+tab$State <- as.numeric(tab$State)
+rm(stateCode)
+tab$state <- NULL
+tab
+mapbr <- get_brmap('State')
+plot_brmap(mapbr,
+           data_to_join = tab,
+           join_by = c("State" = "State"),
+           var = "ValidAnswer") +
+  labs(title = 'Frequency Valid Answer by State')
+```

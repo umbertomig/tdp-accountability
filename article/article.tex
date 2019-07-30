@@ -1,0 +1,352 @@
+% !TEX program = XeLaTeX
+\documentclass[12pt,a4paper,]{article}
+
+% Fonts
+\usepackage{libertine}
+% This is a nice mathfont, it fits well with Libertine
+% Comment the line if you want to use a different one
+\usepackage[libertine]{newtxmath}
+% The default monofont 
+% Again, comment the line below if you want to change it
+\usepackage[scaled=.95]{inconsolata}
+
+% Add the following packages to support kableExtra
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{etoolbox}
+\usepackage{tocloft}
+
+% Dots in toc
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+
+% Colours
+\usepackage[usenames,dvipsnames]{xcolor}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.55}
+
+% Spacing
+\usepackage{setspace}
+
+% Margin
+\usepackage[margin=2cm]{geometry}
+
+% Packages I've been using for different reasons...
+\usepackage[backref,pagebackref]{hyperref}
+\usepackage{dcolumn}
+\usepackage{graphicx}
+\usepackage{float}
+\floatplacement{figure}{H}
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning}
+\usepackage{mathtools}
+\usepackage{caption}
+
+% UK English
+\usepackage[UKenglish]{babel}
+\usepackage[UKenglish]{isodate}
+\cleanlookdateon
+
+% Penalties
+\exhyphenpenalty=1000
+\hyphenpenalty=1000
+\widowpenalty=1000
+\clubpenalty=1000
+
+% Back references
+\renewcommand*{\backref}[1]{}
+\renewcommand*{\backrefalt}[4]{%
+    \ifcase #1 (Not cited.)%
+    \or        Cited on page~#2.%
+    \else      Cited on pages~#2.%
+    \fi}
+\renewcommand{\backreftwosep}{ and~} 
+\renewcommand{\backreflastsep}{ and~}
+
+% Hypersetup
+\hypersetup{
+  linkcolor=Mahogany,
+  citecolor=Mahogany,
+  urlcolor=darkblue, 
+  breaklinks=true, 
+  colorlinks=true,
+      pdfauthor={Danilo Freire; Manoel Galdino; Umberto Mignozzetti; Jessica Voigt},
+      pdfkeywords={accountability, Brazil, field experiment, impact evaluation, state
+capacity, technology},
+  }
+
+% If XeTex, LuaLaTeX, etc
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{amssymb,amsmath}
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+
+% Language
+
+% Bibliography
+\usepackage{natbib}
+\bibliographystyle{apalike}
+\makeatletter
+% Remove comma after author
+\setcitestyle{aysep={}}
+\patchcmd{\NAT@citex}
+	  {\@citea\NAT@hyper@{%
+		 \NAT@nmfmt{\NAT@nm}%
+		 \hyper@natlinkbreak{\NAT@aysep\NAT@spacechar}{\@citeb\@extra@b@citeb}%
+		 \NAT@date}}
+	  {\@citea\NAT@nmfmt{\NAT@nm}%
+	   \NAT@aysep\NAT@spacechar\NAT@hyper@{\NAT@date}}{}{}
+	\patchcmd{\NAT@citex}
+	  {\@citea\NAT@hyper@{%
+		 \NAT@nmfmt{\NAT@nm}%
+		 \hyper@natlinkbreak{\NAT@spacechar\NAT@@open\if*#1*\else#1\NAT@spacechar\fi}%
+		   {\@citeb\@extra@b@citeb}%
+		 \NAT@date}}
+	  {\@citea\NAT@nmfmt{\NAT@nm}%
+	   \NAT@spacechar\NAT@@open\if*#1*\else#1\NAT@spacechar\fi\NAT@hyper@{\NAT@date}}
+	  {}{}
+% Patch case where name and year are separated by aysep
+\patchcmd{\NAT@citex}
+  {\@citea\NAT@hyper@{%
+     \NAT@nmfmt{\NAT@nm}%
+     \hyper@natlinkbreak{\NAT@aysep\NAT@spacechar}{\@citeb\@extra@b@citeb}%
+     \NAT@date}}
+  {\@citea\NAT@nmfmt{\NAT@nm}%
+   \NAT@aysep\NAT@spacechar\NAT@hyper@{\NAT@date}}{}{}
+% Patch case where name and year are separated by opening bracket
+\patchcmd{\NAT@citex}
+  {\@citea\NAT@hyper@{%
+     \NAT@nmfmt{\NAT@nm}%
+     \hyper@natlinkbreak{\NAT@spacechar\NAT@@open\if*#1*\else#1\NAT@spacechar\fi}%
+       {\@citeb\@extra@b@citeb}%
+     \NAT@date}}
+  {\@citea\NAT@nmfmt{\NAT@nm}%
+   \NAT@spacechar\NAT@@open\if*#1*\else#1\NAT@spacechar\fi\NAT@hyper@{\NAT@date}}
+  {}{}
+\makeatother
+
+% Listings
+
+% Verbatim
+
+% Tables
+
+% Graphics
+
+% Make links footnotes instead of hotlinks:
+%  \setlength{\emergencystretch}{3em}  % prevent overfull lines
+ \providecommand{\tightlist}{%
+   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+   
+% Numbered sections
+\setcounter{secnumdepth}{5}
+% % % Redefines (sub)paragraphs to behave more like sections
+% \ifx\paragraph\undefined\else
+% \let\oldparagraph\paragraph
+% \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+% \fi
+% \ifx\subparagraph\undefined\else
+% \let\oldsubparagraph\subparagraph
+% \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+% \fi
+% 
+% Spacing
+\doublespacing
+
+% Title
+\title{The Pitfalls of Bottom-Up Accountability: Evidence from Brazil\thanks{We thank Guilherme Fasolin, Stephen Herzog, and David Skarbek for their
+helpful comments. We are specially grateful to the staff of
+Transparência Brasil for their excellent research and technical
+assistance. Replication data and code are available at
+\url{http://github.com/umbertomignozzetti/tdp-accountability}.}}
+
+% Author
+\author{Danilo Freire\footnote{Postdoctoral Research Associate, The Political
+  Theory Project, Brown University, Providence, RI 02912, USA,
+  \href{mailto:danilofreire@brown.edu}{\nolinkurl{danilofreire@brown.edu}},
+  \url{http://danilofreire.github.io}.} \and Manoel Galdino\footnote{Executive Diretor, Transparência Brazil, São
+  Paulo, SP, Brazil,
+  \href{mailto:mcz.fea@gmail.com}{\nolinkurl{mcz.fea@gmail.com}},
+  \url{https://www.transparencia.org.br}.} \and Umberto Mignozzetti\footnote{School of International Relations, Fundação
+  Getulio Vargas, São Paulo, SP, Brazil and Wilf Family Department of
+  Politics, NYU, NY, USA,
+  \href{mailto:umberto.mig@nyu.edu}{\nolinkurl{umberto.mig@nyu.edu}},
+  \url{http://umbertomig.com}. Corresponding author.} \and Jessica Voigt\footnote{Data Scientist, Transparência Brasil, São Paulo,
+  SP, Brazil,
+  \href{mailto:voigt.jessica@gmail.com}{\nolinkurl{voigt.jessica@gmail.com}},
+  \url{https://www.linkedin.com/in/voigtjessica}.}}
+
+% Date
+\date{\today}
+
+% Begin document
+\begin{document}
+\maketitle
+
+% Abstract
+\begin{abstract}
+\doublespacing \noindent We study the effect of a mobile phone application designed to increase
+citizens' ability to monitor public works in Brazil. The app allowed
+individuals to find delayed school constructions in XXX Brazilian cities
+and send anonymous messages to politicians requestions information about
+construction delays and expected completion times. Our results show that
+the app has a null impact on the completion times subsequently reported
+by the municipalities. Additionally, we find that few politicians
+reacted to citizens' requests. These findings suggest it is difficult to
+motivate bottom-up accountability in new democracies, especially when
+politicians are unresponsive to non-electoral pressures. This paper has
+implications for the design of bottom-up accountability mechanisms.
+\vspace{.25cm}
+
+\noindent \textbf{Keywords}: accountability, Brazil, field experiment, impact evaluation, state
+capacity, technology
+\vspace{.25cm}
+
+\end{abstract}
+
+
+% Table of Contents
+\newpage
+
+\hypertarget{introduction}{%
+\section{\texorpdfstring{Introduction\label{sec:intro}}{Introduction}}\label{introduction}}
+
+One of the key determinants of efficient public service provision is a
+robust accountability system
+\citep{besley2003incentives,cameron2004public,o1998horizontal}. In its
+standard definition, accountability is the process of holding
+authorities into account for their actions
+\citep{finer1941administrative,mulgan2000accountability,o1990bureaucratic}.
+Past studies show that accountability ensures that politicians act on
+behalf of voters \citep{freire2010ngp, moncrieffe1998reconceptualizing},
+reduces the opportunities for rent-seeking and corruption
+\citep{deininger2005does,wenar2006accountability} and increases the
+efficiency of the public sector \citep{adsera2003you,bjorkman2009power}.
+Moreover, greater accountability is associated with higher levels of
+economic growth, not only because it limits state discretion in the
+economy, but also because it promotes social cohesion and long-term
+investments in human capital
+\citep{benhabib2010economic, cox2018executive, suebvises2018social,ponzetto2018social}.
+
+However, accountability systems can take many forms. One promising model
+for democratic oversight is \emph{bottom-up accountability}, in which
+citizens receive information about the shortcomings of a given project
+to help them monitor and pressure underperforming public officials
+\citep{kosack2014does, molina2016community,raffler2018weakness}.
+Proponents suggest bottom-up accountability is effective because 1)
+constituents have first-hand information about the outcomes of local
+policies; 2) citizens have incentives to avoid corruption that directly
+affects them; 3) policy-makers are particularly sensitive to social
+punishment from their own communities \citep[570]{serra2011combining}.
+In a nutshell, bottom-up accountability offers a potential solution to
+the principal-agent dilemma in public service by aligning the interests
+of politicians and bureaucrats with those of the constituency they serve
+\citep[2]{raffler2018weakness}.
+
+Here we assess the impact of a technology-driven solution that lowers
+the costs of evaluating public works and punishing political
+representatives in Brazil. The \emph{Tá de Pé} (TDP) mobile phone
+application allows Brazilian citizens to go to school construction
+sites, check their status, and request information to public
+authorities. TDP users can also take pictures from delayed works and
+submit them to a group of trained engineers, who then evaluate the
+execution of the project. If the engineers classify the construction as
+delayed, TDP sends a message to the mayor's office asking for completion
+estimates and explanations about why the building is unfinished. TDP
+received the 2016 Google Social Impact grant, earning more than 200
+thousand popular votes, and it has been online since April 2017 in 1030
+Brazilian municipalities.
+
+Contrary to our expectations, the TDP app has delivered mixed results.
+Two findings are positive and in line with our theoretical predictions.
+From August 2017 to February 2019, TDP increased the likelihood of
+school completion by 6.8 percent (SE = X.X, t-test = XXX). Additionally,
+we find that pressure over the bureaucracy increased the investments in
+the schools by 157.5 percent (SE = X.XX, t-test = XXX). In contrast, our
+results show the app had a null impact on school constructions
+statistics. Brazilian politicians did not respond to the citizen's
+requests placed via the application. Therefore, our findings raise
+questions about the ability of citizens to hold representatives
+accountable using bottom-up strategies.
+
+\hypertarget{the-ta-de-pe-app}{%
+\section{\texorpdfstring{The \emph{Tá de Pé}
+App}{The Tá de Pé App}}\label{the-ta-de-pe-app}}
+
+\hypertarget{methods}{%
+\section{Methods}\label{methods}}
+
+\hypertarget{estimation}{%
+\subsection{Estimation}\label{estimation}}
+
+Our regression model is specified as follows:
+
+\[Y_{i} = \alpha + \beta T_{i} + \gamma X_{i} + \theta Z_i + \epsilon_{i} \]
+
+Where \(i\) indexes the case. \(Y_i\) in one the outcomes we described
+in the previous subsection. The \(\beta\) coefficient is the quantity of
+interest (Average Treatment Effect). \(T_i\) is a binary treatment
+indicator in which zero denotes that \(i\) is in the control group,
+while 1 indicates that \(i\) received the treatment. \(\gamma\) is a
+vector of fixed effects and \(X_i\) is a matrix of 27 Brazilian states'
+fixed effects. \(\theta\) is a vector of additional controls and \(Z_i\)
+is an array of control variables for the case \(i\). Lastly,
+\(\epsilon_i\) is the error term.
+
+We cluster the standard errors at the municipal level, as the investment
+decisions are taken by the mayor's offices. As robustness, we fit two
+extra models. First, we re-run the main model where we have the
+following: (i) we ran a model without controls or fixed effects; (ii) we
+run the models adding the control variables, which are the same as the
+ones used in the covariate balance tests; (iii) we run the regression
+model with State fixed effects. The results are in the Appendix. Second,
+we run the main models using inverse probability weights where we used
+block randomization and a one-to-one nearest neighborhood matching. We
+use the control variables as matching characteristics. These robustness
+checks are intended to correct the imbalance caused by the minimal
+control group approach that we employed in all three interventions.
+
+\hypertarget{results}{%
+\section{Results}\label{results}}
+
+\hypertarget{discussion}{%
+\section{Discussion}\label{discussion}}
+
+\hypertarget{conclusion}{%
+\section{Conclusion}\label{conclusion}}
+
+\newpage
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{5pt}
+
+% More bibliography
+\bibliography{references.bib}
+
+\end{document}
