@@ -29,6 +29,7 @@ $endif$
 \usepackage{makecell}
 \usepackage{etoolbox}
 \usepackage{tocloft}
+\usepackage{subcaption}
 
 % Dots in toc
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}

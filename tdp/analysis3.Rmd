@@ -1,16 +1,22 @@
 ---
 title: "Analysis Tá de Pé"
-author: "Umberto Mignozzetti"
+author: ''
 date: "7/26/2019"
+output:
+  html_document:
+    df_print: paged
 header-includes:
-   - \usepackage[utf8]{inputenc}
-   - \usepackage{tipa}
-   - \usepackage{caption,tabularx,booktabs,dcolumn}
-output: pdf_document
+- \usepackage[utf8]{inputenc}
+- \usepackage{tipa}
+- \usepackage{caption,tabularx,booktabs,dcolumn}
 ---
 
 ```{r, include=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+r <- getOption("repos")
+r["CRAN"] <- "http://cran.cnr.berkeley.edu/"
+options(repos = r)
+
 ####
 ## Pre-processing
 ####
@@ -43,8 +49,8 @@ rm(list=ls())
 ####
 
 # Data block randomization
-setwd("~/Dropbox/Academic/Projects/TDP/2_analysis/")
-load('./bucket/final_bucket.RData')
+setwd("/Users/danilo/Documents/github/TDPImpactEval/tdp/")
+load('final_bucket.RData')
 
 # Aux function
 calcATEs <- function(outcs, treats, ctrls, fes, cls, dat, wts = NULL, ...) {
