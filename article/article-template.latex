@@ -45,7 +45,7 @@ $endif$
 $if(margin)$
 \usepackage[margin=$margin$]{geometry}
 $else$
-\usepackage[top=2cm,bottom=2cm,left=2cm,right=2cm]{geometry}
+\usepackage[top=2.3cm,bottom=2.3cm,left=2cm,right=2cm]{geometry}
 $endif$
 
 % Packages I've been using for different reasons...
