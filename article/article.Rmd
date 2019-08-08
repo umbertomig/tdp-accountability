@@ -61,13 +61,9 @@ Here we assess the impact of _Tá de Pé_ (TDP), a mobile phone application desi
 
 [^google]: About 1,000 Brazilian charities participated in the 2016 Google Social Impact Challenge. An independent committee selected 10 organisations as finalists, and Transparência Brasil won the challenge with about 200,000 popular votes. To know more about the contest, please visit <https://impactchallenge.withgoogle.com/brazil2016> (access: July 2019). 
 
-We use the TDP app to conduct two experimental interventions and test whether it has an impact on six outcomes related to school completion rates and complains to public authorities. We find that the TDP app increased the likelihood of school completion by 6.8 percent (SE = X.XX, t-test = X.XX) in the first experiment, although the effect is null in the second intervention. Additionally, we find that pressure over the bureaucracy increased the investments in the schools by 157.5 percent (SE = X.XX, t-test = X.XX) in the second experiment. However, our results show that providing information to citizens does not change the percentage invested in all other outcomes. 
+We use the TDP app to conduct two experimental interventions and test its impact on six outcomes related to school completion rates and complaints to public authorities. Overall, our results show that providing information to citizens has very limited impact on policy outcomes. We find that the TDP app increased the likelihood of school completion by 6.8 percent in the first experiment, but the effect is null in the second intervention. We also find that pressure over the bureaucracy increased by 157.5 percent (SE = X.XX, t-test = X.XX) in our second experiment, although not in the first. Importantly, our two interventions have no significant impact on any of the four measures of school investment and completion rates we employed in this study. Community monitoring does not consistently change the behaviour of Brazilian politicians or civil servants.
 
-In contrast, our results show the app has a null impact on school constructions statistics. Brazilian politicians did not respond to the citizen's requests placed via the application. 
-
-Our findings raise questions about the ability of citizens to hold representatives accountable using bottom-up strategies. Although  
-
-**Nota**: _Reescrever os dois últimos parágrafos e colocar mais explicações sobre possíveis mecanismos, etc_    
+Our results raise questions about the ability of citizens to hold representatives accountable using bottom-up strategies. @banerjee2018tangible, @bjorkman2009power and @fiala2017social find significant policy improvements after providing information to local communities, but our experiment is in line with @banerjee2010pitfalls, @keefer2014mass, @olken2007monitoring and @raffler2018weakness and offers little evidence in favour of information interventions. Our study suggests that other models of political accountability may be more effective for public service provision.
 
 # The _Tá de Pé_ Project 
 \label{sec:tdp}
@@ -109,7 +105,8 @@ The TDP has also received feedback from Brazilian computer programmers and polic
 # Data and Methods
 \label{sec:methods}
 
-We assessed the impact of the TDP app on  
+The 
+
 
 ## Estimation
 \label{sub:estimation}
