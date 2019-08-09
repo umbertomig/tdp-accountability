@@ -105,29 +105,31 @@ The TDP has also received feedback from Brazilian computer programmers and polic
 # Data and Methods
 \label{sec:methods}
 
-We implemented two interventions to measure the effect of the TDP app on school constructions outcomes. The first experiment ran from August 2017 to February 2018 and we carried out a follow-up study one year later, from August 2018 to February 2019. 
+Between August 2017 and August 2018, we implemented two interventions to measure the effect of the TDP app on six school construction outcomes. The outcomes are: 1) the percentage of public investment allocated to school constructions; 2) the difference between the percentage invested in the beginning and the end of the interventions; 3) the number of finished constructions; 4) the number of cancelled constructions; 5) the number of updated conclusion dates; 6) a placebo outcome indicating the percentage of the investment executed before the impact evaluation started. We expect the first five factors to increase the last to remain unchanged.
 
+The first intervention was carried out from August 2017 to February 2018 using the Android version of the TDP app. The unit of analysis for this experiment is the Brazilian municipality. We randomly selected 150 cities to the control group and included 1030 municipalities in the treatment group. Our control condition consisted in removing all school constructions in the chosen municipalities so that citizens were unable to add information on them. 
 
+To evaluate the random assignment, we used the following pre-treatment variables: 1) log of municipal population in 2015; 2) log of number of poor families in each city; 3) log of total federal transfers to the municipality in 2016; 4) federal government indicator for primary school quality; 4) federal government indicator for secondary school quality. The data come from the Brazilian Ministry of Education and the Census. Balance tests show that randomisation was successful and are available in the Supplementary Material. Figure \ref{fig:manipulation1} presents two manipulation checks, TDP app downloads by municipality and app downloads over time.
 
+** FIGURE 2 ABOUT HERE: MANIPULATION CHECKS FOR INTERVENTION 1**
 
+The map displays a good territorial variability. There were 455 downloads in the 1030 municipalities originally in the dataset at the beginning of the impact evaluation. Downloads peak during the Facebook TDP campaign, right after the TDP app launch in August, then diminishes over time. Users downloaded the app in 44.6% of the municipalities, and the downloads were temporally concentrated.
 
+The second intervention is similar to intervention 1 in all but three characteristics. First, the TDP app was then available for iOS devices. Also, the randomisation procedure was performed at the school level, with 654 control and 3895 treatment units. We used blocked randomisation stratified by Brazilian state, school construction status (under construction, stopped, unfinished) and whether the municipality spent more on school construction that the distribution median. Finally, the intervention period lasted from August 2018 to February 2019.
 
+** FIGURE 3 ABOUT HERE: MANIPULATION CHECKS FOR INTERVENTION 2** 
 
-
-## Estimation
-\label{sub:estimation}
-
-Our regression model is specified as follows:
-
-$$Y_{i} = \alpha + \beta T_{i} + \gamma X_{i} + \theta Z_i + \epsilon_{i} $$
-
-Where $i$ indexes the case. $Y_i$ in one the outcomes we described in the previous subsection. The $\beta$ coefficient is the quantity of interest (Average Treatment Effect). $T_i$ is a binary treatment indicator in which zero denotes that $i$ is in the control group, while 1 indicates that $i$ received the treatment. $\gamma$ is a vector of fixed effects and $X_i$ is a matrix of 27 Brazilian states' fixed effects. $\theta$ is a vector of additional controls and $Z_i$ is an array of control variables for the case $i$. Lastly, $\epsilon_i$ is the error term.
-
-We cluster the standard errors at the municipal level, as the investment decisions are taken by the mayor’s offices. As robustness, we fit two extra models. First, we re-run the main model where we have the following: (i) we ran a model without controls or fixed effects; (ii) we run the models adding the control variables, which are the same as the ones used in the covariate balance tests; (iii) we run the regression model with State fixed effects. The results are in the Appendix.
-Second, we run the main models using inverse probability weights where we used block randomization and a one-to-one nearest neighborhood matching. We use the control variables as matching characteristics. These robustness checks are intended to correct the imbalance caused by the minimal control group approach that we employed in all three interventions.
+In total, 433 municipalities downloaded the app. There is one download peak in August 2017, right after the intervention starts, and a second spike around December. The number of downloads is considerably smaller in this second intervention when compared with intervention 1. 
 
 # Results
 \label{sec:results}
+
+Table \ref{tab:results1} summarises the main results of intervention 1. We estimated the models including the five control variables described in the previous section and Brazilian states' fixed effects. Standard errors are clustered at the level of the municipality. As robustness tests, we run the main models using inverse probability weights where we used block randomisation and one-to-one nearest neighbourhood matching. The results are substantively identical and are available in the Supplementary Materials.
+
+** TABLE 1 ABOUT HERE -- MAIN RESULTS INTERVENTION 1 **
+
+
+
 
 # Discussion
 \label{sec:discussion}
