@@ -55,15 +55,15 @@ One of the key determinants of efficient public services provision is a robust a
 
 However, accountability systems take many forms. One promising model is that of _bottom-up monitoring_, in which citizens receive information about the shortcomings of a given project so they can evaluate and pressure underperforming public officials [@kosack2014does; @molina2016community; @raffler2018weakness]. Proponents argue bottom-up accountability is effective because: 1) constituents have first-hand information about the outcomes of local policies; 2) citizens have incentives to attack corruption that directly affects them; 3) policy-makers are sensitive to social punishment from their own communities [@serra2011combining, 570]. In a nutshell, bottom-up accountability offers a potential solution to the principal-agent dilemma in public service by aligning the interests of state officials with those of the constituency they serve [@barro1973control; @raffler2018weakness, 2].
 
-Here we assess the impact of _Tá de Pé_ (TDP), a mobile phone application designed to lower the costs of evaluating public works and punishing political representatives in Brazil. Developed by Transparência Brasil[^transparencia], TDP allows Brazilian citizens to know the location of public school construction sites, check their completion status and anonymously request information from competent authorities. TDP users can also take pictures of the construction sites and submit them to volunteering engineers for examination. If the engineers classify the construction as delayed, TDP prompts users to send a message to the mayor's office asking for completion estimates and explanations about the construction status. TDP has been online since April 2017 in 1030 Brazilian municipalities and was the winner of the 2016 Google Social Impact grant with more than 200,000 popular votes[^google].
+Here we assess the impact of _Tá de Pé_ (TDP), a mobile phone application designed to lower the costs of evaluating public works and punishing political representatives in Brazil. Developed by Transparência Brasil[^transparencia], TDP allows Brazilian citizens to know the location of public school construction sites, check their completion status and anonymously request information from competent authorities. TDP users can also take pictures of the construction sites and submit them to independent engineers for examination. If the engineers classify the construction as delayed, TDP prompts users to send a message to the mayor's office asking for completion estimates and explanations about the construction status. TDP has been online since April 2017 in 1030 Brazilian municipalities and was the winner of the 2016 Google Social Impact grant with more than 200,000 popular votes[^google].
 
 [^transparencia]: Transparência Brasil is an non-governmental organisation whose mission is to 'promote transparency and social control of public power' in Brazil. It has been active since April 2000, is non-partisan and receives no public funding. More information at <http://transparencia.org.br> (access: July 2019).  
 
 [^google]: About 1,000 Brazilian charities participated in the 2016 Google Social Impact Challenge. An independent committee selected 10 organisations as finalists, and Transparência Brasil won the challenge with about 200,000 popular votes. To know more about the contest, please visit <https://impactchallenge.withgoogle.com/brazil2016> (access: July 2019). 
 
-We use the TDP app to conduct two experimental interventions and test its impact on six outcomes related to school completion rates and complaints to public authorities. Overall, our results show that providing information to citizens has very limited impact on policy outcomes. We find that the TDP app increased the likelihood of school completion by 6.8 percent in the first experiment, but the effect is null in the second intervention. We also find that pressure over the bureaucracy increased by 157.5 percent (SE = X.XX, t-test = X.XX) in our second experiment, although not in the first. Importantly, our two interventions have no significant impact on any of the four measures of school investment and completion rates we employed in this study. Community monitoring does not consistently change the behaviour of Brazilian politicians or civil servants.
+We use the TDP app to conduct two experimental interventions and test its impact on six outcomes related to school completion rates and complaints to public authorities. Overall, our results show that providing information to citizens has very limited impact on policy outcomes. We find that the TDP app increased the likelihood of school completion by 6.8 percent in the first experiment, but the effect is null in the second intervention. We also find that pressure over the bureaucracy increased by 157.5 percent in our second experiment, although not in the first. Importantly, our two interventions have no significant impact on any of the four measures of school investment and completion rates we employed in this study. 
 
-Our results raise questions about the ability of citizens to hold representatives accountable using bottom-up strategies. @banerjee2018tangible, @bjorkman2009power and @fiala2017social find significant policy improvements after providing information to local communities, but our experiment is in line with @banerjee2010pitfalls, @keefer2014mass, @olken2007monitoring and @raffler2018weakness and offers little evidence in favour of information interventions. Our study suggests that other models of political accountability may be more effective for public service provision.
+The results raise questions about the ability of citizens to hold representatives accountable using bottom-up strategies. Although studies like @bjorkman2009power, @fiala2017social and @reinikka2005fighting report better policy outcomes after providing information to local communities, our findings are closer to @banerjee2010pitfalls, @keefer2014mass, @olken2007monitoring and @raffler2018weakness and offer mixed evidence that information interventions lead to greater government responsiveness. Our analysis suggests that grassroots monitoring does not affect government behaviour in Brazil, and other models of political accountability may be more effective for public service provision.
 
 # The _Tá de Pé_ Project 
 \label{sec:tdp}
@@ -96,7 +96,7 @@ We built the app in the first three months of 2017 and tested it in May 2017. Th
 \label{fig:screenshots}
 \end{figure}
 
-Transparência Brasil partnered with the Brazilian branch of _Engineers without Borders_ (EWB), a non-governmental organisation[^ewb], to provide technical evaluations of school completion rates. The EWB bases their assessment on photos and GPS location sent through the app. The engineers' reports are later uploaded to the database and stored on the users' mobile devices so citizens can track the progress of the constructions. 
+Transparência Brasil partnered with the Brazilian branch of _Engineers without Borders_ (EWB), an independent non-governmental organisation[^ewb], to provide technical assessment of school completion rates. The EWB bases their evaluations on photos and GPS location sent through the app. The engineers' reports are later uploaded to the database and stored on the users' mobile devices so citizens can track the progress of the constructions. 
 
 [^ewb]: Please visit <http://www.ewb-international.org> to know more about Engineers without Borders International and <https://esf.org.br> for information on the Brazilian office.
 
@@ -105,7 +105,13 @@ The TDP has also received feedback from Brazilian computer programmers and polic
 # Data and Methods
 \label{sec:methods}
 
-The 
+We implemented two interventions to measure the effect of the TDP app on school constructions outcomes. The first experiment ran from August 2017 to February 2018 and we carried out a follow-up study one year later, from August 2018 to February 2019. 
+
+
+
+
+
+
 
 
 ## Estimation
@@ -117,8 +123,7 @@ $$Y_{i} = \alpha + \beta T_{i} + \gamma X_{i} + \theta Z_i + \epsilon_{i} $$
 
 Where $i$ indexes the case. $Y_i$ in one the outcomes we described in the previous subsection. The $\beta$ coefficient is the quantity of interest (Average Treatment Effect). $T_i$ is a binary treatment indicator in which zero denotes that $i$ is in the control group, while 1 indicates that $i$ received the treatment. $\gamma$ is a vector of fixed effects and $X_i$ is a matrix of 27 Brazilian states' fixed effects. $\theta$ is a vector of additional controls and $Z_i$ is an array of control variables for the case $i$. Lastly, $\epsilon_i$ is the error term.
 
-We cluster the standard errors at the municipal level, as the investment decisions are taken by the mayor’s offices.
-As robustness, we fit two extra models. First, we re-run the main model where we have the following: (i) we ran a model without controls or fixed effects; (ii) we run the models adding the control variables, which are the same as the ones used in the covariate balance tests; (iii) we run the regression model with State fixed effects. The results are in the Appendix.
+We cluster the standard errors at the municipal level, as the investment decisions are taken by the mayor’s offices. As robustness, we fit two extra models. First, we re-run the main model where we have the following: (i) we ran a model without controls or fixed effects; (ii) we run the models adding the control variables, which are the same as the ones used in the covariate balance tests; (iii) we run the regression model with State fixed effects. The results are in the Appendix.
 Second, we run the main models using inverse probability weights where we used block randomization and a one-to-one nearest neighborhood matching. We use the control variables as matching characteristics. These robustness checks are intended to correct the imbalance caused by the minimal control group approach that we employed in all three interventions.
 
 # Results
