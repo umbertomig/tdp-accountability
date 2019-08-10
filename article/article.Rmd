@@ -308,7 +308,7 @@ where $i$ indexes the experiment units. $Y_i$ in one of the six outcomes describ
 
 Table \ref{tab:results1} summarises the main results of intervention 1. All models reported here include the five control variables described in the previous section and Brazilian states' fixed effects. We also estimated the models without control variables and fixed effects and the results are unchanged. They are available in the Supplementary Materials.
 
-** TABLE 1 ABOUT HERE -- MAIN RESULTS INTERVENTION 1 **
+
 
 
 
