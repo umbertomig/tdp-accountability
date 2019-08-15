@@ -8,13 +8,13 @@ This GitHub repository contains data and documented R code for ["Bottom-Up Accou
 
 You can cite the article as: 
 
-> Freire, D., Galdino, M., Mignozzetti, U., Voigt, J. 2019. "Bottom-Up Accountability and Infrastructure Delivery: Mixed Evidence from Brazil", _SocArXiv_, DOI: <https://doi.org/10.31235/osf.io/9a6ch>.
+> Freire, D., Galdino, M., Mignozzetti, U., Voigt, J. 2019. "Bottom-Up Accountability and Infrastructure Provision: Evidence from a Field Experiment in Brazil", _SocArXiv_, DOI: <https://doi.org/10.31235/osf.io/9a6ch>.
 
 BibTeX entry:
 
 ```
 @misc{freire2019paper,
-  title={Bottom-Up Accountability and Infrastructure Delivery: Mixed Evidence from Brazil},
+  title={Bottom-Up Accountability and Infrastructure Provision: Evidence from a Field Experiment in Brazil},
   author={Freire, Danilo and Galdino, Manoel and Mignozzetti, Umberto and Voigt, Jessica},
   pages={1--15},
   year={2019},
