@@ -262,7 +262,7 @@ where $i$ indexes the experiment units. $Y_i$ is one of the six outcomes describ
 # Results
 \label{sec:results}
 
-Table \ref{tab:results1} summarises the main results of intervention 1. Each column represents the treatment effect of the TDP app on one of the six outcomes we measured for this study. All models reported here include the five control variables described in the previous section and Brazilian states' fixed effects. We also estimated the models without control variables, without fixed effects and with nearest-neighbour matching. The results are very similar to the ones below and can be found in the Supplementary Material.
+Table \ref{tab:results1} summarises the main results of intervention 1. Each column represents the treatment effect of the TDP app on one of the six outcomes we measured for this study. All models reported here include the five control variables described in the previous section and Brazilian states' fixed effects. We also estimated the models without control variables, without fixed effects and with nearest-neighbour matching. The results are very similar to those below.
 
 ```{r int1, echo=FALSE, warning=FALSE, message=FALSE, results='hide', cache=TRUE}
 load('tdp.RData')
@@ -368,18 +368,20 @@ stargazer(resInt1[[2]][[4]],resInt1[[2]][[8]],resInt1[[2]][[12]],
           keep='treatTreatment', type = 'latex',
           covariate.labels = 'ATE',
           column.labels = c("Investment & Investment & Delta & Finished & Cancelled & Updated \\\\ & Before & After & Investment & Construction & Construction & Date \\\\"),
-          dep.var.labels.include=F, column.sep.width = '-1pt',
+          dep.var.labels.include=F, column.sep.width = '-2pt',
           omit.stat=c('adj.rsq', 'ser'), align=F, digits=2,
-          notes = 'Cluster-robust SEs at the municipal level.',
-          add.lines = list(c("Controls", "X", "X", "X", "X", "X", "X"),
-            c("State fixed effects", "X", "X", "X", "X", "X", "X")),
+          notes = 'Cluster-robust SEs at the municipality level.',
+          add.lines = list(c("Controls", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes"),
+            c("State fixed effects", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes")),
           notes.append = T, header=FALSE)
 ```
+
+\vspace{.5cm}
 
 \begin{table}[!htbp] \centering 
   \caption{\label{tab:results1} Impact Evaluation -- Intervention 1} 
   \label{} 
-\begin{tabular}{@{\extracolsep{-1pt}}lcccccc} 
+\begin{tabular}{@{\extracolsep{-2pt}}lcccccc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
  & \multicolumn{6}{c}{\textit{Dependent variable:}} \\ 
@@ -391,14 +393,14 @@ stargazer(resInt1[[2]][[4]],resInt1[[2]][[8]],resInt1[[2]][[12]],
   & (2.40) & (2.48) & (1.26) & (0.01) & (0.001) & (0.04) \\ 
   & & & & & & \\ 
 \hline \\[-1.8ex] 
-Controls & X & X & X & X & X & X \\ 
-State fixed effects & X & X & X & X & X & X \\ 
+Controls & Yes & Yes & Yes & Yes & Yes & Yes \\ 
+State Fixed Effects & Yes & Yes & Yes & Yes & Yes & Yes \\ 
 Observations & 2,352 & 2,352 & 2,352 & 2,352 & 2,352 & 2,352 \\ 
 R$^{2}$ & 0.04 & 0.05 & 0.08 & 0.03 & 0.01 & 0.08 \\ 
 \hline 
 \hline \\[-1.8ex] 
 \textit{Note:}  & \multicolumn{6}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
- & \multicolumn{6}{r}{Cluster-robust SEs at the municipal level.} \\ 
+ & \multicolumn{6}{r}{Cluster-robust SEs at the municipality level.} \\ 
 \end{tabular} 
 \end{table} 
 
@@ -504,18 +506,19 @@ stargazer(resInt2[[2]][[4]],resInt2[[2]][[8]],resInt2[[2]][[12]],
           keep='treatAppTreatment', type = 'latex',
           covariate.labels = 'ATE',
           column.labels = c("Investment & Investment & Delta & Finished & Cancelled & Updated \\\\ & Before & After & Investment & Construction & Construction & Date \\\\"),
-          column.sep.width = '-1pt',
+          column.sep.width = '-2pt',
           omit.stat=c('adj.rsq', 'ser'), align=F, digits=2,
-          notes = 'Cluster-robust SEs at the municipal level.',
-          add.lines = list(c("Controls", "X", "X", "X", "X", "X", "X"),
-            c("State fixed effects", "X", "X", "X", "X", "X", "X")),
+          notes = 'Cluster-robust SEs at the municipality level.',
+          add.lines = list(c("Controls", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes"),
+            c("State Fixed Effects", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes")),
           notes.append = T, header=FALSE)
 ```
+\vspace{.5cm}
 
 \begin{table}[!htbp] \centering 
   \caption{\label{tab:results2} Impact Evaluation -- Intervention 2} 
   \label{} 
-\begin{tabular}{@{\extracolsep{-1pt}}lcccccc} 
+\begin{tabular}{@{\extracolsep{-2pt}}lcccccc} 
 \\[-1.8ex]\hline 
 \hline \\[-1.8ex] 
  & \multicolumn{6}{c}{\textit{Dependent variable:}} \\ 
@@ -527,14 +530,14 @@ stargazer(resInt2[[2]][[4]],resInt2[[2]][[8]],resInt2[[2]][[12]],
   & (1.63) & (1.70) & (0.62) & (0.02) & (0.003) & (0.00) \\ 
   & & & & & & \\ 
 \hline \\[-1.8ex] 
-Controls & X & X & X & X & X & X \\ 
-State fixed effects & X & X & X & X & X & X \\ 
+Controls & Yes & Yes & Yes & Yes & Yes & Yes \\ 
+State Fixed Effects & Yes & Yes & Yes & Yes & Yes & Yes \\ 
 Observations & 2,304 & 2,304 & 2,304 & 2,304 & 2,304 & 2,304 \\ 
 R$^{2}$ & 0.06 & 0.08 & 0.05 & 0.03 & 0.02 &  \\ 
 \hline 
 \hline \\[-1.8ex] 
 \textit{Note:}  & \multicolumn{6}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
- & \multicolumn{6}{r}{Cluster-robust SEs at the municipal level.} \\ 
+ & \multicolumn{6}{r}{Cluster-robust SEs at the municipality level.} \\ 
 \end{tabular} 
 \end{table} 
 
@@ -547,14 +550,13 @@ We also note that the effect sizes are small in each of our original models. The
 # Discussion
 \label{sec:discussion}
 
-In this paper, we discuss whether a mobile phone application can foster grassroots mobilisation and political accountability in Brazil. Our two interventions show that the results are mixed. Although we find an effect on school construction in the first intervention and on the number of complaints in the second one, the app has no consistent impact on our outcomes of interest. The findings add further evidence to the studies that cast doubts on the relationship between bottom-up accountability and local policy performance [e.g., @banerjee2010pitfalls;  @lieberman2014does; @bjorkman2017experimental; @raffler2018weakness].
+In this paper, we discuss whether a mobile phone application can foster grassroots mobilisation and political accountability in Brazil. Our two interventions show that the results are mixed. Although we find an effect on school construction in the first intervention and on the number of complaints in the second one, the app has no consistent impact on our outcomes of interest. The findings add further evidence to the studies that cast doubts on the relationship between bottom-up accountability and local policy performance [e.g., @banerjee2010pitfalls; @lieberman2014does; @raffler2018weakness].
 
 What factors, then, are driving these results? It seems unlikely that the null results derive from flaws in the research design. First, our study is well powered. About 1,000 municipalities were included in the treatment groups, thus we should be able to capture average treatment effects, even small ones, if they indeed exist. Second, balance and manipulation tests indicate that the treatment allocation was successful, so we can rule out problems in the randomisation procedures. Third, after doing a series of robustness tests --- including matching and randomised inference --- we still find no evidence of treatment effect.   
 
 A plausible explanation is that individuals were unable to differentiate the effect of political corruption from those of spending cuts. Due to the severe economic crisis in 2014--2016, the Brazilian federal government introduced discretionary spending limits that affected public investment [@mello2016fix; @rossi2016impactos]. Politicians may argue that delays in school constructions are not derived from their misuse of government funds, but from the austerity measures. If this is the case, citizens will not blame local politicians for the underprovision of public goods. Consequently, representatives can dismiss individual requests as the issue is unlikely to escalate.
 
 Moreover, it is possible that a mobile app like TDP is simply not sufficient to promote collective action. @raffler2018weakness [29] point out several reasons why information interventions might lead to higher pressure on public agents, such as citizens' apathy towards their ability to make public agents accountable, lack of official channels to support popular demands, or that constituents have more pressing needs than monitoring representatives. Furthermore, individuals may also believe they are better-off by free-riding on other users of the TDP app, thus reaping the benefits of having faster school constructions without incurring personal costs [@olson1965logic].    
-
 In sum, our experiments suggest that popular participation and bottom-up monitoring may not be effective to improve public service delivery. Nevertheless, the null findings are informative to researchers and policy-makers. The most important recommendation derived from this study is that interventions targeting elite groups, such as lobbyists or civil servants, may render better policy outcomes than those focused at the grassroots levels. Another core lesson is that although digital interventions are promising means to deliver information, perhaps they do not have the same impact as personal, face-to-face communication. Since many developing countries share Brazil's issues with education provision, the shortcomings we describe here serve as warnings for future interventions.  
 
 \setlength{\parindent}{0cm}
