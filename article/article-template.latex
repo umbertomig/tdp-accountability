@@ -55,9 +55,6 @@ $endif$
 \usepackage{float}
 \floatplacement{figure}{H}
 \usepackage{pgf}
-\usepackage{tikz}
-\usetikzlibrary{arrows}
-\usetikzlibrary{positioning}
 \usepackage{mathtools}
 \usepackage{caption}
 
