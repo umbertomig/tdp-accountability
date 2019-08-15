@@ -1,6 +1,6 @@
 ---
 title:  |
-        | Bottom-Up Accountability and Infrastructure Delivery: Mixed Evidence from Brazil
+        | Bottom-Up Accountability and Infrastructure Provision: Evidence from a Field Experiment in Brazil
 author: 
 - "Danilo Freire[^freire]"
 - "Manoel Galdino[^galdino]"
@@ -8,7 +8,7 @@ author:
 - "Jessica Voigt[^voigt]"
 date: \today
 thanks: "We thank Fábio Barros, Guilherme Jardim Duarte, Stephen Herzog, Catarina Roman and David Skarbek for their helpful comments. We are specially grateful to the staff of Transparência Brasil for their excellent research assistance. This research was pre-registered on the EGAP pre-registry tool (<https://egap.org/registration/4505>) and approved by the Brazilian Ministry of Education. The authors thank the 2016 Google Social Impact Challenge for financial support and declare there are no conflict of interest. Replication data and code are available at <http://github.com/umbertomignozzetti/tdp-accountability>."
-abstract: "Does grassroots participation improve public service provision? We study the effect of a mobile phone application that allows citizens to monitor school construction projects in 1030 Brazilian municipalities. The app provides a platform where users can submit photos of construction sites, consult independent engineers, and contact their representatives about project delays. Our results show the app has a null impact on public spending and school completion times. Additionally, we find that politicians do not react to individual requests. The results suggest it is difficult to motivate bottom-up accountability in new democracies and question the impact of local monitoring on the quality of public services."
+abstract: "Does grassroots participation improve public service delivery? We study the effect of a mobile phone application that allows citizens to monitor school construction projects in 1030 Brazilian municipalities. The app provides a platform where users can submit photos of construction sites, consult independent engineers, and contact their representatives about project delays. Our results show the app has a null impact on public spending and school completion times. Additionally, we find that politicians do not react to individual requests. The results suggest it is difficult to motivate bottom-up accountability in new democracies and question the impact of local monitoring on the quality of public services."
 abstractspacing: double
 keywords: accountability, Brazil, impact evaluation, state capacity, technology
 fontsize: 12pt
