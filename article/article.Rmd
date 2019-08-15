@@ -1,6 +1,6 @@
 ---
 title:  |
-        | Bottom-Up Accountability and Infrastructure Provision: Evidence from a Field Experiment in Brazil
+        | Bottom-Up Accountability and Public Service Provision: Evidence from a Field Experiment in Brazil
 author: 
 - "Danilo Freire[^freire]"
 - "Manoel Galdino[^galdino]"

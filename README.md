@@ -1,4 +1,4 @@
-## Bottom-Up Accountability and Infrastructure Provision: Evidence from a Field Experiment in Brazil
+## Bottom-Up Accountability and Public Service Provision: Evidence from a Field Experiment in Brazil
 
 This GitHub repository contains data and documented R code for ["Bottom-Up Accountability and Infrastructure Provision: Evidence from a Field Experiment in Brazil"](https://doi.org/10.31235/osf.io/9a6ch), authored by [Danilo Freire](http://danilofreire.github.io), [Manoel Galdino](https://www.transparencia.org.br/quem_somos#quem_somos), [Umberto Mignozzetti](http://umbertomig.com) and [Jessica Voigt](https://www.linkedin.com/in/voigtjessica/).
 
@@ -8,7 +8,7 @@ This GitHub repository contains data and documented R code for ["Bottom-Up Accou
 
 You can cite the article as: 
 
-> Freire, D., Galdino, M., Mignozzetti, U., Voigt, J. 2019. "Bottom-Up Accountability and Infrastructure Provision: Evidence from a Field Experiment in Brazil", _SocArXiv_, DOI: <https://doi.org/10.31235/osf.io/9a6ch>.
+> Freire, D., Galdino, M., Mignozzetti, U., Voigt, J. 2019. "Bottom-Up Accountability and Public Service Provision: Evidence from a Field Experiment in Brazil", _SocArXiv_, DOI: <https://doi.org/10.31235/osf.io/9a6ch>.
 
 BibTeX entry:
 
