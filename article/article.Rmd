@@ -60,11 +60,11 @@ rm(pkgs, installIfNot)
 load('tdp.RData')
 ```
 
-[^freire]: Postdoctoral Research Associate, The Political Theory Project, Brown University, Providence, RI 02912, USA, <danilofreire@brown.edu>, <http://danilofreire.github.io>.
+[^freire]: Postdoctoral Research Associate, The Political Theory Project, Brown University, Providence, RI 02912, USA, [`danilofreire@brown.edu`[mailto:danilofreire@brown.edu], <http://danilofreire.github.io>, +1 (401) 584-2494. Corresponding author.
 
-[^galdino]: Executive Diretor, Transparência Brazil, São Paulo, SP, Brazil, [mgaldino@transparencia.org.br](mailto:mgaldino@transparencia.org.br), <https://www.transparencia.org.br>.
+[^galdino]: Executive Diretor, Transparência Brasil, São Paulo, SP, Brazil, [`mgaldino@transparencia.org.br`](mailto:mgaldino@transparencia.org.br), <https://www.transparencia.org.br>.
 
-[^mignozzetti]: School of International Relations, Fundação Getulio Vargas, São Paulo, SP, Brazil and Wilf Family Department of Politics, NYU, NY, USA, [umberto.mig@nyu.edu](mailto:umberto.mig@nyu.edu), <http://umbertomig.com>. Corresponding author.
+[^mignozzetti]: School of International Relations, Fundação Getulio Vargas, São Paulo, SP, Brazil and Wilf Family Department of Politics, NYU, NY, USA, [`umberto.mig@nyu.edu`](mailto:umberto.mig@nyu.edu), <http://umbertomig.com>.
 
 \newpage
 
