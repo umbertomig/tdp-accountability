@@ -5,7 +5,6 @@ author:
 - "Danilo Freire[^freire]"
 - "Manoel Galdino[^galdino]"
 - "Umberto Mignozzetti[^mignozzetti]"
-- "Jessica Voigt[^voigt]"
 date: \today
 thanks: "We thank Fábio Barros, Guilherme Jardim Duarte, Stephen Herzog, Catarina Roman and David Skarbek for their helpful comments. We are specially grateful to the staff of Transparência Brasil for their excellent research assistance. This research was pre-registered on the EGAP pre-registry tool (<https://egap.org/registration/4505>) and approved by the Brazilian Ministry of Education. The authors thank the 2016 Google Social Impact Challenge for financial support and declare there are no conflict of interest. Replication data and code are available at <http://github.com/umbertomignozzetti/tdp-accountability>."
 abstract: "Does grassroots participation improve public service delivery? We study the effect of a mobile phone application that allows citizens to monitor school construction projects in 1030 Brazilian municipalities. The app provides a platform where users can submit photos of construction sites, consult independent engineers, and contact their representatives about project delays. Our results show that the app has a null impact on public spending and school completion times. Additionally, we find that politicians do not react to individual requests. The results question the impact of local monitoring on public service performance and suggest that interventions targeted at other groups may produce better policy outcomes."
@@ -31,7 +30,7 @@ output:
     template: article-template.latex
 ---
 
-```{r setup, include=FALSE, warning=FALSE, cache=TRUE}
+```{r setup, include=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 r <- getOption("repos")
 r["CRAN"] <- "http://cran.cnr.berkeley.edu/"
@@ -58,7 +57,7 @@ lapply(pkgs, installIfNot)
 # Load scripts
 lapply(pkgs, require, character.only = T)
 rm(pkgs, installIfNot)
-rm(list=ls())
+load('tdp.RData')
 ```
 
 [^freire]: Postdoctoral Research Associate, The Political Theory Project, Brown University, Providence, RI 02912, USA, <danilofreire@brown.edu>, <http://danilofreire.github.io>.
@@ -66,8 +65,6 @@ rm(list=ls())
 [^galdino]: Executive Diretor, Transparência Brazil, São Paulo, SP, Brazil, [mgaldino@transparencia.org.br](mailto:mgaldino@transparencia.org.br), <https://www.transparencia.org.br>.
 
 [^mignozzetti]: School of International Relations, Fundação Getulio Vargas, São Paulo, SP, Brazil and Wilf Family Department of Politics, NYU, NY, USA, [umberto.mig@nyu.edu](mailto:umberto.mig@nyu.edu), <http://umbertomig.com>. Corresponding author.
-
-[^voigt]: Data Scientist, Transparência Brasil, São Paulo, SP, Brazil, [jvoigt@transparencia.org.br](mailto:jvoigt@transparencia.org.br), <https://www.linkedin.com/in/voigtjessica>.
 
 \newpage
 
@@ -130,13 +127,13 @@ The TDP has also received feedback from Brazilian computer programmers and polic
 
 Between August 2017 and August 2018, we implemented two interventions to measure the effect of the TDP app on six school construction outcomes. The outcomes are: 1) a placebo outcome indicating the percentage of the investment executed before the impact evaluation started; 2) the percentage of public investment allocated to school constructions; 3) the difference between the percentage invested before and after the interventions; 4) the number of finished constructions; 5) the number of cancelled constructions; 6) the number of updated conclusion dates. We expect the first outcome to remain unchanged and the five remaining ones to increase. 
 
-The first intervention was carried out from August 2017 to February 2018 using the Android version of TDP. The unit of analysis for this experiment is the Brazilian municipality. We randomly selected 150 to the control group and included 1030 municipalities in the treatment group. Our control condition consists in removing all information about school construction from the TDP app in the chosen municipalities, so that citizens had no incentive to use the app.
+The first intervention was carried out from August 2017 to February 2018 using the Android version of TDP. The unit of analysis for this experiment is the Brazilian municipality. We randomly selected `r as.numeric(table(impEvalph1$treatOriginal)[1])` municipalities to the control group and included `r as.numeric(table(impEvalph1$treatOriginal)[2])` in the treatment group. Our control condition consists in removing all information about school construction from the TDP app in the chosen municipalities, so that citizens had no incentive to use the app.
 
 To evaluate the random assignment, we used the following pre-treatment variables: 1) log of municipal population in 2015; 2) log of number of poor families in each city; 3) log of total federal transfers to the municipality in 2016; 4) federal government indicator for primary school quality; 4) federal government indicator for secondary school quality. The data come from the Brazilian Ministry of Education and the Census. Balance tests show that the randomisation was successful and are available in the Supplementary Materials.
 
-We also conducted two manipulation checks and analysed the number of TDP app downloads by municipality and over time. Figure \ref{fig:manipulation1} displays the results and indicates that the treatment has good territorial variability. There are 455 downloads in the 1030 municipalities in the treatment condition. Downloads peak during the Facebook TDP campaign, launched in October 2017, then diminish in the following months. 
+We also conducted two manipulation checks and analysed the number of TDP app downloads by municipality and over time. Figure \ref{fig:manipulation1} displays the results and indicates that the treatment has good territorial variability. There are `r length(unique(ga$municipality[ga$phase1==1]))` downloads in the `r length(unique(impEvalph1$municipality[impEvalph1$treatOriginal==1]))` municipalities in the treatment condition. Downloads peak during the Facebook TDP campaign, launched in October 2017, then diminish in the following months. 
 
-```{r man1, echo=FALSE, warning=FALSE, messages=FALSE, cache=TRUE, error=FALSE, out.width='.49\\linewidth', fig.width=4, fig.height=4, fig.show='hold', fig.align='center', fig.cap='\\label{fig:manipulation1}Manipulation checks for intervention 1. The first plot shows the geographical distribution of the treatment condition and the second graph displays the number of TDP app downloads from August 2017 to February 2018.'}
+```{r man1, echo=FALSE, warning=FALSE, messages=FALSE, error=FALSE, out.width='.49\\linewidth', fig.width=4, fig.height=4, fig.show='hold', fig.align='center', fig.cap='\\label{fig:manipulation1}Manipulation checks for intervention 1. The first plot shows the geographical distribution of the treatment condition and the second graph displays the number of TDP app downloads from August 2017 to February 2018.'}
 
 # Load data 
 load('tdp.RData')
@@ -203,11 +200,11 @@ pFreqUserDownloadsInt1 <- ggplot(tab, aes(x=Date, y=Frequency, group=1)) +
 pFreqUserDownloadsInt1
 ```
 
-The second intervention is similar to intervention 1 in all but three characteristics. First, the TDP app was available for both Android and iOS devices. Second, we randomised the intervention at the school level, with 654 control and 3895 treatment units. We used blocked randomisation stratified by Brazilian states, school construction status (under construction, stopped, unfinished) and whether the municipality spent more on school construction that the distribution median. Finally, the intervention period lasted from August 2018 to February 2019.
+The second intervention is similar to intervention 1 in all but three characteristics. First, the TDP app was available for both Android and iOS devices. Second, we randomised the intervention at the school level, with `r as.numeric(table(impEvalph2$treatApp)[1])` control and `r as.numeric(table(impEvalph2$treatApp)[2])` treatment units. We used blocked randomisation stratified by Brazilian states, school construction status (under construction, stopped, unfinished) and whether the municipality spent more on school construction that the distribution median. Finally, the intervention period lasted from August 2018 to February 2019.
 
-Balance tests and manipulation checks were also successful for intervention 2. In total, 433 municipalities downloaded the app. There is one download peak in August 2018, right after the intervention starts, and a second spike around December. The number of downloads is considerably smaller in this second intervention when compared to intervention 1 as there was no associated social media campaign in that period. 
+Balance tests and manipulation checks were also successful for intervention 2. In total, `r sum(gaaux$Downloads == 'Downloads')` municipalities downloaded the app. There is one download peak in August 2018, right after intervention 2 starts, and a second spike around December. The number of downloads is considerably smaller in this second intervention when compared to intervention 1 as there was no associated social media campaign in that period. 
 
-```{r man2, echo=FALSE, warning=FALSE, messages=FALSE, cache=TRUE, error=FALSE, out.width='.49\\linewidth', fig.width=4, fig.height=4, fig.show='hold', fig.align='center', fig.cap='\\label{fig:manipulation2}Manipulation checks for intervention 2. The graphs display the geographical and temporal variation of TDP app downloads from August 2018 to February 2019.'}
+```{r man2, echo=FALSE, warning=FALSE, messages=FALSE, error=FALSE, out.width='.49\\linewidth', fig.width=4, fig.height=4, fig.show='hold', fig.align='center', fig.cap='\\label{fig:manipulation2}Manipulation checks for intervention 2. The graphs display the geographical and temporal variation of TDP app downloads from August 2018 to February 2019.'}
 # Load data 
 load('tdp.RData')
 
@@ -264,7 +261,7 @@ where $i$ indexes the experiment units. $Y_i$ is one of the six outcomes describ
 
 Table \ref{tab:results1} summarises the main results of intervention 1. Each column represents the treatment effect of the TDP app on one of the six outcomes we measured for this study. All models reported here include the five control variables described in the previous section and Brazilian states' fixed effects. We also estimated the models without control variables, without fixed effects and with nearest-neighbour matching. The results are very similar to those below.
 
-```{r int1, echo=FALSE, warning=FALSE, message=FALSE, results='hide', cache=TRUE}
+```{r int1, echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
 load('tdp.RData')
 
 # Load packages
@@ -404,13 +401,13 @@ R$^{2}$ & 0.04 & 0.05 & 0.08 & 0.03 & 0.01 & 0.08 \\
 \end{tabular} 
 \end{table} 
 
-We find that the intervention was sufficient to improve the school completion rate. The TDP application increases in 7 percent the chance that a school construction is reported as finished by the end of the intervention. This is in line with our theoretical expectations, but as we discuss below, the finding is not consistent. All other coefficients are not statistically significant at conventional levels. On the one hand, the results indicate that our placebo outcome, the percentage of the invested executed before the intervention, indeed behaves as predicted. On the other hand, we expected the four remaining outcomes to increase after the introduction of the app. The literature on bottom-up accountability argues that more information about the shortcomings of public service provision will mobilise citizens who, in turn, would pressure state agents to produce better social policies. Our results do not lend support to that hypothesis.
+We find that the intervention was sufficient to improve the school completion rate. The TDP application increases in `r round(100*resInt1[[2]][[16]]$coefficients[1], 1)` percent the chance that a school construction is reported as finished by the end of the intervention. This is in line with our theoretical expectations, but as we discuss below, the finding is not consistent. All other coefficients are not statistically significant at conventional levels. On the one hand, the results indicate that our placebo outcome, the percentage of the invested executed before the intervention, indeed behaves as predicted. On the other hand, we expected the four remaining outcomes to increase after the introduction of the app. The literature on bottom-up accountability argues that more information about the shortcomings of public service provision will mobilise citizens who, in turn, would pressure state agents to produce better social policies. Our results do not lend support to that hypothesis.
 
 We observe a similar pattern in the second intervention. Table \ref{tab:results2} shows that the treatment does not have a statistically significant effect on any our outcomes of interest, including the placebo. This provides evidence that our previous findings are not a statistical fluke, and questions the robustness of the effect of the TDP app on school completion. Nevertheless, in our additional tests we find that the app improved the difference between the baseline and the end-line reported investment by 157.5 percent. This is a large effect, yet it only reaches statistical significance when we employ inverse probability weights with block randomisation and one-to-one nearest neighbourhood matching. 
 
 \newpage
 
-```{r int2, echo=FALSE, warning=FALSE, message=FALSE, results='hide', cache=TRUE}
+```{r int2, echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
 load('tdp.RData')
 
 # Load packages
