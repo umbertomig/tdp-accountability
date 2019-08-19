@@ -83,7 +83,7 @@ Here we assess the impact of _Tá de Pé_ (TDP), a mobile phone application desi
 
 We use the TDP app to conduct two experimental interventions and test its impact on five outcomes related to school completion rates and complaints to public authorities. Overall, our results show that providing information to citizens has no consistent impact on policy outcomes. We find that the TDP app increased the likelihood of school completion by 7 percent in the first experiment, but the effect is null in the second intervention. We also find that the app increased the percentage of the reported construction completion by 1.75 percent in our second experiment, but only after nearest neighbourhood matching adjustment. Importantly, our results show that providing information to citizens has no consistent impact on any policy outcomes.
 
-The results raise questions about the ability of citizens to hold representatives accountable using bottom-up strategies. Although studies like @bjorkman2009power, @fiala2017social and @reinikka2005fighting report better policy outcomes after providing information to local communities, our findings are closer to @banerjee2010pitfalls, @keefer2014mass, @lieberman2014does, @bjorkman2017experimental, @olken2007monitoring and @raffler2018weakness offering little evidence that information-based interventions lead to greater government responsiveness. Our analysis suggests that grassroots monitoring is ineffective in altering government behaviour in Brazil.
+The findings raise questions about the ability of citizens to hold representatives accountable using bottom-up strategies. Although studies like @bjorkman2009power, @fiala2017social and @reinikka2005fighting report better policy outcomes after providing information to local communities, our findings are closer to @banerjee2010pitfalls, @keefer2014mass, @lieberman2014does, @bjorkman2017experimental, @olken2007monitoring and @raffler2018weakness offering little evidence that information-based interventions lead to greater government responsiveness. Our analysis suggests that grassroots monitoring is ineffective in altering government behaviour in Brazil.
 
 # The _Tá de Pé_ Project 
 \label{sec:tdp}
@@ -151,7 +151,7 @@ To evaluate the random assignment, we used the following pre-treatment variables
 
 We also conducted two manipulation checks and analysed the number of TDP app downloads by municipality and over time. Figure \ref{fig:manipulation1} displays the results and indicates that the treatment has good territorial variability. There are `r length(unique(ga$municipality[ga$phase1==1]))` downloads in the `r length(unique(impEvalph1$municipality[impEvalph1$treatOriginal==1]))` municipalities in the treatment condition. Downloads peak during the Facebook TDP campaign, launched in October 2017, then diminish in the following months. 
 
-```{r man1, echo=FALSE, warning=FALSE, messages=FALSE, error=FALSE, cache=TRUE, out.width='.49\\linewidth', fig.width=4, fig.height=3.1, fig.show='hold', fig.align='center', fig.cap='\\label{fig:manipulation1}Manipulation checks for intervention 1. The first plot shows the geographical distribution of the treatment condition and the second graph displays the number of TDP app downloads from August 2017 to February 2018.'}
+```{r man1, echo=FALSE, warning=FALSE, messages=FALSE, error=FALSE, out.width='.49\\linewidth', fig.width=4, fig.height=3.1, fig.show='hold', fig.align='center', fig.cap='\\label{fig:manipulation1}Manipulation checks for intervention 1. The first plot shows the geographical distribution of the treatment condition and the second graph displays the number of TDP app downloads from August 2017 to February 2018.'}
 
 # Load data 
 load('tdp.RData')
@@ -229,7 +229,7 @@ The second intervention is similar to intervention 1 in all but three characteri
 
 Balance tests and manipulation checks were also successful for intervention 2. In total, `r sum(gaaux$Downloads == 'Downloads')` municipalities downloaded the app. There is one download peak in August 2018, right after intervention 2 starts, and a second spike around December. The number of downloads is considerably smaller in this second intervention when compared to intervention 1 as there was no associated social media campaign in that period. 
 
-```{r man2, echo=FALSE, warning=FALSE, messages=FALSE, error=FALSE, cache=TRUE, out.width='.49\\linewidth', fig.width=4, fig.height=3.2, fig.show='hold', fig.align='center', fig.cap='\\label{fig:manipulation2}Manipulation checks for intervention 2. The graphs display the geographical and temporal variation of TDP app downloads from August 2018 to February 2019.'}
+```{r man2, echo=FALSE, warning=FALSE, messages=FALSE, error=FALSE, out.width='.49\\linewidth', fig.width=4, fig.height=3.2, fig.show='hold', fig.align='center', fig.cap='\\label{fig:manipulation2}Manipulation checks for intervention 2. The graphs display the geographical and temporal variation of TDP app downloads from August 2018 to February 2019.'}
 # Load data 
 load('tdp.RData')
 
@@ -293,7 +293,7 @@ where $i$ indexes the experiment units. $Y_i$ is one of the six outcomes describ
 
 Table \ref{tab:results1} summarises the main results of intervention 1. Each column represents the treatment effect of the TDP app on one of the outcomes we measured for this study. All models reported here include the five control variables described in the previous section and Brazilian states' fixed effects. We also estimated the models without control variables, without fixed effects and with nearest-neighbour matching. The results are very similar to those below.
 
-```{r int1, echo=FALSE, warning=FALSE, message=FALSE, results='hide', cache=TRUE}
+```{r int1, echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
 load('tdp.RData')
 
 # Load packages
@@ -437,9 +437,7 @@ We find that the intervention is sufficient to improve school completion rates. 
 
 We observe a similar pattern in the second intervention. Table \ref{tab:results2} shows that the treatment does not have a statistically significant effect on any our outcomes of interest, including the placebo. This provides evidence that our previous findings are not a statistical fluke, and questions the robustness of the effect of the TDP app on school completion. Nevertheless, in our additional tests we find that the app improved the difference between the baseline and the end-line reported investment by 1.57 percent. This effect only reaches statistical significance when we employ inverse probability weights with block randomisation and one-to-one nearest neighbourhood matching. 
 
-\newpage
-
-```{r int2, echo=FALSE, warning=FALSE, message=FALSE, results='hide',cache=TRUE}
+```{r int2, echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
 load('tdp.RData')
 
 # Load packages
@@ -576,7 +574,7 @@ R$^{2}$ & 0.06 & 0.08 & 0.05 & 0.03 & 0.02 &  \\
 
 Figure \ref{fig:permtest} shows the results of our randomisation inference tests. Randomisation inference allows us to estimate the probability of the sharp null hypothesis over all possible randomisations that could have occurred under our research design [@coppock2019ri2; @gerber2012field]. We fail to reject the null in all specifications. 
 
-```{r ri, echo=FALSE, warning=FALSE, message=FALSE, results='hide', cache=TRUE}
+```{r ri, echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
 load('tdp.RData')
 
 # Load packages
@@ -624,13 +622,13 @@ felm(as.formula(
                         paste('',fes_mod,0,cls, sep = '|'), sep = '')),
               collapse = '~')), data = dat, weights = wts)
       moddescr <- rbind(moddescr, 
-                        data.frame(outc = j, 
+                        data.frame(outc = j,
                                    treat = i,
                                    hCtrls = T,
                                    hFEs = T))
 
 # Auxiliary function: calculate coefficients
-calcATEs <- function(outcs, treats, ctrls, fes, cls, dat, wts = NULL, ...) {
+calcATEs <- function(outcs, treats, ctrls, fes, cls, zdat, wts = NULL, ...) {
   ctrls_mod <- paste(ctrls, collapse = '+')
   fes_mod <- paste(fes, collapse = '+')
   moddescr <- data.frame()
