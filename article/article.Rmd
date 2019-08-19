@@ -45,7 +45,7 @@ pkgs <- c('tidyverse', 'dummies', 'kableExtra',
           'abjutils', 'lfe', 'cobalt', 
           'MatchIt', 'ri2', 'DeclareDesign', 'knitr',
           'DiagrammeR', 'DiagrammeRsvg', 'rsvg', 
-          'flextable', 'officer')
+          'flextable', 'officer', 'ggthemes')
 
 # Install required packages
 installIfNot <- function(x) {
@@ -163,7 +163,7 @@ pkgs <- c('tidyverse', 'dummies',
           'abjutils', 'lfe', 'cobalt', 
           'MatchIt', 'ri2', 'DeclareDesign', 'knitr',
           'DiagrammeR', 'DiagrammeRsvg', 'rsvg', 
-          'flextable', 'officer')
+          'flextable', 'officer', 'ggthemes')
 invisible(lapply(pkgs, require, character.only = T))
 
 ## Analysis Intervention 1
@@ -198,14 +198,21 @@ gaaux <- select(gaaux, ibge_code7, downl)
 gaaux <- rename(gaaux, City = ibge_code7)
 gaaux <- unique(gaaux)
 gaaux$City <- as.numeric(gaaux$City)
-gaaux2 <- data.frame(City = mapbr$City)
-gaaux <- merge(gaaux2, gaaux,all.x=TRUE); rm(gaaux2)
+gaaux <- impEvalph2 %>%
+  select(ibge_code7) %>%
+  transmute(City = as.numeric(ibge_code7)) %>%
+  unique() %>%
+  left_join(gaaux)
 gaaux$downl[is.na(gaaux$downl)] = 0
-gaaux$Downloads <- factor(gaaux$downl, labels = c('No Downloads', 'Downloads'))
-pMapDownloadsInt1 <- plot_brmap(mapbr,
-                                data_to_join = gaaux,
-                                join_by = c("City" = "City"),
-                                var = "Downloads") 
+gaaux2 <- data.frame(City = mapbr$City)
+gaaux <- merge(gaaux2, gaaux, all.x = TRUE); rm(gaaux2)
+gaaux$downl[is.na(gaaux$downl)] = 2
+gaaux$Downloads <- factor(gaaux$downl, labels = c('No Downloads', 'Downloads', 'Not in App'))
+mapbr <- join_data(mapbr, gaaux, by = 'City')
+pMapDownloadsInt1 <- ggplot() + 
+  geom_sf(data = mapbr, aes(fill = Downloads), lwd = 0.02) +
+  scale_fill_manual(values=c( "#E69F00", "#0072B2", "#F0E442")) +
+  theme_map()
 pMapDownloadsInt1
 
 # Frequency downloads
@@ -233,7 +240,7 @@ pkgs <- c('tidyverse', 'dummies',
           'abjutils', 'lfe', 'cobalt', 
           'MatchIt', 'ri2', 'DeclareDesign', 'knitr',
           'DiagrammeR', 'DiagrammeRsvg', 'rsvg', 
-          'flextable', 'officer')
+          'flextable', 'officer', 'ggthemes')
 invisible(lapply(pkgs, require, character.only = T))
 
 ## Manipulation Stats
@@ -245,14 +252,21 @@ gaaux <- select(gaaux, ibge_code7, downl)
 gaaux <- rename(gaaux, City = ibge_code7)
 gaaux <- unique(gaaux)
 gaaux$City <- as.numeric(gaaux$City)
+gaaux <- impEvalph2 %>%
+  select(ibge_code7) %>%
+  transmute(City = as.numeric(ibge_code7)) %>%
+  unique() %>%
+  left_join(gaaux)
+gaaux$downl[is.na(gaaux$downl)] = 0
 gaaux2 <- data.frame(City = mapbr$City)
 gaaux <- merge(gaaux2, gaaux, all.x = TRUE); rm(gaaux2)
-gaaux$downl[is.na(gaaux$downl)] = 0
-gaaux$Downloads <- factor(gaaux$downl, labels = c('No Downloads', 'Downloads'))
-p1 <- plot_brmap(mapbr,
-                data_to_join = gaaux,
-                join_by = c("City" = "City"),
-                var = "Downloads") 
+gaaux$downl[is.na(gaaux$downl)] = 2
+gaaux$Downloads <- factor(gaaux$downl, labels = c('No Downloads', 'Downloads', 'Not in App'))
+mapbr <- join_data(mapbr, gaaux, by = 'City')
+p1 <- ggplot() + 
+  geom_sf(data = mapbr, aes(fill = Downloads), lwd = 0.02) +
+  scale_fill_manual(values=c( "#E69F00", "#0072B2", "#F0E442")) +
+  theme_map()
 p1
 
 # Downloads over time -- Intervention 2:
@@ -289,7 +303,7 @@ pkgs <- c('tidyverse', 'dummies',
           'abjutils', 'lfe', 'cobalt', 
           'MatchIt', 'ri2', 'DeclareDesign', 'knitr',
           'DiagrammeR', 'DiagrammeRsvg', 'rsvg', 
-          'flextable', 'officer')
+          'flextable', 'officer', 'ggthemes')
 invisible(lapply(pkgs, require, character.only = T))
 
 # Auxiliary function: calculate coefficients
@@ -435,7 +449,7 @@ pkgs <- c('tidyverse', 'dummies',
           'abjutils', 'lfe', 'cobalt', 
           'MatchIt', 'ri2', 'DeclareDesign', 'knitr',
           'DiagrammeR', 'DiagrammeRsvg', 'rsvg', 
-          'flextable', 'officer')
+          'flextable', 'officer', 'ggthemes')
 invisible(lapply(pkgs, require, character.only = T))
 
 # Auxiliary function: calculate coefficients
@@ -558,9 +572,149 @@ R$^{2}$ & 0.06 & 0.08 & 0.05 & 0.03 & 0.02 &  \\
 \textit{Note:}  & \multicolumn{6}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
  & \multicolumn{6}{r}{Cluster-robust SEs at the municipality level.} \\ 
 \end{tabular} 
-\end{table} 
+\end{table}
 
 Figure \ref{fig:permtest} shows the results of our randomisation inference tests. Randomisation inference allows us to estimate the probability of the sharp null hypothesis over all possible randomisations that could have occurred under our research design [@coppock2019ri2; @gerber2012field]. We fail to reject the null in all specifications. 
+
+```{r ri, echo=FALSE, warning=FALSE, message=FALSE, results='hide', cache=TRUE}
+load('tdp.RData')
+
+# Load packages
+pkgs <- c('tidyverse', 'dummies', 
+          'haven', 'compareGroups', 
+          'devtools', 'lubridate', 'brazilmaps',
+          'abjutils', 'lfe', 'cobalt', 
+          'MatchIt', 'ri2', 'DeclareDesign', 'knitr',
+          'DiagrammeR', 'DiagrammeRsvg', 'rsvg', 
+          'flextable', 'officer', 'ggthemes')
+invisible(lapply(pkgs, require, character.only = T))
+
+# Prep data
+dat <- data.frame(
+  Y = c(8, 6, 2, 0, 3, 1, 1, 1, 2, 2, 0, 1, 0, 2, 2, 4, 1, 1),
+  Z = c(1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0),
+  cluster = c(1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9),
+  block = c(rep(1, 4), rep(2, 6), rep(3, 8))
+)
+
+# clusters in blocks 1 and 3 have a 1/2 probability of treatment
+# but clusters in block 2 have a 2/3 probability of treatment
+block_m <- with(dat, tapply(Z, block, sum) / 2)
+declaration <- 
+  with(dat,{
+    declare_ra(
+      blocks = block,
+      clusters = cluster,
+      block_m = block_m)
+  })
+
+declaration
+
+ri2_out <- conduct_ri(
+  Y ~ Z,
+  sharp_hypothesis = 0,
+  declaration = declaration,
+  data = dat
+)
+summary(ri2_out)
+
+# Randomization inference
+felm(as.formula(
+        paste(c(j,paste(paste(c(i,ctrls_mod), collapse = '+'),
+                        paste('',fes_mod,0,cls, sep = '|'), sep = '')),
+              collapse = '~')), data = dat, weights = wts)
+      moddescr <- rbind(moddescr, 
+                        data.frame(outc = j, 
+                                   treat = i,
+                                   hCtrls = T,
+                                   hFEs = T))
+
+# Auxiliary function: calculate coefficients
+calcATEs <- function(outcs, treats, ctrls, fes, cls, dat, wts = NULL, ...) {
+  ctrls_mod <- paste(ctrls, collapse = '+')
+  fes_mod <- paste(fes, collapse = '+')
+  moddescr <- data.frame()
+  mods <- list()
+  if(is.null(wts)) {
+    dat <- dat %>%
+      select(one_of(c(outcs, treats, ctrls, fes, cls))) %>%
+      na.omit()
+  } else {
+    dat <- dat %>%
+      select(one_of(c(outcs, treats, ctrls, fes, cls, wts))) %>%
+      na.omit()
+    wts <- dat[,wts]
+  }
+  k <- 1
+  for (i in treats) {
+    for (j in outcs) {
+      # No controls and no fes
+      mods[[k]] <- felm(as.formula(
+        paste(c(j,paste(i,paste('',0,0,cls, sep = '|'), sep = '')),
+              collapse = '~')), data = dat, weights = wts)
+      moddescr <- rbind(moddescr, 
+                        data.frame(outc = j, 
+                                   treat = i,
+                                   hCtrls = F,
+                                   hFEs = F))
+      print(k); k = k+1
+      # Controls and no fes
+      mods[[k]] <- felm(as.formula(
+        paste(c(j,paste(paste(c(i,ctrls_mod), collapse = '+'),
+                        paste('',0,0,cls, sep = '|'), sep = '')),
+              collapse = '~')), data = dat, weights = wts)
+      moddescr <- rbind(moddescr, 
+                        data.frame(outc = j, 
+                                   treat = i,
+                                   hCtrls = T,
+                                   hFEs = F))
+      print(k); k = k+1
+      # No controls and fes
+      mods[[k]] <- felm(
+        as.formula(paste(c(j,paste(paste(c(i), collapse = '+'),
+                                   paste('',fes_mod,0,cls, sep = '|'), sep = '')),
+                         collapse = '~')), data = dat, weights = wts)
+      moddescr <- rbind(moddescr, 
+                        data.frame(outc = j, 
+                                   treat = i,
+                                   hCtrls = F,
+                                   hFEs = T))
+      print(k); k = k+1
+      # Controls and fes
+      
+      print(k); k = k+1
+    }
+  }
+  return(list(moddescr, mods))
+}
+
+outcs <- c('percExecBegin', 'percExecEnd',
+           'deltaPercExec', 'isFinished',
+           'isCancelled', 'updDate')
+treats <- c('treat')
+ctrls <- c('logPop2015', 'ideb_ai_2015','ideb_af_2015',
+           'log_poorFam2010', 'log_totTransf2016')
+fes <- c('state')
+cls <- c('municipality')
+
+resInt2 <- calcATEs(outcs, 'treatApp', ctrls, fes, cls, dat = impEvalph2)
+
+# Results intervention 2
+library(stargazer)
+stargazer(resInt2[[2]][[4]],resInt2[[2]][[8]],resInt2[[2]][[12]],
+          resInt2[[2]][[16]],resInt2[[2]][[20]],resInt2[[2]][[24]],
+          title = '\\label{tab:results2} Impact Evaluation -- Intervention 2',
+          dep.var.labels.include=F, 
+          keep='treatAppTreatment', type = 'latex',
+          covariate.labels = 'ATE',
+          column.labels = c("Investment & Investment & Delta & Finished & Cancelled & Updated \\\\ & Before & After & Investment & Construction & Construction & Date \\\\"),
+          column.sep.width = '-2pt',
+          omit.stat=c('adj.rsq', 'ser'), align=F, digits=2,
+          notes = 'Cluster-robust SEs at the municipality level.',
+          add.lines = list(c("Controls", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes"),
+            c("State Fixed Effects", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes")),
+          notes.append = T, header=FALSE)
+```
 
 We also note that the effect sizes are small in each of our original models. Therefore, even if the treatment effects were statistically significant, the TDP app would have a reduced impact over the outcomes. This has an important substantive meaning, as it poses a direct challenge to the bottom-up accountability theory, at least for the school construction outcomes we investigated here. 
 
