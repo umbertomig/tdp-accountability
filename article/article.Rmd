@@ -6,7 +6,7 @@ author:
 - "Manoel Galdino[^galdino]"
 - "Umberto Mignozzetti[^mignozzetti]"
 date: \today
-thanks: "We thank Fábio Barros, Guilherme Jardim Duarte, Stephen Herzog, Catarina Roman and David Skarbek for their helpful comments. We are specially grateful to the staff of Transparência Brasil for their excellent research assistance. This research was pre-registered on the EGAP pre-registry tool (<https://egap.org/registration/4505>) and approved by the Brazilian Ministry of Education. The authors thank the 2016 Google Social Impact Challenge for financial support and declare there are no conflict of interest. Replication data and code are available at <http://github.com/umbertomignozzetti/tdp-accountability>."
+thanks: "We thank Fábio Barros, Guilherme Jardim Duarte, Stephen Herzog and David Skarbek for their helpful comments. We are specially grateful to Catarina Roman and the staff of Transparência Brasil for their excellent research assistance. This research was pre-registered on the EGAP pre-registry tool (<https://egap.org/registration/4505>) and approved by the Brazilian Ministry of Education. The authors thank the 2016 Google Social Impact Challenge for financial support and declare there are no conflict of interest. Replication data and code are available at <http://github.com/umbertomignozzetti/tdp-accountability>."
 abstract: "Does grassroots participation improve public service delivery? We study the effect of a mobile phone application that allows citizens to monitor school construction projects in 1020 Brazilian municipalities. The app provides a platform where users can submit photos of construction sites, consult independent engineers, and contact the mayor's office about project delays. Our results show that the app has a null impact on the school construction outcomes. Additionally, we find that politicians are unresponsive to individual requests. The results question the impact of local monitoring on public service performance and suggest that interventions targeted at other groups may produce better policy outcomes."
 abstractspacing: double
 keywords: accountability, Brazil, impact evaluation, state capacity, technology
@@ -26,26 +26,18 @@ output:
     number_sections: yes
     keep_tex: no
     toc: no
-    toc_depth: 3
     template: article-template.latex
 ---
 
 ```{r setup, include=FALSE, warning=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-r <- getOption("repos")
-r["CRAN"] <- "http://cran.cnr.berkeley.edu/"
-options(repos = r)
-
-## Pre-processing
-
-# Required packages
 pkgs <- c('tidyverse', 'dummies', 'kableExtra',
           'haven', 'compareGroups', 'grid', 'gridExtra',
           'devtools', 'lubridate', 'brazilmaps',
           'abjutils', 'lfe', 'cobalt', 
           'MatchIt', 'ri2', 'DeclareDesign', 'knitr',
           'DiagrammeR', 'DiagrammeRsvg', 'rsvg', 
-          'flextable', 'officer', 'ggthemes')
+          'flextable', 'officer', 'ggthemes', 
+          'stargazer')
 
 # Install required packages
 installIfNot <- function(x) {
@@ -77,11 +69,11 @@ However, accountability systems take many forms. One promising model is that of 
 
 Here we assess the impact of _Tá de Pé_ (TDP), a mobile phone application designed to lower the costs of evaluating public works and punishing political representatives in Brazil. Developed by Transparência Brasil[^transparencia], TDP allows citizens to learn the location of public school construction sites, check their completion status and anonymously request information from competent authorities. TDP users can also take pictures of the construction sites and submit them to independent engineers for examination. If the engineers classify the construction as delayed, TDP prompts users to send a message to the mayor's office asking for completion estimates and explanations about the construction status. TDP has been online since April 2017 and was the winner of the 2016 Google Social Impact grant with more than 200,000 popular votes[^google].
 
-[^transparencia]: Transparência Brasil is an non-governmental organisation whose mission is to 'promote transparency and social control of public power'. It has been active since April 2000, is non-partisan and receives no public funding. More information at <http://transparencia.org.br> (access: July 2019).  
+[^transparencia]: Transparência Brasil is an non-governmental organisation whose mission is to 'promote transparency and social control of public power'. It has been active since April 2000, receives no public funding, and is non-partisan. More information at <http://transparencia.org.br> (access: July 2019).  
 
 [^google]: About 1,000 Brazilian charities participated in the 2016 Google Social Impact Challenge. An independent committee selected 10 organisations as finalists, and Transparência Brasil won the challenge with about 200,000 popular votes. To know more about the contest, please visit <https://impactchallenge.withgoogle.com/brazil2016> (access: July 2019). 
 
-We use the TDP app to conduct two experimental interventions and test its impact on five outcomes related to school completion rates and complaints to public authorities. Overall, our results show that providing information to citizens has no consistent impact on policy outcomes. We find that the TDP app increased the likelihood of school completion by 7 percent in the first experiment, but the effect is null in the second intervention. We also find that the app increased the percentage of the reported construction completion by 1.75 percent in our second experiment, but only after nearest neighbourhood matching adjustment. Importantly, our results show that providing information to citizens has no consistent impact on any policy outcomes.
+We use the TDP app to conduct two experimental interventions and test its impact on five outcomes related to school completion rates and complaints to public authorities. Overall, our results show that providing information to citizens has no consistent impact on policy outcomes. In the first experiment, we find that the TDP app increased the likelihood of school completion by 5 percent and the number of cancelled schools by 3 percent, but the effects are null in the second intervention. We also find that the app increased the percentage of the reported construction completion by 1.75 percent in our second experiment, but only after nearest neighbourhood matching adjustment. Importantly, our results show that providing information to citizens has no consistent impact on any policy outcomes.
 
 The findings raise questions about the ability of citizens to hold representatives accountable using bottom-up strategies. Although studies like @bjorkman2009power, @fiala2017social and @reinikka2005fighting report better policy outcomes after providing information to local communities, our findings are closer to @banerjee2010pitfalls, @keefer2014mass, @lieberman2014does, @bjorkman2017experimental, @olken2007monitoring and @raffler2018weakness offering little evidence that information-based interventions lead to greater government responsiveness. Our analysis suggests that grassroots monitoring is ineffective in altering government behaviour in Brazil.
 
@@ -99,18 +91,17 @@ Transparência Brazil built the app in the first three months of 2017 and tested
 \begin{figure}
      \begin{minipage}[t]{.3\textwidth}
        \centering
-       \includegraphics[scale=0.25]{tdp03.jpg}
-       \label{}
+       \includegraphics[scale=.2]{tdp03.jpg}
      \end{minipage}
      \hfill
      \begin{minipage}[t]{.3\textwidth}
        \centering
-       \includegraphics[scale=0.25]{tdp01.jpg}
+       \includegraphics[scale=.2]{tdp01.jpg}
      \end{minipage}
      \hfill
      \begin{minipage}[t]{.3\textwidth}
        \centering
-       \includegraphics[scale=0.25]{tdp02.jpg}
+       \includegraphics[scale=.2]{tdp02.jpg}
      \end{minipage}
 \caption{The \textit{Tá de Pé} mobile phone application. The first image presents a list of school construction sites closer to the users' location. The second image shows that the school construction selected by the user is delayed by 9 months. The last image shows how citizens can add information to the photos they submit via the app.} 
 \label{fig:screenshots}
@@ -125,12 +116,12 @@ The TDP has also received feedback from Brazilian computer programmers and polic
 # Experimental Design
 \label{sec:design}
 
-Between August 2017 and February 2019, we implemented two interventions to measure the effect of the TDP app on five school construction outcomes plus a placebo outcome. The outcomes are: 1) a placebo outcome indicating the percentage of the project completed before the impact evaluation started; 2) the percentage of the project completed by the end of the interventions; 3) the difference between the percentage reported as completed before and after the interventions; 4) the number of finished constructions; 5) the number of cancelled constructions; 6) the number of schools where construction companies updated the conclusion dates. In terms of expectations, Table \ref{tableOuctExp} depicts the expected effects for each of the studied outcomes.
+Between August 2017 and February 2019, we implemented two interventions to measure the effect of the TDP app on five school construction outcomes plus a placebo outcome. The outcomes are: 1) a placebo outcome indicating the percentage of the project completed before the impact evaluation started; 2) the percentage of the project completed by the end of the interventions; 3) the difference between the percentage reported as completed before and after the interventions; 4) the number of finished constructions; 5) the number of cancelled constructions; 6) the number of schools where construction companies updated the conclusion dates. In terms of expectations, Table \ref{tab:outcomes} depicts the expected effects for each of the studied outcomes.
 
 \begin{table}[htb!]
 \centering
 \caption{Outcomes and expected effect of the TDP intervention}
-\label{tableOuctExp}
+\label{tab:outcomes}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{lcl}
 \hline
@@ -151,13 +142,13 @@ To evaluate the random assignment, we used the following pre-treatment variables
 
 We also conducted two manipulation checks and analysed the number of TDP app downloads by municipality and over time. Figure \ref{fig:manipulation1} displays the results and indicates that the treatment has good territorial variability. There are `r length(unique(ga$municipality[ga$phase1==1]))` downloads in the `r length(unique(impEvalph1$municipality[impEvalph1$treatOriginal==1]))` municipalities in the treatment condition. Downloads peak during the Facebook TDP campaign, launched in October 2017, then diminish in the following months. 
 
-```{r man1, echo=FALSE, warning=FALSE, messages=FALSE, error=FALSE, out.width='.49\\linewidth', fig.width=4, fig.height=3.1, fig.show='hold', fig.align='center', fig.cap='\\label{fig:manipulation1}Manipulation checks for intervention 1. The first plot shows the geographical distribution of the treatment condition and the second graph displays the number of TDP app downloads from August 2017 to February 2018.'}
+```{r man1, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, cache=TRUE, out.width='.49\\linewidth', fig.width=4, fig.height=3.5, fig.show='hold', fig.align='center', fig.cap='\\label{fig:manipulation1}Manipulation checks for intervention 1. The first plot shows the geographical distribution of the treatment condition and the second graph displays the number of TDP app downloads from August 2017 to February 2018.'}
 
 # Load data 
 load('tdp.RData')
 
 # Load packages
-pkgs <- c('tidyverse', 'dummies', 
+pkgs <- c('tidyverse', 'dummies', 'ggpubr',
           'haven', 'compareGroups', 
           'devtools', 'lubridate', 'brazilmaps',
           'abjutils', 'lfe', 'cobalt', 
@@ -229,12 +220,12 @@ The second intervention is similar to intervention 1 in all but three characteri
 
 Balance tests and manipulation checks were also successful for intervention 2. In total, `r sum(gaaux$Downloads == 'Downloads')` municipalities downloaded the app. There is one download peak in August 2018, right after intervention 2 starts, and a second spike around December. The number of downloads is considerably smaller in this second intervention when compared to intervention 1 as there was no associated social media campaign in that period. 
 
-```{r man2, echo=FALSE, warning=FALSE, messages=FALSE, error=FALSE, out.width='.49\\linewidth', fig.width=4, fig.height=3.2, fig.show='hold', fig.align='center', fig.cap='\\label{fig:manipulation2}Manipulation checks for intervention 2. The graphs display the geographical and temporal variation of TDP app downloads from August 2018 to February 2019.'}
+```{r man2, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, cache=TRUE, out.width='.49\\linewidth', fig.width=4, fig.height=3.3, fig.show='hold', fig.align='center', fig.cap='\\label{fig:manipulation2}Manipulation checks for intervention 2. The graphs display the geographical and temporal variation of TDP app downloads from August 2018 to February 2019.'}
 # Load data 
 load('tdp.RData')
 
 # Load packages
-pkgs <- c('tidyverse', 'dummies',
+pkgs <- c('tidyverse', 'dummies', 'ggpubr',
           'haven', 'compareGroups', 
           'devtools', 'lubridate', 'brazilmaps',
           'abjutils', 'lfe', 'cobalt', 
@@ -293,11 +284,11 @@ where $i$ indexes the experiment units. $Y_i$ is one of the six outcomes describ
 
 Table \ref{tab:results1} summarises the main results of intervention 1. Each column represents the treatment effect of the TDP app on one of the outcomes we measured for this study. All models reported here include the five control variables described in the previous section and Brazilian states' fixed effects. We also estimated the models without control variables, without fixed effects and with nearest-neighbour matching. The results are very similar to those below.
 
-```{r int1, echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
+```{r int1, echo=FALSE, warning=FALSE, message=FALSE, results='hide', cache=TRUE}
 load('tdp.RData')
 
 # Load packages
-pkgs <- c('tidyverse', 'dummies', 
+pkgs <- c('tidyverse', 'dummies', 'ggpubr',
           'haven', 'compareGroups', 
           'devtools', 'lubridate', 'brazilmaps',
           'abjutils', 'lfe', 'cobalt', 
@@ -312,19 +303,20 @@ calcATEs <- function(outcs, treats, ctrls, fes, cls, dat, wts = NULL, ...) {
   fes_mod <- paste(fes, collapse = '+')
   moddescr <- data.frame()
   mods <- list()
-  if(is.null(wts)) {
-    dat <- dat %>%
-      select(one_of(c(outcs, treats, ctrls, fes, cls))) %>%
-      na.omit()
-  } else {
-    dat <- dat %>%
-      select(one_of(c(outcs, treats, ctrls, fes, cls, wts))) %>%
-      na.omit()
-    wts <- dat[,wts]
-  }
+  dataux <- dat
   k <- 1
   for (i in treats) {
     for (j in outcs) {
+      if(is.null(wts)) {
+        dat <- dataux %>%
+          select(one_of(c(j, treats, ctrls, fes, cls))) %>%
+          na.omit()
+        } else {
+          dat <- dataux %>%
+            select(one_of(c(j, treats, ctrls, fes, cls, wts))) %>%
+            na.omit()
+          wts <- dat[,wts]
+        }
       # No controls and no fes
       mods[[k]] <- felm(as.formula(
         paste(c(j,paste(i,paste('',0,0,cls, sep = '|'), sep = '')),
@@ -349,7 +341,8 @@ calcATEs <- function(outcs, treats, ctrls, fes, cls, dat, wts = NULL, ...) {
       # No controls and fes
       mods[[k]] <- felm(
         as.formula(paste(c(j,paste(paste(c(i), collapse = '+'),
-                                   paste('',fes_mod,0,cls, sep = '|'), sep = '')),
+                                   paste('',fes_mod,0,cls, sep = '|'), 
+                                   sep = '')),
                          collapse = '~')), data = dat, weights = wts)
       moddescr <- rbind(moddescr, 
                         data.frame(outc = j, 
@@ -377,7 +370,7 @@ calcATEs <- function(outcs, treats, ctrls, fes, cls, dat, wts = NULL, ...) {
 ## Analysis Intervention 1
 ####
 
-## ATEs 
+## ATEs
 outcs <- c('percExecBegin', 'percExecEnd',
            'deltaPercExec', 'isFinished',
            'isCancelled', 'updDate')
@@ -390,18 +383,20 @@ cls <- c('municipality')
 resInt1 <- calcATEs(outcs, treats, ctrls, fes, cls, dat = impEvalph1)
 
 # Results intervention 1
-library(stargazer)
 stargazer(resInt1[[2]][[4]],resInt1[[2]][[8]],resInt1[[2]][[12]],
           resInt1[[2]][[16]],resInt1[[2]][[20]],resInt1[[2]][[24]],
           title = '\\label{tab:results1} Impact Evaluation -- Intervention 1', 
-          keep='treatTreatment', type = 'latex',
+          keep='treatTreatment', 
+          type = 'latex',
           covariate.labels = 'ATE',
           column.labels = c("Investment & Investment & Delta & Finished & Cancelled & Updated \\\\ & Before & After & Investment & Construction & Construction & Date \\\\"),
           dep.var.labels.include=F, column.sep.width = '-2pt',
           omit.stat=c('adj.rsq', 'ser'), align=F, digits=2,
           notes = 'Cluster-robust SEs at the municipality level.',
-          add.lines = list(c("Controls", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes"),
-            c("State fixed effects", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes")),
+          add.lines = list(c("Controls", "Yes", "Yes", "Yes", 
+                             "Yes", "Yes", "Yes"),
+            c("State fixed effects", "Yes", "Yes", "Yes",
+              "Yes", "Yes", "Yes")),
           notes.append = T, header=FALSE)
 ```
 
@@ -415,17 +410,17 @@ stargazer(resInt1[[2]][[4]],resInt1[[2]][[8]],resInt1[[2]][[12]],
 \hline \\[-1.8ex] 
  & \multicolumn{6}{c}{\textit{Dependent variable:}} \\ 
 \cline{2-7} 
- & Investment & Investment & Delta & Finished & Cancelled & Updated \\ & Before & After & Investment & Construction & Construction & Date \\
+ & Investment & Investment & Delta & Finished & Cancelled & Updated \\ & Before & After & Investment & Construction & Construction & Date \\ &  &  &  &  &  \\ 
 \\[-1.8ex] & (1) & (2) & (3) & (4) & (5) & (6)\\ 
 \hline \\[-1.8ex] 
- ATE & $-$0.29 & $-$0.97 & $-$0.68 & 0.07$^{***}$ & 0.001 & 0.06 \\ 
-  & (2.40) & (2.48) & (1.26) & (0.01) & (0.001) & (0.04) \\ 
+ ATE & 1.26 & 1.83 & 0.57 & 0.05$^{***}$ & 0.03$^{***}$ & 0.06 \\ 
+  & (2.69) & (3.06) & (0.93) & (0.01) & (0.01) & (0.04) \\ 
   & & & & & & \\ 
 \hline \\[-1.8ex] 
 Controls & Yes & Yes & Yes & Yes & Yes & Yes \\ 
-State Fixed Effects & Yes & Yes & Yes & Yes & Yes & Yes \\ 
-Observations & 2,352 & 2,352 & 2,352 & 2,352 & 2,352 & 2,352 \\ 
-R$^{2}$ & 0.04 & 0.05 & 0.08 & 0.03 & 0.01 & 0.08 \\ 
+State fixed effects & Yes & Yes & Yes & Yes & Yes & Yes \\ 
+Observations & 3,602 & 3,602 & 3,602 & 3,602 & 3,602 & 2,352 \\ 
+R$^{2}$ & 0.13 & 0.13 & 0.05 & 0.03 & 0.05 & 0.08 \\ 
 \hline 
 \hline \\[-1.8ex] 
 \textit{Note:}  & \multicolumn{6}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
@@ -433,21 +428,22 @@ R$^{2}$ & 0.04 & 0.05 & 0.08 & 0.03 & 0.01 & 0.08 \\
 \end{tabular} 
 \end{table} 
 
-We find that the intervention is sufficient to improve school completion rates. The TDP application increases in `r round(100*resInt1[[2]][[16]]$coefficients[1], 1)` percent the chance that a school construction is reported as finished by the end of the intervention. This is in line with our theoretical expectations, but as we discuss below, the finding is not consistent. All other coefficients are not statistically significant at conventional levels. On the one hand, the results indicate that our placebo outcome, the percentage of the invested executed before the intervention, indeed behaves as predicted. On the other hand, we expected the four remaining outcomes to improve after the introduction of the app. The literature on bottom-up accountability argues that more information about the shortcomings of public service provision will mobilise citizens who, in turn, would pressure state agents to produce better social policies. Our results do not lend support to that hypothesis.
+We find that the intervention is sufficient to improve school completion and cancellation rates. The TDP application increases in `r round(100*resInt1[[2]][[16]]$coefficients[1], 0)` percent the chance that a school construction is reported as finished by the end of the intervention. The treatment also increases the likelihood of cancelling the construction in `r round(100*resInt1[[2]][[20]]$coefficients[1], 0)` percent. While the first result is in line with our theoretical expectations, the second one goes in the opposite direction. But as we discuss below, the findings are inconsistent and do not replicate in the second experiment. All other coefficients are not statistically significant at conventional levels. On the one hand, the results indicate that our placebo outcome, the percentage of the invested executed before the intervention, indeed behaves as predicted. On the other hand, we expected the four remaining outcomes to improve after the introduction of the app. The literature on bottom-up accountability argues that more information about the shortcomings of public service provision will mobilise citizens who, in turn, would pressure state agents to produce better social policies. Our results do not lend support to that hypothesis.
 
-We observe a similar pattern in the second intervention. Table \ref{tab:results2} shows that the treatment does not have a statistically significant effect on any our outcomes of interest, including the placebo. This provides evidence that our previous findings are not a statistical fluke, and questions the robustness of the effect of the TDP app on school completion. Nevertheless, in our additional tests we find that the app improved the difference between the baseline and the end-line reported investment by 1.57 percent. This effect only reaches statistical significance when we employ inverse probability weights with block randomisation and one-to-one nearest neighbourhood matching. 
+Table \ref{tab:results2} shows the results of the second intervention. The treatment does not have a statistically significant effect on any our outcomes of interest, including the placebo. This raises further questions about the effect of the TDP app on school completion. Nevertheless, in our additional tests we find that the app improved the difference between the baseline and the end-line reported investment by 1.57 percent. However, the coefficient only reaches statistical significance when we employ inverse probability weights with block randomisation and one-to-one nearest neighbourhood matching. 
 
-```{r int2, echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
+```{r int2, echo=FALSE, warning=FALSE, message=FALSE, results='hide',cache=TRUE}
 load('tdp.RData')
 
 # Load packages
-pkgs <- c('tidyverse', 'dummies', 
+pkgs <- c('tidyverse', 'dummies', 'ggpubr',
           'haven', 'compareGroups', 
           'devtools', 'lubridate', 'brazilmaps',
           'abjutils', 'lfe', 'cobalt', 
           'MatchIt', 'ri2', 'DeclareDesign', 'knitr',
           'DiagrammeR', 'DiagrammeRsvg', 'rsvg', 
-          'flextable', 'officer', 'ggthemes')
+          'flextable', 'officer', 'ggthemes', 
+          'stargazer')
 invisible(lapply(pkgs, require, character.only = T))
 
 # Auxiliary function: calculate coefficients
@@ -456,19 +452,20 @@ calcATEs <- function(outcs, treats, ctrls, fes, cls, dat, wts = NULL, ...) {
   fes_mod <- paste(fes, collapse = '+')
   moddescr <- data.frame()
   mods <- list()
-  if(is.null(wts)) {
-    dat <- dat %>%
-      select(one_of(c(outcs, treats, ctrls, fes, cls))) %>%
-      na.omit()
-  } else {
-    dat <- dat %>%
-      select(one_of(c(outcs, treats, ctrls, fes, cls, wts))) %>%
-      na.omit()
-    wts <- dat[,wts]
-  }
+  dataux <- dat
   k <- 1
   for (i in treats) {
     for (j in outcs) {
+      if(is.null(wts)) {
+        dat <- dataux %>%
+          select(one_of(c(j, treats, ctrls, fes, cls))) %>%
+          na.omit()
+        } else {
+          dat <- dataux %>%
+            select(one_of(c(j, treats, ctrls, fes, cls, wts))) %>%
+            na.omit()
+          wts <- dat[,wts]
+        }
       # No controls and no fes
       mods[[k]] <- felm(as.formula(
         paste(c(j,paste(i,paste('',0,0,cls, sep = '|'), sep = '')),
@@ -493,7 +490,8 @@ calcATEs <- function(outcs, treats, ctrls, fes, cls, dat, wts = NULL, ...) {
       # No controls and fes
       mods[[k]] <- felm(
         as.formula(paste(c(j,paste(paste(c(i), collapse = '+'),
-                                   paste('',fes_mod,0,cls, sep = '|'), sep = '')),
+                                   paste('',fes_mod,0,cls, sep = '|'), 
+                                   sep = '')),
                          collapse = '~')), data = dat, weights = wts)
       moddescr <- rbind(moddescr, 
                         data.frame(outc = j, 
@@ -520,7 +518,6 @@ calcATEs <- function(outcs, treats, ctrls, fes, cls, dat, wts = NULL, ...) {
 outcs <- c('percExecBegin', 'percExecEnd',
            'deltaPercExec', 'isFinished',
            'isCancelled', 'updDate')
-treats <- c('treat')
 ctrls <- c('logPop2015', 'ideb_ai_2015','ideb_af_2015',
            'log_poorFam2010', 'log_totTransf2016')
 fes <- c('state')
@@ -544,6 +541,7 @@ stargazer(resInt2[[2]][[4]],resInt2[[2]][[8]],resInt2[[2]][[12]],
             c("State Fixed Effects", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes")),
           notes.append = T, header=FALSE)
 ```
+
 \vspace{.5cm}
 
 \begin{table}[!htbp] \centering 
@@ -554,27 +552,28 @@ stargazer(resInt2[[2]][[4]],resInt2[[2]][[8]],resInt2[[2]][[12]],
 \hline \\[-1.8ex] 
  & \multicolumn{6}{c}{\textit{Dependent variable:}} \\ 
 \cline{2-7} 
- & Investment & Investment & Delta & Finished & Cancelled & Updated \\ & Before & After & Investment & Construction & Construction & Date \\ 
+ & Investment & Investment & Delta & Finished & Cancelled & Updated \\ & Before & After & Investment & Construction & Construction & Date \\ &  &  &  &  &  \\ 
 \\[-1.8ex] & (1) & (2) & (3) & (4) & (5) & (6)\\ 
 \hline \\[-1.8ex] 
- ATE & $-$0.60 & 0.05 & 0.65 & 0.003 & 0.002 & 0.00 \\ 
-  & (1.63) & (1.70) & (0.62) & (0.02) & (0.003) & (0.00) \\ 
+ ATE & $-$1.16 & $-$1.01 & 0.14 & $-$0.002 & $-$0.0001 & 0.00 \\ 
+  & (1.40) & (1.50) & (0.54) & (0.01) & (0.01) & (0.00) \\ 
   & & & & & & \\ 
 \hline \\[-1.8ex] 
 Controls & Yes & Yes & Yes & Yes & Yes & Yes \\ 
 State Fixed Effects & Yes & Yes & Yes & Yes & Yes & Yes \\ 
-Observations & 2,304 & 2,304 & 2,304 & 2,304 & 2,304 & 2,304 \\ 
-R$^{2}$ & 0.06 & 0.08 & 0.05 & 0.03 & 0.02 &  \\ 
+Observations & 3,364 & 3,364 & 3,364 & 3,364 & 3,364 & 2,304 \\ 
+R$^{2}$ & 0.10 & 0.10 & 0.03 & 0.02 & 0.18 &  \\ 
 \hline 
 \hline \\[-1.8ex] 
 \textit{Note:}  & \multicolumn{6}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
  & \multicolumn{6}{r}{Cluster-robust SEs at the municipality level.} \\ 
 \end{tabular} 
-\end{table}
+\end{table} 
 
-Figure \ref{fig:permtest} shows the results of our randomisation inference tests. Randomisation inference allows us to estimate the probability of the sharp null hypothesis over all possible randomisations that could have occurred under our research design [@coppock2019ri2; @gerber2012field]. We fail to reject the null in all specifications. 
+Figure \ref{fig:randomisation-inference} shows the results of our randomisation inference tests. Randomisation inference allows us to estimate the probability of the sharp null hypothesis over all possible randomisations that could have occurred under our research design [@coppock2019ri2; @gerber2012field]. We fail to reject the null in all but the finished school indicator in experiment 1. 
 
-```{r ri, echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
+```{r ri, echo=FALSE, warning=FALSE, message=FALSE, results='hide', cache=TRUE, fig.width=6.5, fig.height=8, fig.show='hold', fig.align='center', fig.cap='\\label{fig:randomisation-inference}Sampling distribution of the estimated coefficient for our six outcomes in two interventions. Graphs on the left correspond to randomisation inference estimates for intervention 1 and those on the right describe the results for intervention 2.'}
+# Chunk randomization inference
 load('tdp.RData')
 
 # Load packages
@@ -584,144 +583,208 @@ pkgs <- c('tidyverse', 'dummies',
           'abjutils', 'lfe', 'cobalt', 
           'MatchIt', 'ri2', 'DeclareDesign', 'knitr',
           'DiagrammeR', 'DiagrammeRsvg', 'rsvg', 
-          'flextable', 'officer', 'ggthemes')
+          'flextable', 'officer', 'ggthemes', 'ggpubr')
 invisible(lapply(pkgs, require, character.only = T))
 
-# Prep data
-dat <- data.frame(
-  Y = c(8, 6, 2, 0, 3, 1, 1, 1, 2, 2, 0, 1, 0, 2, 2, 4, 1, 1),
-  Z = c(1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0),
-  cluster = c(1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9),
-  block = c(rep(1, 4), rep(2, 6), rep(3, 8))
-)
-
-# clusters in blocks 1 and 3 have a 1/2 probability of treatment
-# but clusters in block 2 have a 2/3 probability of treatment
-block_m <- with(dat, tapply(Z, block, sum) / 2)
-declaration <- 
-  with(dat,{
-    declare_ra(
-      blocks = block,
-      clusters = cluster,
-      block_m = block_m)
-  })
-
-declaration
-
-ri2_out <- conduct_ri(
-  Y ~ Z,
-  sharp_hypothesis = 0,
-  declaration = declaration,
-  data = dat
-)
-summary(ri2_out)
-
-# Randomization inference
-felm(as.formula(
-        paste(c(j,paste(paste(c(i,ctrls_mod), collapse = '+'),
-                        paste('',fes_mod,0,cls, sep = '|'), sep = '')),
-              collapse = '~')), data = dat, weights = wts)
-      moddescr <- rbind(moddescr, 
-                        data.frame(outc = j,
-                                   treat = i,
-                                   hCtrls = T,
-                                   hFEs = T))
-
-# Auxiliary function: calculate coefficients
-calcATEs <- function(outcs, treats, ctrls, fes, cls, zdat, wts = NULL, ...) {
+# Function for custom randomization inference
+test_fun <- function(dat, outc, treat, wts = NULL) {
   ctrls_mod <- paste(ctrls, collapse = '+')
   fes_mod <- paste(fes, collapse = '+')
   moddescr <- data.frame()
   mods <- list()
   if(is.null(wts)) {
     dat <- dat %>%
-      select(one_of(c(outcs, treats, ctrls, fes, cls))) %>%
+      select(one_of(c(outc, treat, ctrls, fes, cls))) %>%
       na.omit()
   } else {
     dat <- dat %>%
-      select(one_of(c(outcs, treats, ctrls, fes, cls, wts))) %>%
+      select(one_of(c(outc, treat, ctrls, fes, cls, wts))) %>%
       na.omit()
     wts <- dat[,wts]
   }
-  k <- 1
-  for (i in treats) {
-    for (j in outcs) {
-      # No controls and no fes
-      mods[[k]] <- felm(as.formula(
-        paste(c(j,paste(i,paste('',0,0,cls, sep = '|'), sep = '')),
+  aux <- 
+    felm(as.formula(
+      paste(c(outc,paste(paste(c(treat,ctrls_mod), collapse = '+'),
+                        paste('',fes_mod,0,cls, sep = '|'), sep = '')),
               collapse = '~')), data = dat, weights = wts)
-      moddescr <- rbind(moddescr, 
-                        data.frame(outc = j, 
-                                   treat = i,
-                                   hCtrls = F,
-                                   hFEs = F))
-      print(k); k = k+1
-      # Controls and no fes
-      mods[[k]] <- felm(as.formula(
-        paste(c(j,paste(paste(c(i,ctrls_mod), collapse = '+'),
-                        paste('',0,0,cls, sep = '|'), sep = '')),
-              collapse = '~')), data = dat, weights = wts)
-      moddescr <- rbind(moddescr, 
-                        data.frame(outc = j, 
-                                   treat = i,
-                                   hCtrls = T,
-                                   hFEs = F))
-      print(k); k = k+1
-      # No controls and fes
-      mods[[k]] <- felm(
-        as.formula(paste(c(j,paste(paste(c(i), collapse = '+'),
-                                   paste('',fes_mod,0,cls, sep = '|'), sep = '')),
-                         collapse = '~')), data = dat, weights = wts)
-      moddescr <- rbind(moddescr, 
-                        data.frame(outc = j, 
-                                   treat = i,
-                                   hCtrls = F,
-                                   hFEs = T))
-      print(k); k = k+1
-      # Controls and fes
-      
-      print(k); k = k+1
-    }
-  }
-  return(list(moddescr, mods))
+  return(aux$coefficients[1])
 }
 
 outcs <- c('percExecBegin', 'percExecEnd',
            'deltaPercExec', 'isFinished',
            'isCancelled', 'updDate')
-treats <- c('treat')
 ctrls <- c('logPop2015', 'ideb_ai_2015','ideb_af_2015',
            'log_poorFam2010', 'log_totTransf2016')
 fes <- c('state')
 cls <- c('municipality')
 
-resInt2 <- calcATEs(outcs, 'treatApp', ctrls, fes, cls, dat = impEvalph2)
+# First experiment
+set.seed(543129) #Random.org
+auxdat <- impEvalph1[,c('ibge_code7', outcs, ctrls, fes, cls)]
+aux2 <- unique(impEvalph1[,c('ibge_code7', 'treat')]) %>% na.omit()
+N = sum(table(aux2$treat))
+Ctrl = 150
+resri1 <- data.frame(1:1000)
+for (k in 1:1000) {
+    treat <- c(rep(1,N-Ctrl), rep(0,Ctrl))
+    treat <- sample(treat, N)
+    aux2 <- data.frame(aux2, treat = treat)
+}
+auxdat <- left_join(auxdat, aux2)
+for (i in outcs) {
+  res <- numeric()
+  for (k in 1:1000) 
+    res[k] <- test_fun(auxdat, i, paste('treat', k, sep = '.'))
+  resri1 <- data.frame(resri1, res)
+  names(resri1)[names(resri1)=='res'] = i
+}
+resri1 <- resri1[,-1]
+i1h1 <- ggplot(data=resri1, aes(resri1$percExecBegin)) + 
+  geom_histogram(bins = 100) + 
+  geom_vline(xintercept = test_fun(impEvalph1, 'percExecBegin', 'treat'),
+             lwd = 1, lty = 2) +
+  labs(x="Percentage Completed Before\n(placebo)", y="Frequency")
+i1h2 <- ggplot(data=resri1, aes(resri1$percExecEnd)) + 
+  geom_histogram(bins = 100) + 
+  geom_vline(xintercept = test_fun(impEvalph1, 'percExecEnd', 'treat'),
+             lwd = 1, lty = 2) +
+  labs(x="Percentage Completed End Intervention", y="Frequency")
+i1h3 <- ggplot(data=resri1, aes(resri1$deltaPercExec)) + 
+  geom_histogram(bins = 100) + 
+  geom_vline(xintercept = test_fun(impEvalph1, 'deltaPercExec', 'treat'),
+             lwd = 1, lty = 2) +
+  labs(x="Diff. Pct. Completed Before and After", y="Frequency")
+i1h4 <- ggplot(data=resri1, aes(resri1$isFinished)) + 
+  geom_histogram(bins = 100) + 
+  geom_vline(xintercept = test_fun(impEvalph1, 'isFinished', 'treat'),
+             lwd = 1, lty = 2) +
+  labs(x="Finished School Construction Indicator", y="Frequency")
+i1h5 <- ggplot(data=resri1, aes(resri1$isCancelled)) + 
+  geom_histogram(bins = 100) + 
+  geom_vline(xintercept = test_fun(impEvalph1, 'isCancelled', 'treat'),
+             lwd = 1, lty = 2) +
+  labs(x="Cancelled School Construction Indicator", y="Frequency")
+i1h6 <- ggplot(data=resri1, aes(resri1$updDate)) + 
+  geom_histogram(bins = 100) + 
+  geom_vline(xintercept = test_fun(impEvalph1, 'updDate', 'treat'),
+             lwd = 1, lty = 2) +
+  labs(x="Updated Endline Date School Construction", y="Frequency")
 
-# Results intervention 2
-library(stargazer)
-stargazer(resInt2[[2]][[4]],resInt2[[2]][[8]],resInt2[[2]][[12]],
-          resInt2[[2]][[16]],resInt2[[2]][[20]],resInt2[[2]][[24]],
-          title = '\\label{tab:results2} Impact Evaluation -- Intervention 2',
-          dep.var.labels.include=F, 
-          keep='treatAppTreatment', type = 'latex',
-          covariate.labels = 'ATE',
-          column.labels = c("Investment & Investment & Delta & Finished & Cancelled & Updated \\\\ & Before & After & Investment & Construction & Construction & Date \\\\"),
-          column.sep.width = '-2pt',
-          omit.stat=c('adj.rsq', 'ser'), align=F, digits=2,
-          notes = 'Cluster-robust SEs at the municipality level.',
-          add.lines = list(c("Controls", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes"),
-            c("State Fixed Effects", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes")),
-          notes.append = T, header=FALSE)
+## Intervention 2
+# Declare RA
+aux <- filter(rand2018, !is.na(Z_intheapp))
+declRA <- declare_ra(blocks = aux$var_blocking,
+                     prob_each = c(.85,.15), 
+                     conditions = c(1, 0))
+
+# Function for custom randomization inference
+test_fun <- function(dat, outc, treat, wts = NULL) {
+  ctrls_mod <- paste(ctrls, collapse = '+')
+  fes_mod <- paste(fes, collapse = '+')
+  moddescr <- data.frame()
+  mods <- list()
+  if(is.null(wts)) {
+    dat <- dat %>%
+      select(one_of(c(outc, treat, ctrls, fes, cls))) %>%
+      na.omit()
+  } else {
+    dat <- dat %>%
+      select(one_of(c(outc, treat, ctrls, fes, cls, wts))) %>%
+      na.omit()
+    wts <- dat[,wts]
+  }
+  aux <- 
+    felm(as.formula(
+      paste(c(outc,paste(paste(c(treat,ctrls_mod), collapse = '+'),
+                        paste('',fes_mod,0,cls, sep = '|'), sep = '')),
+              collapse = '~')), data = dat, weights = wts)
+  return(aux$coefficients[1])
+}
+
+outcs <- c('percExecBegin', 'percExecEnd',
+           'deltaPercExec', 'isFinished',
+           'isCancelled', 'updDate')
+ctrls <- c('logPop2015', 'ideb_ai_2015','ideb_af_2015',
+           'log_poorFam2010', 'log_totTransf2016')
+fes <- c('state')
+cls <- c('municipality')
+
+# First experiment
+set.seed(543129) #Random.org
+auxdat <- impEvalph2[,c('id_project', outcs, ctrls, fes, cls)]
+aux2 <- unique(aux[,c('id', 'Z_intheapp', 'IPW_intheapp')]) %>%
+  na.omit() %>%
+  rename(id_project = id,
+         treat = Z_intheapp,
+         wts = IPW_intheapp) %>%
+  mutate(treat = as.numeric(as.factor(treat))-1)
+resri2 <- data.frame(1:1000)
+for (k in 1:1000) {
+    Z <- block_ra(blocks = aux$var_blocking, 
+                  conditions = c(1, 0),
+                  prob_each = c(.85,.15))
+    IPW <- 1/obtain_condition_probabilities(declRA, Z)
+    aux2 <- data.frame(aux2, treat = Z, wts = IPW)
+}
+auxdat <- left_join(auxdat, aux2)
+for (i in outcs) {
+  res <- numeric()
+  for (k in 1:1000) 
+    res[k] <- test_fun(auxdat, i, paste('treat', k, sep = '.'))
+  resri2 <- data.frame(resri2, res)
+  names(resri2)[names(resri2)=='res'] = i
+}
+resri2 <- resri2[,-1]
+i2h1 <- ggplot(data=resri2, aes(resri2$percExecBegin)) + 
+  geom_histogram(bins = 100) + 
+  geom_vline(xintercept = test_fun(impEvalph2, 'percExecBegin', 'treatApp'),
+             lwd = 1, lty = 2) +
+  labs(x="Percentage Completed Before\n(placebo)", y="Frequency")
+i2h2 <- ggplot(data=resri2, aes(resri2$percExecEnd)) + 
+  geom_histogram(bins = 100) + 
+  geom_vline(xintercept = test_fun(impEvalph2, 'percExecEnd', 'treatApp'),
+             lwd = 1, lty = 2) +
+  labs(x="Percentage Completed End Intervention", y="Frequency")
+i2h3 <- ggplot(data=resri2, aes(resri2$deltaPercExec)) + 
+  geom_histogram(bins = 100) + 
+  geom_vline(xintercept = test_fun(impEvalph2, 'deltaPercExec', 'treatApp'),
+             lwd = 1, lty = 2) +
+  labs(x="Diff. Pct. Completed Before and After", y="Frequency")
+i2h4 <- ggplot(data=resri2, aes(resri2$isFinished)) + 
+  geom_histogram(bins = 100) + 
+  geom_vline(xintercept = test_fun(impEvalph2, 'isFinished', 'treatApp'),
+             lwd = 1, lty = 2) +
+  labs(x="Finished School Construction Indicator", y="Frequency")
+i2h5 <- ggplot(data=resri2, aes(resri2$isCancelled)) + 
+  geom_histogram(bins = 100) + 
+  geom_vline(xintercept = test_fun(impEvalph2, 'isCancelled', 'treatApp'),
+             lwd = 1, lty = 2) +
+  labs(x="Cancelled School Construction Indicator", y="Frequency")
+i2h6 <- ggplot(data=resri2, aes(resri2$updDate)) + 
+  geom_histogram(bins = 100) + 
+  geom_vline(xintercept = test_fun(impEvalph2, 'updDate', 'treatApp'),
+             lwd = 1, lty = 2) +
+  labs(x="Updated Endline Date School Construction", y="Frequency")
+
+ggarrange(i1h1, i2h1, 
+          i1h2, i2h2, 
+          i1h3, i2h3, 
+          i1h4, i2h4, 
+          i1h5, i2h5, 
+          i1h6, i2h6, 
+          labels = rep(c("Int. 1", "Int. 2"), 6),
+          label.x = .1,
+          ncol = 2, nrow = 6)
 ```
 
-We also note that the effect sizes are small in each of our original models. Therefore, even if the treatment effects were statistically significant, the TDP app would have a reduced impact over the outcomes. This has an important substantive meaning, as it poses a direct challenge to the bottom-up accountability theory, at least for the school construction outcomes we investigated here. 
+We also note that effect sizes are small in all estimations and coefficients flip signs in all but one of our six dependent variables. This provides further evidence for the null results: not only the app would have a low impact even if the treatment were significant, but the results could go against what the bottom-up accountability theory predicts. At least in the school construction outcomes we investigate here, we find little evidence that grassroots monitoring works.
 
 # Discussion
 \label{sec:discussion}
 
-In this paper, we discuss whether a mobile phone application can foster grassroots mobilisation and political accountability in Brazil. Our two interventions show that the results are mixed. Although we find an effect on school construction in the first intervention and on the number of complaints in the second one, the app has no consistent impact on our outcomes of interest. The findings add further evidence to the studies that cast doubts on the relationship between bottom-up accountability and local policy performance [e.g., @banerjee2010pitfalls; @lieberman2014does; @raffler2018weakness].
+In this paper, we discuss whether a mobile phone application can foster grassroots mobilisation and political accountability in Brazil. Our two interventions show that the results are at best mixed. Although we find an effect on school construction completion and cancelling rates in the first intervention, the app has no consistent impact on our outcomes of interest. These findings add to the studies that cast doubts on the relationship between bottom-up accountability and local policy performance [e.g., @banerjee2010pitfalls; @lieberman2014does; @raffler2018weakness].
 
-What factors, then, are driving these results? It seems unlikely that the null results derive from flaws in the research design. First, our study is well powered. Although the treatment is indirect, meaning that the person has to download the app, find a school construction, and then report it, we included a substantial number of municipalities in treatment groups. We should be able to capture small average treatment effects if they exist. Second, balance and manipulation tests indicate that the treatment allocation was successful, so we can rule out problems in the randomisation procedures. Third, after doing a series of robustness tests --- including matching and randomised inference --- we still find no firm evidence of treatment effect. Finally, note that the sign of the coefficients are frequently contrary to our theoretical expectations. This rules out a possible concern about statistical power with our small control group approach.
+What factors, then, are driving these results? It seems unlikely that the null results derive from flaws in the research design. First, our study is well powered. Although the treatment is indirect, meaning that the person has to download the app, find a school construction, and then report it, we included a substantial number of schools in the treatment groups. Second, balance and manipulation tests indicate that the treatment allocation was successful, so we can rule out problems in the randomisation procedures. Third, after doing a series of robustness tests, we still find no firm evidence of treatment effect. Finally, note that the sign of the coefficients are frequently contrary to our theoretical expectations. This rules out a possible concern about statistical power with our small control group approach.
 
 A plausible explanation is that individuals were unable to differentiate the effect of political corruption from those of spending cuts. Due to the severe economic crisis in 2014--2016, the Brazilian federal government introduced discretionary spending limits that affected public investment [@mello2016fix; @rossi2016impactos]. Politicians may argue that delays in school constructions are not derived from their misuse of government funds, but from the austerity measures. If this is the case, citizens will not blame local politicians for the underprovision of public goods. Consequently, representatives can dismiss individual requests as the issue is unlikely to escalate.
 
