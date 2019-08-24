@@ -29,6 +29,8 @@ $endif$
 \usepackage{makecell}
 \usepackage{etoolbox}
 \usepackage{tocloft}
+\renewcommand{\thesection}{\Alph{section}}
+\renewcommand{\thesubsection}{\Roman{subsection}}
 
 % Dots in toc
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
@@ -54,9 +56,6 @@ $endif$
 \usepackage{float}
 \floatplacement{figure}{H}
 \usepackage{pgf}
-\usepackage{tikz}
-\usetikzlibrary{arrows}
-\usetikzlibrary{positioning}
 \usepackage{mathtools}
 \usepackage{caption}
 
@@ -349,6 +348,8 @@ $endif$
 $for(include-before)$
 $include-before$
 $endfor$
+
+\newpage 
 
 % Table of Contents
 $if(toc)$

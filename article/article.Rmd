@@ -572,7 +572,7 @@ R$^{2}$ & 0.10 & 0.10 & 0.03 & 0.02 & 0.18 &  \\
 
 Figure \ref{fig:randomisation-inference} shows the results of our randomisation inference tests. Randomisation inference allows us to estimate the probability of the sharp null hypothesis over all possible randomisations that could have occurred under our research design [@coppock2019ri2; @gerber2012field]. We fail to reject the null in all but the finished school indicator in experiment 1. 
 
-```{r ri, echo=FALSE, warning=FALSE, message=FALSE, results='hide', cache=TRUE, fig.width=6.5, fig.height=8, fig.show='hold', fig.align='center', fig.cap='\\label{fig:randomisation-inference}Sampling distribution of the estimated coefficient for our six outcomes in two interventions. Graphs on the left correspond to randomisation inference estimates for intervention 1 and those on the right describe the results for intervention 2.'}
+```{r ri, echo=FALSE, warning=FALSE, message=FALSE, results='hide', cache=TRUE, fig.width=7, fig.height=8, fig.show='hold', fig.align='center', fig.cap='\\label{fig:randomisation-inference}Sampling distribution of the estimated coefficient for our six outcomes in two interventions. Graphs on the left correspond to randomisation inference estimates for intervention 1 and those on the right describe the results for intervention 2.'}
 # Chunk randomization inference
 load('tdp.RData')
 
@@ -773,7 +773,8 @@ ggarrange(i1h1, i2h1,
           i1h5, i2h5, 
           i1h6, i2h6, 
           labels = rep(c("Int. 1", "Int. 2"), 6),
-          label.x = .1,
+          label.x = .16, label.y = .9,
+          font.label = list(size = 12, color = "black", face = "plain"),
           ncol = 2, nrow = 6)
 ```
 

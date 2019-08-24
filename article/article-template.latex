@@ -69,16 +69,6 @@ $endif$
 \widowpenalty=1000
 \clubpenalty=1000
 
-% Back references
-\renewcommand*{\backref}[1]{}
-\renewcommand*{\backrefalt}[4]{%
-    \ifcase #1 (Not cited.)%
-    \or        Cited on page~#2.%
-    \else      Cited on pages~#2.%
-    \fi}
-\renewcommand{\backreftwosep}{ and~} 
-\renewcommand{\backreflastsep}{ and~}
-
 % Hypersetup
 \hypersetup{
   linkcolor=$if(linkcolor)$$linkcolor$$else$Mahogany$endif$,
