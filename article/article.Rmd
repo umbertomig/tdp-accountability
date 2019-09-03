@@ -178,7 +178,7 @@ gaaux$downl[is.na(gaaux$downl)] = 2
 gaaux$Downloads <- factor(gaaux$downl, labels = c('No Downloads', 'Downloads', 'Not in App'))
 mapbr <- join_data(mapbr, gaaux, by = 'City')
 pMapDownloadsInt1 <- ggplot() + 
-  geom_sf(data = mapbr, aes(fill = Downloads), lwd = 0.02) +
+  geom_sf(data = mapbr, aes(fill = Downloads), lwd = 0.01) +
   scale_fill_manual(values=c( "#E69F00", "#0072B2", "#F0E442")) +
   theme_map()
 pMapDownloadsInt1
@@ -234,7 +234,7 @@ gaaux$Downloads <- factor(gaaux$downl, labels = c('No Downloads', 'Downloads',
                                                   'Not in App'))
 mapbr <- join_data(mapbr, gaaux, by = 'City')
 p1 <- ggplot() + 
-  geom_sf(data = mapbr, aes(fill = Downloads), lwd = 0.02) +
+  geom_sf(data = mapbr, aes(fill = Downloads), lwd = 0.01) +
   scale_fill_manual(values=c( "#E69F00", "#0072B2", "#F0E442")) +
   theme_map()
 p1
