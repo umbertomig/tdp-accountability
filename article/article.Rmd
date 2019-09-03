@@ -166,7 +166,7 @@ gaaux <- select(gaaux, ibge_code7, downl)
 gaaux <- rename(gaaux, City = ibge_code7)
 gaaux <- unique(gaaux)
 gaaux$City <- as.numeric(gaaux$City)
-gaaux2 <- impact_evaluation_phase2 %>%
+gaaux2 <- impact_evaluation_phase1 %>%
   select(ibge_code7) %>%
   transmute(City = as.numeric(ibge_code7)) %>%
   unique()

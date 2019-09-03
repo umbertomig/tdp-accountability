@@ -122,7 +122,7 @@ gaaux <- select(gaaux, ibge_code7, downl)
 gaaux <- rename(gaaux, City = ibge_code7)
 gaaux <- unique(gaaux)
 gaaux$City <- as.numeric(gaaux$City)
-gaaux2 <- impact_evaluation_phase2 %>%
+gaaux2 <- impact_evaluation_phase1 %>%
   select(ibge_code7) %>%
   transmute(City = as.numeric(ibge_code7)) %>%
   unique()
@@ -135,7 +135,7 @@ gaaux$Downloads <- factor(gaaux$downl, labels = c('No Downloads', 'Downloads',
                                                   'Not in App'))
 mapbr <- join_data(mapbr, gaaux, by = 'City')
 pMapDownloadsInt1 <- ggplot() + 
-  geom_sf(data = mapbr, aes(fill = Downloads), lwd = 0.02) +
+  geom_sf(data = mapbr, aes(fill = Downloads), lwd = 0.01) +
   scale_fill_manual(values=c( "#E69F00", "#0072B2", "#F0E442")) +
   theme_map()
 pMapDownloadsInt1
@@ -171,7 +171,7 @@ gaaux$Downloads <- factor(gaaux$downl, labels = c('No Downloads', 'Downloads',
                                                   'Not in App'))
 mapbr <- join_data(mapbr, gaaux, by = 'City')
 p1 <- ggplot() + 
-  geom_sf(data = mapbr, aes(fill = Downloads), lwd = 0.02) +
+  geom_sf(data = mapbr, aes(fill = Downloads), lwd = 0.01) +
   scale_fill_manual(values=c( "#E69F00", "#0072B2", "#F0E442")) +
   theme_map()
 p1
