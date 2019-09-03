@@ -65,13 +65,13 @@ invisible(lapply(pkgs, installIfNot))
 invisible(lapply(pkgs, require, character.only = T)); rm(pkgs, installIfNot)
 
 # Load Data 
-load('tdp.RData')
+load('../article/tdp.RData')
 
 # Covariate Balance -- Intervention 1
-aux <- select(impEvalph1, treatOriginal, logPop2015, ideb_ai_2015, 
+aux <- select(impact_evaluation_phase1, treat, logPop2015, ideb_ai_2015, 
               ideb_af_2015, log_poorFam2010, log_totTransf2016) %>% unique()
 
-resu1 <- compareGroups(treatOriginal ~ logPop2015 + log_poorFam2010 +
+resu1 <- compareGroups(treat ~ logPop2015 + log_poorFam2010 +
                          log_totTransf2016 + ideb_ai_2015 + ideb_af_2015,
                        data = aux)
 
@@ -93,10 +93,10 @@ In intervention 2, we randomised the treatment at the school level. We placed 15
 
 ```{r}
 ## Covariate balance
-aux <- select(impEvalph2, logPop2015, treatApp, ideb_ai_2015,
+aux <- select(impact_evaluation_phase2, treat, logPop2015, ideb_ai_2015,
               ideb_af_2015, log_poorFam2010, log_totTransf2016)
 
-resu1 <- compareGroups(treatApp ~ logPop2015 + log_poorFam2010 +
+resu1 <- compareGroups(treat ~ logPop2015 + log_poorFam2010 +
                          log_totTransf2016 + ideb_ai_2015 + ideb_af_2015,
                        data = aux)
 
@@ -122,7 +122,7 @@ gaaux <- select(gaaux, ibge_code7, downl)
 gaaux <- rename(gaaux, City = ibge_code7)
 gaaux <- unique(gaaux)
 gaaux$City <- as.numeric(gaaux$City)
-gaaux2 <- impEvalph2 %>%
+gaaux2 <- impact_evaluation_phase2 %>%
   select(ibge_code7) %>%
   transmute(City = as.numeric(ibge_code7)) %>%
   unique()
@@ -158,7 +158,7 @@ gaaux <- select(gaaux, ibge_code7, downl)
 gaaux <- rename(gaaux, City = ibge_code7)
 gaaux <- unique(gaaux)
 gaaux$City <- as.numeric(gaaux$City)
-gaaux2 <- impEvalph2 %>%
+gaaux2 <- impact_evaluation_phase2 %>%
   select(ibge_code7) %>%
   transmute(City = as.numeric(ibge_code7)) %>%
   unique()
@@ -194,7 +194,7 @@ p2
 The code below replicates the findings of table 1 in the manuscript.
 
 ```{r int1, echo=FALSE, warning=FALSE, message=FALSE, results='hide', cache=TRUE}
-load('tdp.RData')
+load('../article/tdp.RData')
 
 # Load packages
 pkgs <- c('tidyverse', 'dummies', 'ggpubr',
@@ -220,16 +220,17 @@ calcATEs <- function(outcs, treats, ctrls, fes, cls, dat, wts = NULL, ...) {
         dat <- dataux %>%
           select(one_of(c(j, treats, ctrls, fes, cls))) %>%
           na.omit()
-        } else {
+        wtsaux <- NULL
+      } else {
           dat <- dataux %>%
             select(one_of(c(j, treats, ctrls, fes, cls, wts))) %>%
             na.omit()
-          wts <- dat[,wts]
-        }
+          wtsaux <- dat[,wts]
+      }
       # No controls and no fes
       mods[[k]] <- felm(as.formula(
         paste(c(j,paste(i,paste('',0,0,cls, sep = '|'), sep = '')),
-              collapse = '~')), data = dat, weights = wts)
+              collapse = '~')), data = dat, weights = wtsaux)
       moddescr <- rbind(moddescr, 
                         data.frame(outc = j, 
                                    treat = i,
@@ -240,7 +241,7 @@ calcATEs <- function(outcs, treats, ctrls, fes, cls, dat, wts = NULL, ...) {
       mods[[k]] <- felm(as.formula(
         paste(c(j,paste(paste(c(i,ctrls_mod), collapse = '+'),
                         paste('',0,0,cls, sep = '|'), sep = '')),
-              collapse = '~')), data = dat, weights = wts)
+              collapse = '~')), data = dat, weights = wtsaux)
       moddescr <- rbind(moddescr, 
                         data.frame(outc = j, 
                                    treat = i,
@@ -252,7 +253,7 @@ calcATEs <- function(outcs, treats, ctrls, fes, cls, dat, wts = NULL, ...) {
         as.formula(paste(c(j,paste(paste(c(i), collapse = '+'),
                                    paste('',fes_mod,0,cls, sep = '|'), 
                                    sep = '')),
-                         collapse = '~')), data = dat, weights = wts)
+                         collapse = '~')), data = dat, weights = wtsaux)
       moddescr <- rbind(moddescr, 
                         data.frame(outc = j, 
                                    treat = i,
@@ -263,7 +264,7 @@ calcATEs <- function(outcs, treats, ctrls, fes, cls, dat, wts = NULL, ...) {
       mods[[k]] <- felm(as.formula(
         paste(c(j,paste(paste(c(i,ctrls_mod), collapse = '+'),
                         paste('',fes_mod,0,cls, sep = '|'), sep = '')),
-              collapse = '~')), data = dat, weights = wts)
+              collapse = '~')), data = dat, weights = wtsaux)
       moddescr <- rbind(moddescr, 
                         data.frame(outc = j, 
                                    treat = i,
@@ -289,7 +290,7 @@ ctrls <- c('logPop2015', 'ideb_ai_2015','ideb_af_2015',
 fes <- c('state')
 cls <- c('municipality')
 
-resInt1 <- calcATEs(outcs, treats, ctrls, fes, cls, dat = impEvalph1)
+resInt1 <- calcATEs(outcs, treats, ctrls, fes, cls, dat = impact_evaluation_phase1)
 
 # Results intervention 1
 stargazer(resInt1[[2]][[4]],resInt1[[2]][[8]],resInt1[[2]][[12]],
@@ -307,6 +308,58 @@ stargazer(resInt1[[2]][[4]],resInt1[[2]][[8]],resInt1[[2]][[12]],
             c("State fixed effects", "Yes", "Yes", "Yes",
               "Yes", "Yes", "Yes")),
           notes.append = T, header=FALSE)
+
+# Results intervention 1 -- No Controls and No Fixed Effects
+stargazer(resInt1[[2]][[1]],resInt1[[2]][[5]],resInt1[[2]][[9]],
+          resInt1[[2]][[13]],resInt1[[2]][[17]],resInt1[[2]][[21]],
+          title = '\\label{tab:results1} Impact Evaluation -- Intervention 1 \\\\ No Controls and No Fixed Effects', 
+          keep='treatTreatment', 
+          type = 'latex',
+          covariate.labels = 'ATE',
+          column.labels = c("Investment & Investment & Delta & Finished & Cancelled & Updated \\\\ & Before & After & Investment & Construction & Construction & Date \\\\"),
+          dep.var.labels.include=F, column.sep.width = '-2pt',
+          omit.stat=c('adj.rsq', 'ser'), align=F, digits=2,
+          notes = 'Cluster-robust SEs at the municipality level.',
+          add.lines = list(c("Controls", "No", "No", "No", 
+                             "No", "No", "No"),
+            c("State fixed effects", "No", "No", "No",
+              "No", "No", "No")),
+          notes.append = T, header=FALSE)
+
+# Results intervention 1 -- No Controls
+stargazer(resInt1[[2]][[3]],resInt1[[2]][[7]],resInt1[[2]][[11]],
+          resInt1[[2]][[15]],resInt1[[2]][[19]],resInt1[[2]][[23]],
+          title = '\\label{tab:results1} Impact Evaluation -- Intervention 1 \\\\ No Controls', 
+          keep='treatTreatment', 
+          type = 'latex',
+          covariate.labels = 'ATE',
+          column.labels = c("Investment & Investment & Delta & Finished & Cancelled & Updated \\\\ & Before & After & Investment & Construction & Construction & Date \\\\"),
+          dep.var.labels.include=F, column.sep.width = '-2pt',
+          omit.stat=c('adj.rsq', 'ser'), align=F, digits=2,
+          notes = 'Cluster-robust SEs at the municipality level.',
+          add.lines = list(c("Controls", "No", "No", "No", 
+                             "No", "No", "No"),
+            c("State fixed effects", "Yes", "Yes", "Yes",
+              "Yes", "Yes", "Yes")),
+          notes.append = T, header=FALSE)
+
+# Results intervention 1 -- No Fixed Effects
+stargazer(resInt1[[2]][[2]],resInt1[[2]][[6]],resInt1[[2]][[10]],
+          resInt1[[2]][[14]],resInt1[[2]][[18]],resInt1[[2]][[22]],
+          title = '\\label{tab:results1} Impact Evaluation -- Intervention 1 \\\\ No Fixed Effects', 
+          keep='treatTreatment', 
+          type = 'latex',
+          covariate.labels = 'ATE',
+          column.labels = c("Investment & Investment & Delta & Finished & Cancelled & Updated \\\\ & Before & After & Investment & Construction & Construction & Date \\\\"),
+          dep.var.labels.include=F, column.sep.width = '-2pt',
+          omit.stat=c('adj.rsq', 'ser'), align=F, digits=2,
+          notes = 'Cluster-robust SEs at the municipality level.',
+          add.lines = list(c("Controls", "Yes", "Yes", "Yes", 
+                             "Yes", "Yes", "Yes"),
+            c("State fixed effects", "No", "No", "No",
+              "No", "No", "No")),
+          notes.append = T, header=FALSE)
+
 ```
 
 \vspace{.5cm}
@@ -322,20 +375,100 @@ stargazer(resInt1[[2]][[4]],resInt1[[2]][[8]],resInt1[[2]][[12]],
  & Investment & Investment & Delta & Finished & Cancelled & Updated \\ & Before & After & Investment & Construction & Construction & Date \\ &  &  &  &  &  \\ 
 \\[-1.8ex] & (1) & (2) & (3) & (4) & (5) & (6)\\ 
 \hline \\[-1.8ex] 
- ATE & 1.26 & 1.83 & 0.57 & 0.05$^{***}$ & 0.03$^{***}$ & 0.06 \\ 
-  & (2.69) & (3.06) & (0.93) & (0.01) & (0.01) & (0.04) \\ 
+ ATE & $-$0.99 & $-$1.12 & $-$0.13 & 0.002 & 0.02$^{**}$ & 0.05 \\ 
+  & (2.59) & (2.96) & (1.03) & (0.01) & (0.01) & (0.05) \\ 
   & & & & & & \\ 
 \hline \\[-1.8ex] 
 Controls & Yes & Yes & Yes & Yes & Yes & Yes \\ 
 State fixed effects & Yes & Yes & Yes & Yes & Yes & Yes \\ 
-Observations & 3,602 & 3,602 & 3,602 & 3,602 & 3,602 & 2,352 \\ 
-R$^{2}$ & 0.13 & 0.13 & 0.05 & 0.03 & 0.05 & 0.08 \\ 
+Observations & 2,986 & 2,986 & 2,986 & 2,986 & 2,986 & 2,926 \\ 
+R$^{2}$ & 0.16 & 0.14 & 0.05 & 0.02 & 0.07 & 0.13 \\ 
 \hline 
 \hline \\[-1.8ex] 
 \textit{Note:}  & \multicolumn{6}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
  & \multicolumn{6}{r}{Cluster-robust SEs at the municipality level.} \\ 
 \end{tabular} 
-\end{table} 
+\end{table}
+
+The models without control variables or fixed effects follow below.
+
+\begin{table}[!htbp] \centering 
+  \caption{\label{tab:results1} Impact Evaluation -- Intervention 1 \\ No Controls and No Fixed Effects} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{-2pt}}lcccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{6}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-7} 
+ & Investment & Investment & Delta & Finished & Cancelled & Updated \\ & Before & After & Investment & Construction & Construction & Date \\ &  &  &  &  &  \\ 
+\\[-1.8ex] & (1) & (2) & (3) & (4) & (5) & (6)\\ 
+\hline \\[-1.8ex] 
+ ATE & $-$0.21 & $-$0.56 & $-$0.36 & 0.01 & 0.02$^{**}$ & 0.04 \\ 
+  & (4.10) & (4.86) & (1.21) & (0.01) & (0.01) & (0.07) \\ 
+  & & & & & & \\ 
+\hline \\[-1.8ex] 
+Controls & No & No & No & No & No & No \\ 
+State fixed effects & No & No & No & No & No & No \\ 
+Observations & 2,986 & 2,986 & 2,986 & 2,986 & 2,986 & 2,926 \\ 
+R$^{2}$ & 0.0000 & 0.0000 & 0.0001 & 0.0001 & 0.001 & 0.001 \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{6}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+ & \multicolumn{6}{r}{Cluster-robust SEs at the municipality level.} \\ 
+\end{tabular} 
+\end{table}
+
+\begin{table}[!htbp] \centering 
+  \caption{\label{tab:results1} Impact Evaluation -- Intervention 1 \\ No Controls} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{-2pt}}lcccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{6}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-7} 
+ & Investment & Investment & Delta & Finished & Cancelled & Updated \\ & Before & After & Investment & Construction & Construction & Date \\ &  &  &  &  &  \\ 
+\\[-1.8ex] & (1) & (2) & (3) & (4) & (5) & (6)\\ 
+\hline \\[-1.8ex] 
+ ATE & $-$2.20 & $-$2.08 & 0.12 & 0.003 & 0.03$^{**}$ & 0.03 \\ 
+  & (2.87) & (3.33) & (1.06) & (0.01) & (0.01) & (0.05) \\ 
+  & & & & & & \\ 
+\hline \\[-1.8ex] 
+Controls & No & No & No & No & No & No \\ 
+State fixed effects & Yes & Yes & Yes & Yes & Yes & Yes \\ 
+Observations & 2,986 & 2,986 & 2,986 & 2,986 & 2,986 & 2,926 \\ 
+R$^{2}$ & 0.07 & 0.06 & 0.04 & 0.01 & 0.05 & 0.06 \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{6}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+ & \multicolumn{6}{r}{Cluster-robust SEs at the municipality level.} \\ 
+\end{tabular} 
+\end{table}
+
+\begin{table}[!htbp] \centering 
+  \caption{\label{tab:results1} Impact Evaluation -- Intervention 1 \\ No Fixed Effects} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{-2pt}}lcccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{6}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-7} 
+ & Investment & Investment & Delta & Finished & Cancelled & Updated \\ & Before & After & Investment & Construction & Construction & Date \\ &  &  &  &  &  \\ 
+\\[-1.8ex] & (1) & (2) & (3) & (4) & (5) & (6)\\ 
+\hline \\[-1.8ex] 
+ ATE & 1.23 & 0.82 & $-$0.41 & 0.01 & 0.02$^{**}$ & 0.06 \\ 
+  & (3.59) & (4.14) & (1.06) & (0.01) & (0.01) & (0.06) \\ 
+  & & & & & & \\ 
+\hline \\[-1.8ex] 
+Controls & Yes & Yes & Yes & Yes & Yes & Yes \\ 
+State fixed effects & No & No & No & No & No & No \\ 
+Observations & 2,986 & 2,986 & 2,986 & 2,986 & 2,986 & 2,926 \\ 
+R$^{2}$ & 0.11 & 0.10 & 0.02 & 0.01 & 0.02 & 0.08 \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{6}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+ & \multicolumn{6}{r}{Cluster-robust SEs at the municipality level.} \\ 
+\end{tabular} 
+\end{table}
 
 \newpage
 
@@ -343,9 +476,8 @@ R$^{2}$ & 0.13 & 0.13 & 0.05 & 0.03 & 0.05 & 0.08 \\
 
 Below, the code required to replicate the main findings of intervention 2.
 
-
 ```{r int2, echo=FALSE, warning=FALSE, message=FALSE, results='hide',cache=TRUE}
-load('tdp.RData')
+load('../article/tdp.RData')
 
 # Load packages
 pkgs <- c('tidyverse', 'dummies', 'ggpubr',
@@ -372,16 +504,17 @@ calcATEs <- function(outcs, treats, ctrls, fes, cls, dat, wts = NULL, ...) {
         dat <- dataux %>%
           select(one_of(c(j, treats, ctrls, fes, cls))) %>%
           na.omit()
-        } else {
+        wtsaux <- NULL
+      } else {
           dat <- dataux %>%
             select(one_of(c(j, treats, ctrls, fes, cls, wts))) %>%
             na.omit()
-          wts <- dat[,wts]
-        }
+          wtsaux <- dat[,wts]
+      }
       # No controls and no fes
       mods[[k]] <- felm(as.formula(
         paste(c(j,paste(i,paste('',0,0,cls, sep = '|'), sep = '')),
-              collapse = '~')), data = dat, weights = wts)
+              collapse = '~')), data = dat, weights = wtsaux)
       moddescr <- rbind(moddescr, 
                         data.frame(outc = j, 
                                    treat = i,
@@ -392,7 +525,7 @@ calcATEs <- function(outcs, treats, ctrls, fes, cls, dat, wts = NULL, ...) {
       mods[[k]] <- felm(as.formula(
         paste(c(j,paste(paste(c(i,ctrls_mod), collapse = '+'),
                         paste('',0,0,cls, sep = '|'), sep = '')),
-              collapse = '~')), data = dat, weights = wts)
+              collapse = '~')), data = dat, weights = wtsaux)
       moddescr <- rbind(moddescr, 
                         data.frame(outc = j, 
                                    treat = i,
@@ -404,7 +537,7 @@ calcATEs <- function(outcs, treats, ctrls, fes, cls, dat, wts = NULL, ...) {
         as.formula(paste(c(j,paste(paste(c(i), collapse = '+'),
                                    paste('',fes_mod,0,cls, sep = '|'), 
                                    sep = '')),
-                         collapse = '~')), data = dat, weights = wts)
+                         collapse = '~')), data = dat, weights = wtsaux)
       moddescr <- rbind(moddescr, 
                         data.frame(outc = j, 
                                    treat = i,
@@ -415,7 +548,7 @@ calcATEs <- function(outcs, treats, ctrls, fes, cls, dat, wts = NULL, ...) {
       mods[[k]] <- felm(as.formula(
         paste(c(j,paste(paste(c(i,ctrls_mod), collapse = '+'),
                         paste('',fes_mod,0,cls, sep = '|'), sep = '')),
-              collapse = '~')), data = dat, weights = wts)
+              collapse = '~')), data = dat, weights = wtsaux)
       moddescr <- rbind(moddescr, 
                         data.frame(outc = j, 
                                    treat = i,
@@ -435,7 +568,7 @@ ctrls <- c('logPop2015', 'ideb_ai_2015','ideb_af_2015',
 fes <- c('state')
 cls <- c('municipality')
 
-resInt2 <- calcATEs(outcs, 'treatApp', ctrls, fes, cls, dat = impEvalph2)
+resInt2 <- calcATEs(outcs, 'treat', ctrls, fes, cls, dat = impact_evaluation_phase2, wts = 'IPW_treat')
 
 # Results intervention 2
 library(stargazer)
@@ -448,9 +581,60 @@ stargazer(resInt2[[2]][[4]],resInt2[[2]][[8]],resInt2[[2]][[12]],
           column.labels = c("Investment & Investment & Delta & Finished & Cancelled & Updated \\\\ & Before & After & Investment & Construction & Construction & Date \\\\"),
           column.sep.width = '-2pt',
           omit.stat=c('adj.rsq', 'ser'), align=F, digits=2,
-          notes = 'Cluster-robust SEs at the municipality level.',
+          notes = c('Cluster-robust SEs at the municipality level.', 'IPW computed using the randomizr package'),
           add.lines = list(c("Controls", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes"),
             c("State Fixed Effects", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes")),
+          notes.append = T, header=FALSE)
+
+# Results intervention 2 -- No Controls and No Fixed Effects
+stargazer(resInt2[[2]][[1]],resInt2[[2]][[5]],resInt2[[2]][[9]],
+          resInt2[[2]][[13]],resInt2[[2]][[17]],resInt2[[2]][[21]],
+          title = '\\label{tab:results2} Impact Evaluation -- Intervention 2 \\\\ No Controls and No Fixed Effects', 
+          keep='treatTreatment', 
+          type = 'latex',
+          covariate.labels = 'ATE',
+          column.labels = c("Investment & Investment & Delta & Finished & Cancelled & Updated \\\\ & Before & After & Investment & Construction & Construction & Date \\\\"),
+          dep.var.labels.include=F, column.sep.width = '-2pt',
+          omit.stat=c('adj.rsq', 'ser'), align=F, digits=2,
+          notes = c('Cluster-robust SEs at the municipality level.', 'IPW computed using the randomizr package'),
+          add.lines = list(c("Controls", "No", "No", "No", 
+                             "No", "No", "No"),
+            c("State fixed effects", "No", "No", "No",
+              "No", "No", "No")),
+          notes.append = T, header=FALSE)
+
+# Results intervention 1 -- No Controls
+stargazer(resInt2[[2]][[3]],resInt2[[2]][[7]],resInt2[[2]][[11]],
+          resInt2[[2]][[15]],resInt2[[2]][[19]],resInt2[[2]][[23]],
+          title = '\\label{tab:results2} Impact Evaluation -- Intervention 2 \\\\ No Controls', 
+          keep='treatTreatment', 
+          type = 'latex',
+          covariate.labels = 'ATE',
+          column.labels = c("Investment & Investment & Delta & Finished & Cancelled & Updated \\\\ & Before & After & Investment & Construction & Construction & Date \\\\"),
+          dep.var.labels.include=F, column.sep.width = '-2pt',
+          omit.stat=c('adj.rsq', 'ser'), align=F, digits=2,
+          notes = c('Cluster-robust SEs at the municipality level.', 'IPW computed using the randomizr package'),
+          add.lines = list(c("Controls", "No", "No", "No", 
+                             "No", "No", "No"),
+            c("State fixed effects", "Yes", "Yes", "Yes",
+              "Yes", "Yes", "Yes")),
+          notes.append = T, header=FALSE)
+
+# Results intervention 1 -- No Fixed Effects
+stargazer(resInt2[[2]][[2]],resInt2[[2]][[6]],resInt2[[2]][[10]],
+          resInt2[[2]][[14]],resInt2[[2]][[18]],resInt2[[2]][[22]],
+          title = '\\label{tab:results2} Impact Evaluation -- Intervention 2 \\\\ No Fixed Effects', 
+          keep='treatTreatment', 
+          type = 'latex',
+          covariate.labels = 'ATE',
+          column.labels = c("Investment & Investment & Delta & Finished & Cancelled & Updated \\\\ & Before & After & Investment & Construction & Construction & Date \\\\"),
+          dep.var.labels.include=F, column.sep.width = '-2pt',
+          omit.stat=c('adj.rsq', 'ser'), align=F, digits=2,
+          notes = c('Cluster-robust SEs at the municipality level.', 'IPW computed using the randomizr package'),
+          add.lines = list(c("Controls", "Yes", "Yes", "Yes", 
+                             "Yes", "Yes", "Yes"),
+            c("State fixed effects", "No", "No", "No",
+              "No", "No", "No")),
           notes.append = T, header=FALSE)
 ```
 
@@ -467,20 +651,101 @@ stargazer(resInt2[[2]][[4]],resInt2[[2]][[8]],resInt2[[2]][[12]],
  & Investment & Investment & Delta & Finished & Cancelled & Updated \\ & Before & After & Investment & Construction & Construction & Date \\ &  &  &  &  &  \\ 
 \\[-1.8ex] & (1) & (2) & (3) & (4) & (5) & (6)\\ 
 \hline \\[-1.8ex] 
- ATE & $-$1.16 & $-$1.01 & 0.14 & $-$0.002 & $-$0.0001 & 0.00 \\ 
-  & (1.40) & (1.50) & (0.54) & (0.01) & (0.01) & (0.00) \\ 
-  & & & & & & \\ 
 \hline \\[-1.8ex] 
 Controls & Yes & Yes & Yes & Yes & Yes & Yes \\ 
 State Fixed Effects & Yes & Yes & Yes & Yes & Yes & Yes \\ 
-Observations & 3,364 & 3,364 & 3,364 & 3,364 & 3,364 & 2,304 \\ 
-R$^{2}$ & 0.10 & 0.10 & 0.03 & 0.02 & 0.18 &  \\ 
+Observations & 3,226 & 3,226 & 3,226 & 3,226 & 3,226 & 3,109 \\ 
+R$^{2}$ & 0.12 & 0.11 & 0.04 & 0.02 & 0.17 & 0.09 \\ 
 \hline 
 \hline \\[-1.8ex] 
 \textit{Note:}  & \multicolumn{6}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
  & \multicolumn{6}{r}{Cluster-robust SEs at the municipality level.} \\ 
+ & \multicolumn{6}{r}{IPW computed using the randomizr package} \\ 
 \end{tabular} 
-\end{table} 
+\end{table}
+
+And the models without controls or fixed effects follow below.
+
+\begin{table}[!htbp] \centering 
+  \caption{\label{tab:results2} Impact Evaluation -- Intervention 2 \\ No Controls and No Fixed Effects} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{-2pt}}lcccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{6}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-7} 
+ & Investment & Investment & Delta & Finished & Cancelled & Updated \\ & Before & After & Investment & Construction & Construction & Date \\ &  &  &  &  &  \\ 
+\\[-1.8ex] & (1) & (2) & (3) & (4) & (5) & (6)\\ 
+\hline \\[-1.8ex] 
+ ATE & $-$1.02 & $-$1.90 & $-$0.88 & $-$0.001 & 0.01 & $-$0.002 \\ 
+  & (1.52) & (1.66) & (0.61) & (0.01) & (0.02) & (0.02) \\ 
+  & & & & & & \\ 
+\hline \\[-1.8ex] 
+Controls & No & No & No & No & No & No \\ 
+State fixed effects & No & No & No & No & No & No \\ 
+Observations & 3,226 & 3,226 & 3,226 & 3,226 & 3,226 & 3,109 \\ 
+R$^{2}$ & 0.0003 & 0.001 & 0.001 & 0.0000 & 0.0004 & 0.0000 \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{6}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+ & \multicolumn{6}{r}{Cluster-robust SEs at the municipality level.} \\ 
+ & \multicolumn{6}{r}{IPW computed using the randomizr package} \\ 
+\end{tabular} 
+\end{table}
+
+\begin{table}[!htbp] \centering 
+  \caption{\label{tab:results2} Impact Evaluation -- Intervention 2 \\ No Controls} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{-2pt}}lcccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{6}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-7} 
+ & Investment & Investment & Delta & Finished & Cancelled & Updated \\ & Before & After & Investment & Construction & Construction & Date \\ &  &  &  &  &  \\ 
+\\[-1.8ex] & (1) & (2) & (3) & (4) & (5) & (6)\\ 
+\hline \\[-1.8ex] 
+ ATE & $-$1.46 & $-$2.30 & $-$0.84 & $-$0.002 & 0.02 & $-$0.003 \\ 
+  & (1.49) & (1.62) & (0.61) & (0.01) & (0.02) & (0.02) \\ 
+  & & & & & & \\ 
+\hline \\[-1.8ex] 
+Controls & No & No & No & No & No & No \\ 
+State fixed effects & Yes & Yes & Yes & Yes & Yes & Yes \\ 
+Observations & 3,226 & 3,226 & 3,226 & 3,226 & 3,226 & 3,109 \\ 
+R$^{2}$ & 0.05 & 0.06 & 0.03 & 0.01 & 0.09 & 0.05 \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{6}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+ & \multicolumn{6}{r}{Cluster-robust SEs at the municipality level.} \\ 
+ & \multicolumn{6}{r}{IPW computed using the randomizr package} \\ 
+\end{tabular} 
+\end{table}
+
+\begin{table}[!htbp] \centering 
+  \caption{\label{tab:results2} Impact Evaluation -- Intervention 2 \\ No Fixed Effects} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{-2pt}}lcccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{6}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-7} 
+ & Investment & Investment & Delta & Finished & Cancelled & Updated \\ & Before & After & Investment & Construction & Construction & Date \\ &  &  &  &  &  \\ 
+\\[-1.8ex] & (1) & (2) & (3) & (4) & (5) & (6)\\ 
+\hline \\[-1.8ex] 
+ ATE & $-$0.94 & $-$1.90 & $-$0.96 & $-$0.0005 & 0.01 & $-$0.002 \\ 
+  & (1.47) & (1.59) & (0.61) & (0.01) & (0.01) & (0.02) \\ 
+  & & & & & & \\ 
+\hline \\[-1.8ex] 
+Controls & Yes & Yes & Yes & Yes & Yes & Yes \\ 
+State fixed effects & No & No & No & No & No & No \\ 
+Observations & 3,226 & 3,226 & 3,226 & 3,226 & 3,226 & 3,109 \\ 
+R$^{2}$ & 0.08 & 0.08 & 0.01 & 0.005 & 0.12 & 0.05 \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{6}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+ & \multicolumn{6}{r}{Cluster-robust SEs at the municipality level.} \\ 
+ & \multicolumn{6}{r}{IPW computed using the randomizr package} \\ 
+\end{tabular} 
+\end{table}
 
 \newpage
 # Robustness Tests
@@ -490,6 +755,19 @@ R$^{2}$ & 0.10 & 0.10 & 0.03 & 0.02 & 0.18 &  \\
 We employ randomised inference to estimate to estimate the probability of the sharp null hypothesis over all possible randomisations that could have occurred under our research design. We fail to reject the null in all but the finished school indicator in experiment 1. 
 
 ```{r ri, echo=FALSE, warning=FALSE, message=FALSE, results='hide', cache=TRUE, fig.width=7, fig.height=8, fig.show='hold', fig.align='center', fig.cap='\\label{fig:randomisation-inference}Sampling distribution of the estimated coefficient for our six outcomes in two interventions. Graphs on the left correspond to randomisation inference estimates for intervention 1 and those on the right describe the results for intervention 2.'}
+# Chunk randomization inference
+load('tdp.RData')
+
+# Load packages
+pkgs <- c('tidyverse', 'dummies', 
+          'haven', 'compareGroups', 
+          'devtools', 'lubridate', 'brazilmaps',
+          'abjutils', 'lfe', 'cobalt', 
+          'MatchIt', 'ri2', 'DeclareDesign', 'knitr',
+          'DiagrammeR', 'DiagrammeRsvg', 'rsvg', 
+          'flextable', 'officer', 'ggthemes', 'ggpubr')
+invisible(lapply(pkgs, require, character.only = T))
+
 # Function for custom randomization inference
 test_fun <- function(dat, outc, treat, wts = NULL) {
   ctrls_mod <- paste(ctrls, collapse = '+')
@@ -500,17 +778,18 @@ test_fun <- function(dat, outc, treat, wts = NULL) {
     dat <- dat %>%
       select(one_of(c(outc, treat, ctrls, fes, cls))) %>%
       na.omit()
+    wtsaux <- NULL
   } else {
     dat <- dat %>%
       select(one_of(c(outc, treat, ctrls, fes, cls, wts))) %>%
       na.omit()
-    wts <- dat[,wts]
+    wtsaux <- dat[,wts]
   }
   aux <- 
     felm(as.formula(
       paste(c(outc,paste(paste(c(treat,ctrls_mod), collapse = '+'),
                         paste('',fes_mod,0,cls, sep = '|'), sep = '')),
-              collapse = '~')), data = dat, weights = wts)
+              collapse = '~')), data = dat, weights = wtsaux)
   return(aux$coefficients[1])
 }
 
@@ -524,8 +803,8 @@ cls <- c('municipality')
 
 # First experiment
 set.seed(543129) #Random.org
-auxdat <- impEvalph1[,c('ibge_code7', outcs, ctrls, fes, cls)]
-aux2 <- unique(impEvalph1[,c('ibge_code7', 'treat')]) %>% na.omit()
+auxdat <- impact_evaluation_phase1[,c('ibge_code7', outcs, ctrls, fes, cls)]
+aux2 <- unique(impact_evaluation_phase1[,c('ibge_code7', 'treat')]) %>% na.omit()
 N = sum(table(aux2$treat))
 Ctrl = 150
 resri1 <- data.frame(1:1000)
@@ -545,32 +824,32 @@ for (i in outcs) {
 resri1 <- resri1[,-1]
 i1h1 <- ggplot(data=resri1, aes(resri1$percExecBegin)) + 
   geom_histogram(bins = 100) + 
-  geom_vline(xintercept = test_fun(impEvalph1, 'percExecBegin', 'treat'),
+  geom_vline(xintercept = test_fun(impact_evaluation_phase1, 'percExecBegin', 'treat'),
              lwd = 1, lty = 2) +
   labs(x="Percentage Completed Before\n(placebo)", y="Frequency")
 i1h2 <- ggplot(data=resri1, aes(resri1$percExecEnd)) + 
   geom_histogram(bins = 100) + 
-  geom_vline(xintercept = test_fun(impEvalph1, 'percExecEnd', 'treat'),
+  geom_vline(xintercept = test_fun(impact_evaluation_phase1, 'percExecEnd', 'treat'),
              lwd = 1, lty = 2) +
   labs(x="Percentage Completed End Intervention", y="Frequency")
 i1h3 <- ggplot(data=resri1, aes(resri1$deltaPercExec)) + 
   geom_histogram(bins = 100) + 
-  geom_vline(xintercept = test_fun(impEvalph1, 'deltaPercExec', 'treat'),
+  geom_vline(xintercept = test_fun(impact_evaluation_phase1, 'deltaPercExec', 'treat'),
              lwd = 1, lty = 2) +
   labs(x="Diff. Pct. Completed Before and After", y="Frequency")
 i1h4 <- ggplot(data=resri1, aes(resri1$isFinished)) + 
   geom_histogram(bins = 100) + 
-  geom_vline(xintercept = test_fun(impEvalph1, 'isFinished', 'treat'),
+  geom_vline(xintercept = test_fun(impact_evaluation_phase1, 'isFinished', 'treat'),
              lwd = 1, lty = 2) +
   labs(x="Finished School Construction Indicator", y="Frequency")
 i1h5 <- ggplot(data=resri1, aes(resri1$isCancelled)) + 
   geom_histogram(bins = 100) + 
-  geom_vline(xintercept = test_fun(impEvalph1, 'isCancelled', 'treat'),
+  geom_vline(xintercept = test_fun(impact_evaluation_phase1, 'isCancelled', 'treat'),
              lwd = 1, lty = 2) +
   labs(x="Cancelled School Construction Indicator", y="Frequency")
 i1h6 <- ggplot(data=resri1, aes(resri1$updDate)) + 
   geom_histogram(bins = 100) + 
-  geom_vline(xintercept = test_fun(impEvalph1, 'updDate', 'treat'),
+  geom_vline(xintercept = test_fun(impact_evaluation_phase1, 'updDate', 'treat'),
              lwd = 1, lty = 2) +
   labs(x="Updated Endline Date School Construction", y="Frequency")
 
@@ -591,17 +870,18 @@ test_fun <- function(dat, outc, treat, wts = NULL) {
     dat <- dat %>%
       select(one_of(c(outc, treat, ctrls, fes, cls))) %>%
       na.omit()
+    wtsaux <- NULL
   } else {
     dat <- dat %>%
       select(one_of(c(outc, treat, ctrls, fes, cls, wts))) %>%
       na.omit()
-    wts <- dat[,wts]
+    wtsaux <- dat[,wts]
   }
   aux <- 
     felm(as.formula(
       paste(c(outc,paste(paste(c(treat,ctrls_mod), collapse = '+'),
                         paste('',fes_mod,0,cls, sep = '|'), sep = '')),
-              collapse = '~')), data = dat, weights = wts)
+              collapse = '~')), data = dat, weights = wtsaux)
   return(aux$coefficients[1])
 }
 
@@ -613,9 +893,9 @@ ctrls <- c('logPop2015', 'ideb_ai_2015','ideb_af_2015',
 fes <- c('state')
 cls <- c('municipality')
 
-# Second experiment
+# First experiment
 set.seed(543129) #Random.org
-auxdat <- impEvalph2[,c('id_project', outcs, ctrls, fes, cls)]
+auxdat <- impact_evaluation_phase2[,c('id_project', outcs, ctrls, fes, cls)]
 aux2 <- unique(aux[,c('id', 'Z_intheapp', 'IPW_intheapp')]) %>%
   na.omit() %>%
   rename(id_project = id,
@@ -634,39 +914,46 @@ auxdat <- left_join(auxdat, aux2)
 for (i in outcs) {
   res <- numeric()
   for (k in 1:1000) 
-    res[k] <- test_fun(auxdat, i, paste('treat', k, sep = '.'))
+    res[k] <- test_fun(auxdat, i, paste('treat', k, sep = '.'), 
+                       wts = paste('wts', k, sep = '.'))
   resri2 <- data.frame(resri2, res)
   names(resri2)[names(resri2)=='res'] = i
 }
 resri2 <- resri2[,-1]
 i2h1 <- ggplot(data=resri2, aes(resri2$percExecBegin)) + 
   geom_histogram(bins = 100) + 
-  geom_vline(xintercept = test_fun(impEvalph2, 'percExecBegin', 'treatApp'),
+  geom_vline(xintercept = test_fun(impact_evaluation_phase2, 
+                                   'percExecBegin', 'treat', wts = 'IPW_treat'),
              lwd = 1, lty = 2) +
   labs(x="Percentage Completed Before\n(placebo)", y="Frequency")
 i2h2 <- ggplot(data=resri2, aes(resri2$percExecEnd)) + 
   geom_histogram(bins = 100) + 
-  geom_vline(xintercept = test_fun(impEvalph2, 'percExecEnd', 'treatApp'),
+  geom_vline(xintercept = test_fun(impact_evaluation_phase2, 
+                                   'percExecEnd', 'treat', wts = 'IPW_treat'),
              lwd = 1, lty = 2) +
   labs(x="Percentage Completed End Intervention", y="Frequency")
 i2h3 <- ggplot(data=resri2, aes(resri2$deltaPercExec)) + 
   geom_histogram(bins = 100) + 
-  geom_vline(xintercept = test_fun(impEvalph2, 'deltaPercExec', 'treatApp'),
+  geom_vline(xintercept = test_fun(impact_evaluation_phase2, 
+                                   'deltaPercExec', 'treat', wts = 'IPW_treat'),
              lwd = 1, lty = 2) +
   labs(x="Diff. Pct. Completed Before and After", y="Frequency")
 i2h4 <- ggplot(data=resri2, aes(resri2$isFinished)) + 
   geom_histogram(bins = 100) + 
-  geom_vline(xintercept = test_fun(impEvalph2, 'isFinished', 'treatApp'),
+  geom_vline(xintercept = test_fun(impact_evaluation_phase2, 
+                                   'isFinished', 'treat', wts = 'IPW_treat'),
              lwd = 1, lty = 2) +
   labs(x="Finished School Construction Indicator", y="Frequency")
 i2h5 <- ggplot(data=resri2, aes(resri2$isCancelled)) + 
   geom_histogram(bins = 100) + 
-  geom_vline(xintercept = test_fun(impEvalph2, 'isCancelled', 'treatApp'),
+  geom_vline(xintercept = test_fun(impact_evaluation_phase2, 
+                                   'isCancelled', 'treat', wts = 'IPW_treat'),
              lwd = 1, lty = 2) +
   labs(x="Cancelled School Construction Indicator", y="Frequency")
 i2h6 <- ggplot(data=resri2, aes(resri2$updDate)) + 
   geom_histogram(bins = 100) + 
-  geom_vline(xintercept = test_fun(impEvalph2, 'updDate', 'treatApp'),
+  geom_vline(xintercept = test_fun(impact_evaluation_phase2, 
+                                   'updDate', 'treat', wts = 'IPW_treat'),
              lwd = 1, lty = 2) +
   labs(x="Updated Endline Date School Construction", y="Frequency")
 
@@ -677,15 +964,12 @@ ggarrange(i1h1, i2h1,
           i1h5, i2h5, 
           i1h6, i2h6, 
           labels = rep(c("Int. 1", "Int. 2"), 6),
-          label.x = .1,
+          label.x = .16, label.y = .9,
+          font.label = list(size = 12, color = "black", face = "plain"),
           ncol = 2, nrow = 6)
 ```
 
-## Inverse Probability Weights and Genetic Matching
-
-We employ inverse probability weights and genetic matching to assess the robustness of the main results.
-
-\newpage 
+\newpage
 # APSA Experimental Section Standard Report for Experimental Research
 
 ## Hypotheses
@@ -820,19 +1104,19 @@ Below follows the CONSORT chartflow:
 ```{r, echo=FALSE}
 # Values ------------------------------------------------------------------
 # Total dataset
-ntotini <- dim(impEvalph1)[1]
+ntotini <- dim(impact_evaluation_phase1)[1]
 
 # Excluded
-excld <- sum(is.na(impEvalph1$treat))
+excld <- sum(is.na(impact_evaluation_phase1$treat))
 
 # Total used randomization
 diffrand <- ntotini-excld
 
 # On treatment
-tralloc <- sum(impEvalph1$treat=='Treatment', na.rm = T)
+tralloc <- sum(impact_evaluation_phase1$treat=='Treatment', na.rm = T)
 
 # Control
-ctrlalloc <- sum(impEvalph1$treat=='Control', na.rm = T)
+ctrlalloc <- sum(impact_evaluation_phase1$treat=='Control', na.rm = T)
 
 # Attrition treatment
 lostfollowuptreat <- 0
@@ -928,19 +1212,19 @@ render_graph(g)
 ```{r, echo=FALSE}
 # Values ------------------------------------------------------------------
 # Total dataset
-ntotini <- dim(impEvalph2)[1]
+ntotini <- dim(impact_evaluation_phase2)[1]
 
 # Excluded
-excld <- sum(is.na(impEvalph2$treatApp))
+excld <- sum(is.na(impact_evaluation_phase2$treat))
 
 # Total used randomization
 diffrand <- ntotini-excld
 
 # On treatment
-tralloc <- sum(impEvalph2$treatApp=='Treatment', na.rm = T)
+tralloc <- sum(impact_evaluation_phase2$treat=='Treatment', na.rm = T)
 
 # Control
-ctrlalloc <- sum(impEvalph2$treatApp=='Control', na.rm = T)
+ctrlalloc <- sum(impact_evaluation_phase2$treat=='Control', na.rm = T)
 
 # Attrition treatment
 lostfollowuptreat <- 0
