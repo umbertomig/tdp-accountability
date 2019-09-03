@@ -89,7 +89,7 @@ In intervention 2, we randomised the treatment at the school level. We placed 15
 
 * Brazilian State
 * Construction Status (under construction, stopped, unfinished)
-* School expenditures above the national median
+* School construction completion rates above the national median
 
 ```{r}
 ## Covariate balance
