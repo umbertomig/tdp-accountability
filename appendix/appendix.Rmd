@@ -6,7 +6,7 @@ author:
 - "Manoel Galdino[^galdino]"
 - "Umberto Mignozzetti[^mignozzetti]"
 date: \today
-thanks: "We thank Fábio Barros, Guilherme Jardim Duarte, Stephen Herzog and David Skarbek for their helpful comments. We are specially grateful to Catarina Roman and the staff of Transparência Brasil for their excellent research assistance. This research was pre-registered on the EGAP pre-registry tool (<https://egap.org/registration/4505>) and approved by the Brazilian Ministry of Education. The authors thank the 2016 Google Social Impact Challenge for financial support and declare there are no conflict of interest. Replication data and code are available at <http://github.com/umbertomignozzetti/tdp-accountability>."
+thanks: "We thank Fábio Barros, Guilherme Jardim Duarte, Stephen Herzog, and David Skarbek for their helpful comments. We are specially grateful to Catarina Roman and the staff of Transparência Brasil for their excellent research assistance. This research was pre-registered on the EGAP pre-registry tool (<https://egap.org/registration/4505>) and approved by the Brazilian Ministry of Education. The authors thank the 2016 Google Social Impact Challenge for financial support and declare there are no conflict of interest. Replication data and code are available at <http://github.com/umbertomignozzetti/tdp-accountability>."
 abstract: "Does grassroots participation improve public service delivery? We study the effect of a mobile phone application that allows citizens to monitor school construction projects in 1020 Brazilian municipalities. The app provides a platform where users can submit photos of construction sites, consult independent engineers, and contact the mayor's office about project delays. Our results show that the app has a null impact on the school construction outcomes. Additionally, we find that politicians are unresponsive to individual requests. The results question the impact of local monitoring on public service performance and suggest that interventions targeted at other groups may produce better policy outcomes."
 abstractspacing: double
 keywords: accountability, Brazil, impact evaluation, state capacity, technology
@@ -756,7 +756,7 @@ We employ randomised inference to estimate to estimate the probability of the sh
 
 ```{r ri, echo=FALSE, warning=FALSE, message=FALSE, results='hide', cache=TRUE, fig.width=7, fig.height=8, fig.show='hold', fig.align='center', fig.cap='\\label{fig:randomisation-inference}Sampling distribution of the estimated coefficient for our six outcomes in two interventions. Graphs on the left correspond to randomisation inference estimates for intervention 1 and those on the right describe the results for intervention 2.'}
 # Chunk randomization inference
-load('tdp.RData')
+load('../article/tdp.RData')
 
 # Load packages
 pkgs <- c('tidyverse', 'dummies', 
@@ -1345,9 +1345,9 @@ All models use municipal-level cluster robust standard errors and state-level fi
 
 * **Replication materials**: The replication materials for this project are available here: [`https://github.com/umbertomig/tdp-accountability`](https://github.com/umbertomig/tdp-accountability)
 
-* **Funding**: This research received funding from the Google Social Impact initiative. Google did not interfere in any aspects of the research design and analysis.
+* **Funding**: This research received funding from the 2016 Google Social Impact Challenge. Google did not interfere in any aspect of the research design and analysis.
 
-* **Conflict of interests**: The authors of this analysis declare no conflict of interest.
+* **Conflict of interests**: The authors of this analysis declare that there are no conflict of interest.
 
 # Session Information
 

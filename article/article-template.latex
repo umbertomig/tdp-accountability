@@ -49,7 +49,7 @@ $else$
 $endif$
 
 % Packages I've been using for different reasons...
-\usepackage[backref,pagebackref]{hyperref}
+\usepackage{hyperref}
 \usepackage{dcolumn}
 \usepackage{graphicx}
 \usepackage{float}
