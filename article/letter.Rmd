@@ -46,11 +46,15 @@ if (!require("kableExtra")) {
 
 \noindent We would like to thank you for the opportunity to revise our manuscript, "Bottom-Up Accountability and Public Service Provision: Evidence from a Field Experiment in Brazil" (Manuscript ID RAP-19-0144). We have made many revisions to the paper along the lines suggested by the editor and the anonymous reviewer and we believe the manuscript has improved significantly as a result.
 
-We have worked specially hard to clarify the connection between information provision and mobilisation, a point emphasised by both the editor and the reviewer. Our efforts in that regard include, first, a new section in the SI Appendix with a detailed description of _Tá de Pé_'s functionalities and the associated Facebook campaigns. We explain the precautions we have taken to ensure that the
+We have worked specially hard to clarify the connection between information provision and mobilisation, a point emphasised by both the editor and the reviewer. Our efforts in that regard include, first, a new section in the SI Appendix with a detailed description of _Tá de Pé_'s functionalities and the associated Facebook campaigns. We explain the precautions we have taken to ensure that the we correctly identify the effect of the TDP app on school outcomes. Second, we provide a thorough discussion of our additional data sources. More specifically, we show how the Brazilian Ministry of Education collects and publicises their data and indicate how our experiment uses that information to evaluate the robustness of our findings. We believe the new sections help give the results a clearer interpretation and strenghten our main arguments.
 
-Related, we have included a discussion regarding app usage as suggested by the reviewer. 
+Related, we have included a discussion regarding app usage as suggested by the reviewer. We have included information provided by Google Analytics not only on app downloads but also on app usage, which addresses another important concern raised by the reviewer. The data show that the app usage was significant, yet it was not enough to trigger any responses from local governments. 
+
+Lastly, we have rewritten some parts of the main text to highlight that our experiment hinges on participation only, and that the effect of mobilisation and pressure on school construction outcomes require further analyses.We believe our paper now reflects our results more accurately.
 
 Below we discuss in more detail these and other changes we have made to the manuscript in response to comments from the editor and the reviewer. We thank the editor again for the opportunity to revise the manuscript, and the reviewer for his/her extremely helpful comments.
+
+\vspace{.5cm}
 
 \noindent Sincerely,
 
