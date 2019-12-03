@@ -1,0 +1,64 @@
+---
+title:
+author:
+date:
+fontsize: 12pt
+margin: 2cm
+urlcolor: darkblue
+linkcolor: Mahogany
+citecolor: Mahogany
+spacing: double
+papersize: a4paper
+bibliography: references.bib
+biblio-style: apalike
+output:
+  pdf_document:
+    citation_package: natbib
+    fig_caption: yes
+    number_sections: yes
+    keep_tex: no
+    toc: no
+    toc_depth: 3
+    template: article-template.latex
+---
+
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
+# If you need to install any package while knitting the document
+r <- getOption("repos")
+r["CRAN"] <- "https://cran.rstudio.com/"
+options(repos = r)
+if (!require("kableExtra")) {
+    install.packages("kableExtra")
+}
+```
+
+\noindent Research & Politics
+
+\vspace{.1cm}
+
+\noindent 2 December 2019
+
+\vspace{.5cm}
+
+\noindent Dear Editor and Reviewer,
+
+\vspace{.5cm}
+
+\noindent We would like to thank you for the opportunity to revise our manuscript, "Bottom-Up Accountability and Public Service Provision: Evidence from a Field Experiment in Brazil" (Manuscript ID RAP-19-0144). We have made many revisions to the paper along the lines suggested by the editor and the anonymous reviewer and we believe the manuscript has improved significantly as a result.
+
+We have worked specially hard to clarify the connection between information provision and mobilisation, a point emphasised by both the editor and the reviewer. Our efforts in that regard include, first, a new section in the SI Appendix with a detailed description of _Tá de Pé_'s functionalities and the associated Facebook campaigns. We explain the precautions we have taken to ensure that the
+
+Related, we have included a discussion regarding app usage as suggested by the reviewer. 
+
+Below we discuss in more detail these and other changes we have made to the manuscript in response to comments from the editor and the reviewer. We thank the editor again for the opportunity to revise the manuscript, and the reviewer for his/her extremely helpful comments.
+
+\noindent Sincerely,
+
+\vspace{.5cm}
+
+\noindent The Authors
+
+
+\newpage
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{5pt}
