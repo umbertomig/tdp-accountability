@@ -50,6 +50,9 @@ lapply(pkgs, install_if_not)
 lapply(pkgs, require, character.only = T)
 rm(pkgs, install_if_not)
 load("tdp.RData")
+
+# Disable scientific notation
+options(scipen = 999)
 ```
 
 [^freire]: Postdoctoral Research Associate, The Political Theory Project, Brown
@@ -282,9 +285,12 @@ downloads by municipality and over time. Figure \ref{fig:manipulation1}
 displays the results and indicates that the treatment has good territorial
 variability. There are `r length(unique(ga$municipality[ga$phase1==1]))`
 downloads in the 
-`r length(unique(impact_evaluation_phase1$municipality[impact_evaluation_phase1$treat=='Treatment']))`
-municipalities in the treatment condition. Downloads peak during the Facebook
-TDP campaign, launched in October 2017, then diminish in the following months.
+`r format(length(unique(impact_evaluation_phase1$municipality[impact_evaluation_phase1$treat=='Treatment'])),
+big.mark = ",")` municipalities in the treatment condition. Downloads peak
+during the Facebook TDP campaign, launched in October 2017, then diminish in
+the following months. **Overall, 
+`r format(sum(ga$novos_usuarios[ga$phase1==1]), big.mark = ",")` users
+downloaded the app in phase one.**
 
 \vspace{.5cm}
 
@@ -343,18 +349,21 @@ The second intervention is similar to intervention 1 in all but three
 characteristics. First, the TDP app was **then** available for both Android and
 iOS devices. Second, we randomised the intervention at the school level, with
 `r as.numeric(table(impact_evaluation_phase2$treat)[1])` control and 
-`r as.numeric(table(impact_evaluation_phase2$treat)[2])` treatment units. We
-used blocked randomisation stratified by Brazilian states, school construction
-status (under construction, stopped, unfinished), and whether the municipality
-spent more on school construction that the distribution median. Finally, the
-intervention period lasted from August 2018 to February 2019.
+`r format(as.numeric(table(impact_evaluation_phase2$treat)[2]), big.mark = ",",
+scientific = FALSE)` treatment units. We used blocked randomisation stratified
+by Brazilian states, school construction status (under construction, stopped,
+unfinished), and whether the municipality spent more on school construction
+that the distribution median. Finally, the intervention period lasted from
+August 2018 to February 2019.
 
 Balance tests and manipulation checks were also successful for intervention 2.
 In total, `r length(unique(ga$municipality[ga$phase2==1]))` municipalities
 downloaded the app. There is about 1,000 user downloads in August 2018, right
-after intervention 2 starts, and a second spike around December. The number of
-downloads is smaller in this second intervention as there was no associated
-social media campaign in that period.
+after intervention 2 starts, and a second spike around December. 
+**The app gained 
+`r format(sum(ga$novos_usuarios[ga$phase1==0]), big.mark = ",")` new users
+during intervention 2. The number of downloads is smaller in this second
+intervention as there was no associated social media campaign in that period.**
 
 ```{r man2, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, cache=TRUE, out.width='.49\\linewidth', fig.width=4, fig.height=3.5, fig.show='hold', fig.align='center', fig.cap='\\label{fig:manipulation2}Manipulation checks for intervention 2. The graphs display the geographical and temporal variation of TDP app downloads from August 2018 to February 2019.'}
 # Load data
@@ -408,7 +417,14 @@ p2 <- ggplot(tab, aes(x = Date, y = Frequency, group = 1)) +
 p2
 ```
 
-**(Short paragraph on whether the app has worked)**
+**Data from Google Analytics suggest that users did engage with the TDP app. On
+average, each user launched `r format(round(mean(as.numeric(gsub('\\.', '',
+ga2$visualizacoes_de_tela))), 2), big.mark = ",")` app sessions, which
+indicates their interest in the application. In total, the app had 
+`r format(sum(as.numeric(gsub('\\.', '', ga2$visualizacoes_de_tela))),
+big.mark = ",", scientific = F)` screen visualisations, with an average of 
+`r round(mean(as.numeric(gsub(',', '.', ga2$telas_sessao))), 2)` screen
+visualisations per session.**
 
 We estimate all models using the following regression equation:
 
@@ -1016,22 +1032,25 @@ blame local politicians for the underprovision of public goods. Consequently,
 representatives can dismiss individual requests as the issue is unlikely to
 escalate.
 
-**The electoral cycle might have decreased the potential effect of the treatment,
-too. As the experiment was fielded right after Brazil's municipal elections,
-incumbents might have disregarded the requests because they did not see the
-demands as politically costly in the short run. Having just taken office,
-mayors might have focused their attention to the formation of government
-coalitions or to budget concerns. **
+**The electoral cycle might also have decreased the potential effect of the
+treatment. As the experiment was fielded right after Brazil's municipal
+elections, incumbents might have disregarded the requests because they did not
+see the demands as politically costly in the short run. Having just taken
+office, mayors might have focused their attention to the formation of
+government coalitions or to budget concerns. Future research may evaluate how
+electoral dynamics interact with citizen oversight, potentially by replicating
+informational experiments in different stages of the political cycle.**
 
-~~Moreover, it is possible that a mobile app like TDP is simply not sufficient
-to promote collective action. @raffler2018weakness [29] point out several
-reasons why information interventions does not lead to higher pressure on
-public agents, such as citizens' apathy towards their ability to make public
-agents accountable, lack of official channels to support popular demands, or
-that constituents have more pressing needs than monitoring representatives.
-Furthermore, individuals may also believe they are better off by free-riding on
-other users of the TDP app, thus reaping the benefits of having faster school
-constructions without incurring personal costs [@olson1965logic].~~
+\sout{Moreover, it is possible that a mobile app like TDP is simply not
+sufficient to promote collective action. Raffler et al (2018, 29) point
+out several reasons why information interventions does not lead to higher
+pressure on public agents, such as citizens' apathy towards their ability to
+make public agents accountable, lack of official channels to support popular
+demands, or that constituents have more pressing needs than monitoring
+representatives. Furthermore, individuals may also believe they are better off
+by free-riding on other users of the TDP app, thus reaping the benefits of
+having faster school constructions without incurring personal costs (Olson
+1965).}
 
 In sum, our experiments suggest that popular participation and bottom-up
 monitoring may not be effective to improve public service delivery in the case

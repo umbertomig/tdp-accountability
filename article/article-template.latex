@@ -15,21 +15,21 @@ $endif$
 \usepackage[scaled=.95]{inconsolata}
 
 % Add the following packages to support kableExtra
-\usepackage{booktabs}
-\usepackage{longtable}
-\usepackage{array}
-\usepackage{multirow}
-\usepackage{wrapfig}
-\usepackage{colortbl}
-\usepackage{pdflscape}
-\usepackage{tabu}
-\usepackage{threeparttable}
-\usepackage{threeparttablex}
 \usepackage[normalem]{ulem}
-\usepackage{makecell}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{colortbl}
 \usepackage{etoolbox}
-\usepackage{tocloft}
+\usepackage{longtable}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{pdflscape}
 \usepackage{subcaption}
+\usepackage{tabu}
+\usepackage{threeparttablex}
+\usepackage{threeparttable}
+\usepackage{tocloft}
+\usepackage{wrapfig}
 
 % Dots in toc
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
