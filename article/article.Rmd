@@ -7,7 +7,7 @@ author:
 - "Umberto Mignozzetti[^mignozzetti]"
 date: \today
 thanks: "We thank Fábio Barros, Guilherme Jardim Duarte, Stephen Herzog, and David Skarbek for their helpful comments. We are specially grateful to Catarina Roman and the staff of Transparência Brasil for their excellent research assistance. This research was pre-registered on the EGAP pre-registry tool (<https://egap.org/registration/4505>) and approved by the Brazilian Ministry of Education. The authors thank the 2016 Google Social Impact Challenge for financial support and declare that there are no conflict of interest. Replication data and code are available at <http://github.com/umbertomignozzetti/tdp-accountability>."
-abstract: "Does ~~grassroots participation~~ **local oversight** improve public service delivery? We study the effect of a mobile phone application that allows citizens to monitor school construction projects in Brazilian municipalities. The app provides a platform where users can submit photos of construction sites, consult independent engineers, and contact the mayor's office about project delays. Our results show that the app has a null impact on the school construction indicators. Additionally, we find that politicians are unresponsive to individual requests. The results question the impact of local monitoring on public service performance and suggest that interventions targeted at other groups may produce better policy outcomes."
+abstract: "Does ~~grassroots participation~~ **local oversight** improve public service delivery? We study the effect of a mobile phone application that allows citizens to monitor school construction projects in Brazilian municipalities. ~~The app provides a platform where users can submit photos of construction sites, consult independent engineers, and contact the mayor's office about project delays.~~ **The app prompts users to submit data about construction sites, sends such crowdsourced information to independent engineers, and contacts the mayors' offices about project delays.** Our results show that the app has a null impact on the school construction indicators. Additionally, we find that politicians are unresponsive to individual requests. The results question the impact of ~~local~~ **bottom-up** monitoring on public service performance and suggest that interventions targeted ~~at other groups~~ **to other groups, or focusing on different issues,** may produce better policy outcomes."
 abstractspacing: double
 keywords: accountability, Brazil, impact evaluation, state capacity, technology
 fontsize: 12pt
@@ -88,19 +88,19 @@ because it limits state discretion in the economy and increases long-term
 investments in human capital [@benhabib2010economic; @suebvises2018social;
 @ponzetto2018social].
 
-However, accountability systems **may** take many forms. One promising model is
-that of _bottom-up monitoring_, in which citizens receive information about the
-shortcomings of a given project so they can evaluate and pressure
-underperforming public officials [@kosack2014does; @molina2016community;
-@raffler2018weakness]. Proponents argue that bottom-up accountability is
-effective because: 1) constituents have first-hand information about the
-outcomes of local policies; 2) citizens have incentives to attack corruption
-that directly affects themselves; 3) policy-makers are sensitive to social
-punishment from their own communities [@serra2011combining, 570]. In this
-regard, bottom-up accountability offers a potential solution to the
-principal-agent dilemma in public service by aligning the interests of state
-officials with those of the constituency they serve [@barro1973control;
-@raffler2018weakness, 2].
+However, accountability ~~systems take many forms~~ **mechanisms extend beyond
+elections.** One promising model is that of _bottom-up monitoring_, in which
+citizens receive information about the shortcomings of a given project so they
+can evaluate and pressure underperforming public officials [@kosack2014does;
+@molina2016community; @raffler2018weakness]. Proponents argue that bottom-up
+accountability is effective because: 1) constituents have first-hand
+information about the outcomes of local policies; 2) citizens have incentives
+to attack corruption that directly affects themselves; 3) policy-makers are
+sensitive to social punishment from their own communities [@serra2011combining,
+570]. In this regard, bottom-up accountability offers a potential solution to
+the principal-agent dilemma in public service by aligning the interests of
+state officials with those of the constituency they serve [@barro1973control;
+@raffler2018weakness].
 
 Here we assess the impact of _Tá de Pé_ (TDP), a mobile phone application
 designed to lower the costs of evaluating public works and punish political
@@ -129,26 +129,27 @@ popular votes. To know more about the contest, please visit
 
 We use the TDP app to conduct two experimental interventions and test ~~its
 impact~~ **the impact of citizen oversight** on five outcomes related to school
-completion rates and complaints to public authorities. Overall, our results
-show that providing information to citizens has no consistent impact on policy
-outcomes. In the first experiment, we find that the TDP app increased the
-likelihood of construction cancellation by 2 percent, but the result does not
-replicate. The remaining five models have null results. In our second
+completion rates and complaints to public authorities. Overall, ~~our results
+show that~~ providing information to citizens has no consistent impact on
+policy outcomes. In the first experiment, we find that the TDP app increased
+the likelihood of construction cancellation by 2 percent, but the result does
+not replicate. The remaining five models have null results. In our second
 intervention, none of the estimations reach conventional levels of statistical
 significance. Importantly, all coefficients are small, what suggests that even
 if the TDP app had a significant effect on the outcomes, its substantive impact
 would be ~~virtually~~ negligible.
 
 The findings raise questions about the ability of citizens to hold
-representatives accountable using bottom-up ~~strategies~~ **monitoring**.
-Although studies like @bjorkman2009power, @fiala2017social, and
-@reinikka2005fighting report better policy outcomes after providing information
-to local communities, our findings are closer to @banerjee2010pitfalls,
-@keefer2014mass, @lieberman2014does, @bjorkman2017experimental,
-@olken2007monitoring, and @raffler2018weakness, offering little evidence that
-information-based interventions lead to greater government responsiveness. Our
-analysis suggests that grassroots monitoring is ineffective in altering
-government behaviour in Brazil.
+representatives accountable using bottom-up ~~strategies~~ **monitoring**. 
+\sout{Although studies like} **On the one hand,** @bjorkman2009power,
+@lagunes2018guardians, and @reinikka2005fighting report better policy outcomes
+after providing information to local communities. ~~our findings are closer
+to~~ **On the other hand,** @banerjee2010pitfalls, @keefer2014mass,
+@lieberman2014does, @bjorkman2017experimental, @olken2007monitoring, and
+@raffler2018weakness, find little evidence that information-based interventions
+lead to greater government responsiveness. **Our results are in line with the
+latter group and suggest that local oversight is ineffective in altering
+government behaviour in Brazil.**
 
 # The _Tá de Pé_ Project
 \label{sec:tdp}
@@ -161,14 +162,14 @@ incentivises citizens to provide up-to-date information about unfinished school
 constructions in their neighbourhoods, and that information will be assessed by
 a group of independent specialists. In the case the construction is behind
 schedule, TDP provides a writing platform whereby citizens can report to public
-officials quickly and anonymously. The app then prompts citizens to write
-a notification to the mayor's office, which has 15 days to reply. If they do
-not respond to the request, the app forwards the notification to the Brazilian
-Ministry of Education, making it harder for the municipality to access federal
-funds in the future. The motivation behind this intervention is that providing
-information to citizens empowers individuals to closely monitor public works.
-This, in turn, results in better social outcomes as public agents become more
-responsive to community demands.
+officials quickly and anonymously. The app then writes a notification to the
+mayor's office, which has 15 days to reply. If they do not respond to the
+request, the app forwards the notification to the Brazilian Ministry of
+Education, making it harder for the municipality to access federal funds in the
+future. The motivation behind this intervention is that providing information
+to citizens empowers individuals to closely monitor public works. This, in
+turn, results in better social outcomes as public agents become more responsive
+to community demands.
 
 [^tdp]: _Tá de Pé_ is an informal Brazilian expression for 'is it done?'.
 Literally, it means 'standing on its feet' in Portuguese.
@@ -229,15 +230,15 @@ the state of school construction sites.
 # Experimental Design
 \label{sec:design}
 
-Between August 2017 and February 2019, we implemented two interventions to
-measure the effect of the TDP app on five school construction outcomes plus
-a placebo test. The outcomes are: 1) a placebo outcome indicating the
-percentage of the project completed before the impact evaluation started; 2)
-the percentage of the project completed by the end of the interventions; 3) the
-difference between the percentage reported as completed before and after the
+Between August 2017 and July 2019, we implemented two interventions to measure
+the effect of the TDP app on five school construction outcomes plus a placebo
+test. The outcomes are: 1) a placebo outcome indicating the percentage of the
+project completed before the impact evaluation started; 2) the percentage of
+the project completed by the end of the interventions; 3) the difference
+between the percentage reported as completed before and after the
 interventions; 4) the number of finished constructions; 5) the number of
 cancelled constructions; 6) the number of schools where construction companies
-updated the conclusion dates. In terms of expectations, Table
+updated the conclusion dates. ~~In terms of expectations,~~ Table
 \ref{tab:outcomes} depicts the expected effects for each of the studied
 outcomes[^more-details].
 
@@ -262,15 +263,15 @@ the treatment implementation and the coding of the outcome variables.**
 }
 \end{table}
 
-The first intervention was carried out from August 2017 to February 2018 using
-the Android version of TDP. The randomization was conduct at the municipal
-level. We randomly selected 
-`r as.numeric(table(impact_evaluation_phase1$treat)[1])` municipalities to the
-control group and included 
-`r as.numeric(table(impact_evaluation_phase1$treat)[2])` in the treatment
-group. Our control condition consists in removing all information about school
-construction from the TDP app in the chosen municipalities, so that citizens
-were unable to report constructions in the control municipalities.
+The first intervention was carried out from August 2017 to July 2018 using the
+Android version of TDP. The randomization was conduct at the municipal level.
+We randomly selected `r as.numeric(table(impact_evaluation_phase1$treat)[1])`
+municipalities to the control group and included `r
+format(as.numeric(table(impact_evaluation_phase1$treat)[2]), big.mark = ",")`
+in the treatment group. Our control condition consists in removing all
+information about school construction from the TDP app in the chosen
+municipalities, so that citizens were unable to report constructions in the
+control municipalities.
 
 To evaluate the random assignment, we used the following pre-treatment
 variables: 1) log of municipal population in 2015; 2) log of number of poor
@@ -290,11 +291,9 @@ big.mark = ",")` municipalities in the treatment condition. Downloads peak
 during the Facebook TDP campaign, launched in October 2017, then diminish in
 the following months. **Overall, 
 `r format(sum(ga$novos_usuarios[ga$phase1==1]), big.mark = ",")` users
-downloaded the app in phase one.**
+downloaded the app during intervention 1.**
 
-\vspace{.5cm}
-
-```{r man1, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, cache=TRUE, out.width='.49\\linewidth', fig.width=4, fig.height=3.5, fig.show='hold', fig.align='center', fig.cap='\\label{fig:manipulation1}Manipulation checks for intervention 1. The first plot shows the geographical distribution of the treatment condition and the second graph displays the number of TDP app downloads from August 2017 to February 2018.'}
+```{r man1, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, cache=TRUE, out.width='.49\\linewidth', fig.width=4, fig.height=4, fig.show='hold', fig.align='center', fig.cap='\\label{fig:manipulation1}Manipulation checks for intervention 1. The first plot shows the geographical distribution of the treatment condition and the second graph displays the number of TDP app downloads from August 2017 to July 2018.'}
 
 # Load data
 load("tdp.RData")
@@ -329,7 +328,7 @@ gaaux$Downloads <- factor(gaaux$downl,
 													labels = c("No Downloads", "Downloads", "Not in App"))
 mapbr <- join_data(mapbr, gaaux, by = "City")
 plot_downloads_int1 <- ggplot() +
-  geom_sf(data = mapbr, aes(fill = Downloads), lwd = 0.01) +
+  geom_sf(data = mapbr, aes(fill = Downloads), lwd = 0.001) +
   scale_fill_manual(values = c("#E69F00", "#0072B2", "#F0E442")) +
   theme_map()
 plot_downloads_int1
@@ -344,7 +343,6 @@ plot_freq_users_int1 <- ggplot(tab, aes(x = Date, y = Frequency, group = 1)) +
 plot_freq_users_int1
 ```
 
-\newpage
 The second intervention is similar to intervention 1 in all but three
 characteristics. First, the TDP app was **then** available for both Android and
 iOS devices. Second, we randomised the intervention at the school level, with
@@ -354,7 +352,7 @@ scientific = FALSE)` treatment units. We used blocked randomisation stratified
 by Brazilian states, school construction status (under construction, stopped,
 unfinished), and whether the municipality spent more on school construction
 that the distribution median. Finally, the intervention period lasted from
-August 2018 to February 2019.
+August 2018 to July 2019.
 
 Balance tests and manipulation checks were also successful for intervention 2.
 In total, `r length(unique(ga$municipality[ga$phase2==1]))` municipalities
@@ -365,7 +363,7 @@ after intervention 2 starts, and a second spike around December.
 during intervention 2. The number of downloads is smaller in this second
 intervention as there was no associated social media campaign in that period.**
 
-```{r man2, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, cache=TRUE, out.width='.49\\linewidth', fig.width=4, fig.height=3.5, fig.show='hold', fig.align='center', fig.cap='\\label{fig:manipulation2}Manipulation checks for intervention 2. The graphs display the geographical and temporal variation of TDP app downloads from August 2018 to February 2019.'}
+```{r man2, echo=FALSE, warning=FALSE, message=FALSE, error=FALSE, cache=TRUE, out.width='.49\\linewidth', fig.width=4, fig.height=4, fig.show='hold', fig.align='center', fig.cap='\\label{fig:manipulation2}Manipulation checks for intervention 2. The graphs display the geographical and temporal variation of TDP app downloads from August 2018 to July 2019.'}
 # Load data
 load("tdp.RData")
 
@@ -401,7 +399,7 @@ gaaux$Downloads <- factor(gaaux$downl, labels = c("No Downloads", "Downloads",
                                                   "Not in App"))
 mapbr <- join_data(mapbr, gaaux, by = "City")
 p1 <- ggplot() +
-  geom_sf(data = mapbr, aes(fill = Downloads), lwd = 0.01) +
+  geom_sf(data = mapbr, aes(fill = Downloads), lwd = 0.001) +
   scale_fill_manual(values = c("#E69F00", "#0072B2", "#F0E442")) +
   theme_map()
 p1
@@ -610,7 +608,7 @@ introduction of the app. The literature on bottom-up accountability argues that
 delivering more information about the shortcomings of public services provision
 will ~~mobilise citizens who, in turn, would pressure state agents to produce
 better social policies~~ **put citizens in a position where they can monitor
-state agents and improve provider behaviour** [@raffler2018weakness, 2] . Our
+state agents and improve provider behaviour** [@raffler2018weakness]. Our
 results do not lend support to that hypothesis.
 
 Table \ref{tab:results2} shows the results of the second intervention. The
@@ -998,11 +996,11 @@ In this paper, we discuss **whether delivering information to citizens via** a
 mobile phone application fosters ~~grassroots mobilisation~~ **community
 oversight** and political accountability in Brazil. Our two interventions show
 that the results are at best mixed. Although we find ~~an~~ **some treatment**
-effect on school construction completion and cancelling rates in the first
-intervention, the app has no consistent impact on our outcomes of interest.
-These findings add to the studies that cast doubts on the relationship between
-bottom-up accountability and local policy performance [e.g.,
-@banerjee2010pitfalls; @lieberman2014does; @raffler2018weakness].
+effect on school cancelling rates in the first intervention, the app has no
+consistent impact on our outcomes of interest. These findings add to the
+studies that cast doubts on the relationship between bottom-up accountability
+and local policy performance [e.g., @banerjee2010pitfalls; @lieberman2014does;
+@raffler2018weakness].
 
 What factors, then, are driving these results? It seems unlikely that the null
 results derive from flaws in the research design. First, our study is well
@@ -1057,14 +1055,15 @@ monitoring may not be effective to improve public service delivery in the case
 of school constructions in Brazil. Nevertheless, the null findings are
 informative to researchers and policy-makers. The most important recommendation
 derived from this study is that interventions targeting elite groups, such as
-lobbyists or civil servants, might render better policy outcomes than those
-focused at the grassroots levels. Another core lesson is that although digital
-interventions are promising means to deliver information, perhaps they do not
-have the same impact as personal, face-to-face communication. Since many
-developing countries share Brazil's issues with education provision, the
-shortcomings we describe here serve as warnings for future interventions.
-Finally, whether this study generalises beyond school constructions to other
-bottom-up programs, and to other contexts, remains to be studied.
+lobbyists or civil servants, might render better ~~policy~~ **school
+construction** outcomes than those focused at the ~~grassroots levels~~
+**community level**. Another core lesson is that although digital interventions
+are promising means to deliver information, perhaps they do not have the same
+impact as personal, face-to-face communication. Since many developing countries
+share Brazil's issues with education provision, the shortcomings we describe
+here serve as warnings for future interventions. Finally, whether this study
+generalises beyond school constructions to other bottom-up programs, and to
+other contexts, remains to be studied.
 
 \setlength{\parindent}{0cm}
 \setlength{\parskip}{5pt}
