@@ -1607,7 +1607,7 @@ We run three types of analysis:
 
 All models use municipal-level cluster robust standard errors and state-level fixed effects. For all models, we also run regressions without clustering and without fixed effects.
 
-# Other information
+# Other Information
 
 * **IRB**: FGV exempted the investigators from getting IRB approval because
 	this research used online data and was approved by the Brazilian Ministry of
@@ -1640,4 +1640,4 @@ sessionInfo()
 \setlength{\parindent}{1cm}
 \setlength{\parskip}{0pt}
 
-# Bibliography
+# References

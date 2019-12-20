@@ -1006,7 +1006,7 @@ case**. ~~A~~ **One** plausible explanation is that individuals were unable to
 differentiate the effect of political corruption from those of spending cuts.
 Due to the severe economic crisis in 2014--2016, the Brazilian federal
 government introduced discretionary spending limits that affected public
-investment [@mello2016fix; @rossi2016impactos]. Politicians may argue that
+investment [@rossi2016impactos]. Politicians may argue that
 delays in school constructions are not derived from their misuse of government
 funds, but from the austerity measures. If this is the case, citizens will not
 blame local politicians for the underprovision of public goods. Consequently,
