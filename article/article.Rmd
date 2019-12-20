@@ -2,11 +2,7 @@
 title:  |
         | Bottom-Up Accountability and Public Service Provision: Evidence from a Field Experiment in Brazil
 author:
-- "Danilo Freire[^freire]"
-- "Manoel Galdino[^galdino]"
-- "Umberto Mignozzetti[^mignozzetti]"
 date: \today
-thanks: "We thank Fábio Barros, Guilherme Jardim Duarte, Stephen Herzog, and David Skarbek for their helpful comments. We are specially grateful to Catarina Roman and the staff of Transparência Brasil for their excellent research assistance. This research was pre-registered on the EGAP pre-registry tool (<https://egap.org/registration/4505>) and approved by the Brazilian Ministry of Education. The authors thank the 2016 Google Social Impact Challenge for financial support and declare that there are no conflict of interest. Replication data and code are available at <http://github.com/umbertomignozzetti/tdp-accountability>."
 abstract: "Does ~~grassroots participation~~ **local oversight** improve public service delivery? We study the effect of a mobile phone application that allows citizens to monitor school construction projects in Brazilian municipalities. ~~The app provides a platform where users can submit photos of construction sites, consult independent engineers, and contact the mayor's office about project delays.~~ **The app prompts users to submit data about construction sites, sends such crowdsourced information to independent engineers, and contacts the mayors' offices about project delays.** Our results show that the app has a null impact on the school construction indicators. Additionally, we find that politicians are unresponsive to individual requests. The results question the impact of ~~local~~ **bottom-up** monitoring on public service performance and suggest that interventions targeted ~~at other groups~~ **to other groups, or focusing on different issues,** may produce better policy outcomes."
 abstractspacing: double
 keywords: accountability, Brazil, impact evaluation, state capacity, technology
@@ -54,19 +50,6 @@ load("tdp.RData")
 # Disable scientific notation
 options(scipen = 999)
 ```
-
-[^freire]: Postdoctoral Research Associate, The Political Theory Project, Brown
-University, Providence, RI 02912, USA,
-[`danilofreire@brown.edu`](mailto:danilofreire@brown.edu),
-<http://danilofreire.github.io>, +1 (401) 584-2494. Corresponding author.
-
-[^galdino]: Executive Diretor, Transparência Brasil, São Paulo, SP, Brazil,
-[`mgaldino@transparencia.org.br`](mailto:mgaldino@transparencia.org.br),
-<https://www.transparencia.org.br>.
-
-[^mignozzetti]: School of International Relations, Fundação Getulio Vargas, São
-Paulo, SP, Brazil and Wilf Family Department of Politics, NYU, NY, USA,
-[`umberto.mig@nyu.edu`](mailto:umberto.mig@nyu.edu), <http://umbertomig.com>.
 
 \newpage
 
@@ -266,12 +249,12 @@ the treatment implementation and the coding of the outcome variables.**
 The first intervention was carried out from August 2017 to July 2018 using the
 Android version of TDP. The randomization was conduct at the municipal level.
 We randomly selected `r as.numeric(table(impact_evaluation_phase1$treat)[1])`
-municipalities to the control group and included `r
-format(as.numeric(table(impact_evaluation_phase1$treat)[2]), big.mark = ",")`
-in the treatment group. Our control condition consists in removing all
-information about school construction from the TDP app in the chosen
-municipalities, so that citizens were unable to report constructions in the
-control municipalities.
+municipalities to the control group and included 
+`r format(as.numeric(table(impact_evaluation_phase1$treat)[2]),
+big.mark = ",")` in the treatment group. Our control condition consists in
+removing all information about school construction from the TDP app in the
+chosen municipalities, so that citizens were unable to report constructions in
+the control municipalities.
 
 To evaluate the random assignment, we used the following pre-treatment
 variables: 1) log of municipal population in 2015; 2) log of number of poor
