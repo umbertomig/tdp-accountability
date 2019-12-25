@@ -36,7 +36,7 @@ if (!require("kableExtra")) {
 
 \vspace{.1cm}
 
-\noindent 17 December 2019
+\noindent 25 December 2019
 
 \vspace{.5cm}
 
@@ -53,26 +53,27 @@ a result.
 
 We have worked specially hard to clarify the connection between information
 provision and mobilisation, a point emphasised by both the editor and the
-reviewer. Our efforts in that regard include, first, a new section in the SI
-Appendix with a detailed description of _Tá de Pé_'s functionalities and the
+reviewer. Our efforts in that regard include, first, two sections in the online
+appendix with a detailed description of _Tá de Pé_'s functionalities and the
 associated Facebook campaigns. We explain the precautions we have taken to
 ensure that we correctly identify the effect of the TDP app on school outcomes.
-Second, we provide a thorough discussion of our additional data sources. More
-specifically, we show how the Brazilian Ministry of Education collects and
-publicises their data and indicate how our experiment uses that information to
-evaluate the robustness of our findings. We believe the new sections help give
-the results a clearer interpretation and strenghten our main arguments.
+Second, we provide a thorough discussion of our additional data sources in
+sections 3 and 4 of the appendix. More specifically, we show how the Brazilian
+Ministry of Education collects and publicises their data and how we use that
+information to evaluate the robustness of our findings. We believe the new
+sections help give the results a clearer interpretation and strenghten our main
+arguments.
 
-Related, we have included a discussion regarding app usage as suggested by the
-reviewer. We have included information provided by Google Analytics not only on
-app downloads but also on app usage, which addresses another important concern
-raised by the reviewer. The data show that the app usage was significant, yet
-it was not enough to trigger any responses from local governments. 
+Related, we have included information on app use and app downloads, which
+addresses another important concern raised by the reviewer. The data have been
+provided by Google Analytics and show that app usage was significant during the
+two interventions, yet the usage was not sufficient to trigger any responses
+from local governments. 
 
-Lastly, we have rewritten some parts of the main text to highlight that our
-experiment hinges on participation only, and that the effect of mobilisation
-and pressure on school construction outcomes require further analyses. We
-believe our paper now reflects our results more accurately.
+Lastly, we have rewritten some parts of the main text to highlight two points:
+1) that our experiment hinges on participation only; 2) that the effect of
+mobilisation and pressure on school construction outcomes require further
+analyses. We believe our paper now reflects our results more accurately.
 
 Below we discuss in more detail these and other changes we have made to the
 manuscript in response to comments from the editor and the reviewer. We thank
@@ -81,122 +82,453 @@ for his/her extremely helpful comments.
 
 \vspace{.5cm} \noindent Sincerely,
 
-\vspace{.5cm} \noindent The Authors
+\noindent The Authors
 
 \newpage
 
 # Editor Comments and Responses
 
-**1)** The editor writes: "_The reviewer confirmed my own sense that the
+\textbf{1)} The editor writes: "_The reviewer confirmed my own sense that the
 manuscript and underlying field experiment are interesting, although you will
 see that the reviewer suggests many ways the manuscript can be improved.  I am
 in full agreement with the reviewer that you need to reflect more deeply about
 the theory and evidence for why information provision via the app could be
-connected to mobilization, -- otherwise the null result is not interesting.  As
+connected to mobilization, -- otherwise the null result is not interesting. As
 the reviewer notes, the null result could be due to a disconnect between
 information provision and action, or due to who selects into downloading the
 app._"
 
 \vspace{.5cm} \noindent \textbf{Response:}
 
-\begin{quotation}
-We agree with the editor and the reviewer in regards to the link between
-information provision and mobilisation. We believe the main issue lies in the
-lack of evidence for mobilisation, that is, information on how users interacted
-with the application and whether they have used the app consistently. In the
-revised version of the manuscript, we provide data from Google Analytics which
-indicate that users did engage with the app. According to the service, the app
-had 6,092 active users in intervention 1 and gained 4,078 new users during
-intervention 2. On average, each user launched 60 sessions per app install, an
-indication of their actual engagement with the application. Moreover, the data
-also show that the app had more than 53,000 screen visualisations, with an
-average of 2.42 visualisations per user. We have added this information to the
-main text and the online appendix. The additions are marked in \textbf{boldface}.
-We elaborate further on this issue in the response to Reviewer 1 below.
-\end{quotation}
+> We agree that the link between information provision and mobilisation was not
+clearly defined in the original manuscript. We believe the main issue lies in
+the lack of evidence for mobilisation, that is, we did not provide sufficient
+information about how users interacted with the application and whether they
+have used the app consistently. In the revised version of the manuscript, we
+provide data from Google Analytics which indicate that users did engage with
+the app. According to the service, the app had 6,092 active users in
+intervention 1 and gained 4,078 new users during intervention 2. On average,
+each user launched 60 sessions per app install, an indication of their actual
+engagement with the application. Moreover, the data also show that the app had
+more than 53,000 screen visualisations, with an average of 2.42 visualisations
+per user. We have added this information to the main text and to the online
+appendix. The additions are marked in \textbf{boldface}. We elaborate further
+on this issue in the response to Reviewer 1 below.
 
 # Reviewer 1 Comments and Responses
 
-**1)** Reviewer 1 writes: "_My biggest concern is there is no discussion of the
-actual bottom-up accountability that may (or may not) have occurred. [...] The
-authors have devised a nice experiment and I believe their design to have been
-appropriately administrated. But the design hinges on several critical
-mechanisms that go largely undiscussed: not only must information be available
-to citizens such that they might participate in local oversight, but said
-citizens must 1) access the information and 2) act on said information. This is
-mentioned in the Discussion---that perhaps the app was insufficient to spur
-collective action---but that also seems like an empirical question the authors
-could feasibly address. [...] Once people downloaded the App, did they use
-it?_"
+**1)** Reviewer 1 writes: "[...] _My biggest concern is there is no discussion
+of the actual bottom-up accountability that may (or may not) have occurred._" 
 
 \vspace{.5cm} \noindent \textbf{Response:}
 
-\begin{quotation}
-This first point raised by the reviewer is connected to the response we have
-provided above. We have made several changes to the main paper and the appendix
-to address this important concern. First, we have added a the following section
-to the appendix in order to clarify how the TDP app works:
-
-\vspace{.5cm}
-
-3. Treatment Definition and Mechanism
-
-The \textit{Tá de Pé} app
-
-1. Users download the app
-2. Use the app and report the schools to the mayors' office
-3. Our team took the reported schools and started implementing the pressure
-on the mayors' office.
-4. Should the pressure have work, we would witness improvements on governmental
-	 data regarding the school construction progress. 
-
-For the step (4), we relied on monthly issued administrative data by the
-Brazilian Ministry of Education. The Ministry of Education provides monthly
-data on the school constructions that are being build with Federal resources,
-and that are delayed across the country. To compute the delay we use the
-finishing dates reported by the municipality at the time they sign the
-agreement with the Federal Government. This data helped us to keep the App
-updated and the outcomes in the paper are selected to be six months before
-(pre-treatment) and after the intervention. This data was constantly updated by
-the Ministry of Education, and we found no red flags in the overall quality of
-the data.
-
-Therefore, steps (1), (3), and (4) were standardized to not vary across the
-country. The only source of variation in our intervention should come from step
-(2).
-
-In step (2), we applied the treatment by removing schools within municipalities
-out of the app. In the first intervention, that happened at the municipal
-level, we excluded all schools within a given randomly selected municipality.
-In the second intervention, we excluded randomly selected schools out of the
-App. Removing a school means that the school was in the dataset provided by the
-Brazilian Ministry of Education, but it did not show up in the App. Therefore,
-our treatment effect represents the school being present (treatment) or absent
-(control) in the App.
-
-In terms of what this represents, we argue that the App is promoting two
-crucial features for bottom-up accountability: first, it is facilitating people
-to connect with information that would be otherwise be in an obscure
-spreadsheet at the Ministry of Education website; second, whenever people find
-this information troublesome, we are providing an easy way to them to act upon
-the information. As the design was intuitive and straightforward, we believe
-that most of Brazilians would find it easy to use the App.
-
-Moreover, the treatment to be successful does not require that everyone in the
-municipality uses the App. Clearly that more usage means more pictures and
-denounces, and this represents more pressure over the mayors office, what could
-revert into a higher effect. However, just one denounce would be enough, as it
-can be directed to the Brazilian General Comptroller (CGU), and this could
-potentially deny future funding to the municipality.
-
-
-
-
-\end{quotation}
-
-
-
+> We have made several changes to the main paper and the online appendix to
+address this important concern. First, we have added a new section to the
+appendix (B) in order to clarify how we designed and conducted the experiment.
+We copy the text below:
 
 \newpage
-\setlength{\parindent}{0cm}
-\setlength{\parskip}{5pt}
+
+> **Appendix C -- Treatment Definition and Mechanism**
+
+> _In this section, we explain in detail how the _Tá de Pé_ app works. The
+treatment involves the following procedures:_
+
+> _1. Users download the app._
+
+> _2. Users access the app and add new information about school constructions
+	 near to their location._
+
+> _3. The app sends a message to the mayor's office requesting details about
+the project. If necessary, the message is also forwarded to other government
+oversight institutions such as the city council and the Brazilian Federal
+Comptroller (CGU). Below, we discuss the cases in which we forwarded the
+denounce to the authorities._
+
+> _4. If the pressure over the mayors has an effect, we expect to witness
+	 improvements on governmental data regarding the school construction
+	 progress._
+
+> _The treatment is a compounded treatment comprised of steps (2) to (4). To
+make sure that the only source of effect comes from step (2), we took the
+following precautions:_
+
+> _In step (1), we have implemented Facebook campaigns in municipalities that
+have school construction agreements with the Federal government. We did not
+discriminate any municipality in this step, and citizens living in
+municipalities in the treatment and in the control could equally have received
+the banners about the _Tá de Pé_ app. The Facebook campaign was not
+randomised._
+
+> _For step (3), we put a team of two data scientists to ensure that upon
+receiving a denounce, the mayor's office, the city council, and the Brazilian
+Federal Comptroller (CGU) would be notified. The decision making funnel was:_
+
+> _3.1. We notified the _Engineers without Borders_ (EWB) about the denounce
+and sent them the user-provided pictures and auxiliary information. They issued
+a report on how much the construction was likely to be delayed._
+
+> _3.2. After we had the EWB report, we notified the mayor's office in
+compliance with Brazil's Freedom of Information Act (FOI). We communicated that
+a citizen had anonymously made a denounce about a school (fully identifying the
+school construction that we were referring to), and that the Engineers without
+Borders found the construction delayed. We submitted a request for the mayor's
+office to provide an explanation on why the construction was delayed, and asked
+for updated statistics on when the construction will be finished. According to
+the FOI law, the mayor had twenty days to respond._
+
+> _3.3. If the response was deemed insufficient, we forwarded the denounce to
+the city council and to the Brazilian Federal Comptroller (CGU). As the
+denounce goes to these institutions, they can harm mayors by restricting access
+to Federal funds._
+
+> _3.4. At each stage, a Twitter bot constructed by Transparência Brasil
+(<https://twitter.com/tadepeapp>) reported the reception of a denounce and
+tracked the responses of the mayor, the city council, and the CGU._
+
+> _In step (4), we relied on administrative data by the Brazilian Ministry of
+Education. The Ministry of Education provides monthly data on school
+constructions build with Federal Government resources and shows how many of
+them are delayed across the country. We use the finishing dates reported by the
+municipality at the time they sign the agreement with the Federal Government as
+our measure of construction delays. This data helped us to keep the app
+updated. We selected outcomes six months before and after the treatment. The
+data were constantly updated by the Ministry of Education, and we found no red
+flags in the overall quality of their information._
+
+> _Therefore, steps (1), (3), and (4) were standardised and do not vary across
+the country. The only source of variation in our intervention should come from
+step (2)._
+
+> _In step (2), we applied the treatment by removing schools within
+municipalities out of the app. In the first intervention, which happened at the
+municipal level, we excluded all schools within a given randomly selected
+municipality. In the second intervention, we randomly excluded selected schools
+out of the app. Removing a school means that the school was in the dataset
+provided by the Brazilian Ministry of Education, but it did not show up in the
+app. Therefore, our treatment effect represents the school being present
+(treatment) or absent (control) in the app._
+
+> _We argue that the app promotes two crucial features of bottom-up
+accountability. First, it helps people to access information that would
+otherwise be available only in an obscure spreadsheet on the Ministry of
+Education website. Second, whenever people find this information troublesome,
+we are providing an easy way to them to act upon the information. As the _Tá de
+Pé_ design was intuitive and straightforward, we believe that most of
+Brazilians would find it easy to use the app._
+
+> _Moreover, the success of treatment does not require that everyone in the
+municipality uses it. The more usage means more pictures and denounces, and
+this represents more pressure over the mayors office, what could revert into a
+higher effect. However, just one denounce would be enough for the project to be
+successful, as the denounce can be directed to the Brazilian General
+Comptroller (CGU), and this could potentially deny future funding to the
+municipality._
+
+\noindent \textbf{2)} Reviewer 1 writes: "_The authors have devised a nice
+experiment and I believe their design to have been appropriately administrated.
+But the design hinges on several critical mechanisms that go largely
+undiscussed: not only must information be available to citizens such that they
+might participate in local oversight, but said citizens must 1) access the
+information and 2) act on said information. This is mentioned in the
+Discussion---that perhaps the app was insufficient to spur collective
+action---but that also seems like an empirical question the authors could
+feasibly address_. [...] _Once people downloaded the App, did they use it?_"
+
+> To answer these questions, we have added Google Analytics data on _Tá de
+Pé_'s download and usage. This provide reliable and exogenous data
+about our experimental manipulation and the effectiveness of the treatment. The
+data confirm that app usage was significant. We add the following paragraph to
+the main text to show user engagement (page 8):
+
+\newpage
+
+> _Data from Google Analytics suggest that users did engage with the TDP app.
+On average, each user launched 59.99 app sessions, which indicates their
+interest in the application. In total, the app had 53,928 screen
+visualisations, with an average of 2.42 screen visualisations per session._
+
+> We see that users not only downloaded the app but visualised
+different screens at each session. This means that users did check all pages of
+the app, including those with information about local school constructions.
+Moreover, figures 2 and 3 in the main text (pages 7 and 8) also show that the
+downloads were widespread across the country. Considering Brazil's large
+territory, we believe this is robust evidence of an effective treatment
+manipulation.  
+
+> As we note in Appendix C, one denounce would be sufficient for the city
+council and the Federal Comptroller to start an investigation against the
+offending mayor. However, we do not find any substantial treatment effect in
+our two interventions. We have added three paragraphs to the Discussion section
+on possible explanations for the null effects (pages 12 and 13):
+
+> _What factors, then, are driving these results? It seems unlikely that the
+null results derive from flaws in the research design. First, our study is well
+powered. Although the treatment is indirect---the person has to download the
+app, find a school construction, and then report it---,we included a
+substantial number of schools in the treatment groups. Second, balance and
+manipulation tests indicate that the treatment allocation was successful, so we
+can rule out problems in the randomisation procedures. Third, data from
+Google Analytics confirm that citizens did use the app and provided information
+to our dataset. This indicates that the treatment manipulation was effective.
+In this sense, it is unlikely that our results derive from low user response.
+Fourth, after doing a series of robustness tests, we still find no firm
+evidence of treatment effect. Finally, note that the sign of the coefficients
+are frequently contrary to our theoretical expectations. This rules out a
+possible concern about statistical power with our small control group
+approach._
+
+> _We discuss some possible reasons why community monitoring did not work in
+our case. One plausible explanation is that individuals were unable to
+differentiate the effect of political corruption from those of spending cuts.
+Due to the severe economic crisis in 2014--2016, the Brazilian federal
+government introduced discretionary spending limits that affected public
+investment [@rossi2016impactos]. Politicians may argue that delays in school
+constructions are not derived from their misuse of government funds, but from
+the austerity measures. If this is the case, citizens will not blame local
+politicians for the underprovision of public goods. Consequently,
+representatives can dismiss individual requests as the issue is unlikely to
+escalate._
+
+> _The electoral cycle might also have decreased the potential effect of the
+treatment. As the experiment was fielded right after Brazil's municipal
+elections, incumbents might have disregarded the requests because they did not
+see the demands as politically costly in the short run. Having just taken
+office, mayors might have focused their attention to the formation of
+government coalitions or to budget concerns. Future research may evaluate how
+electoral dynamics interact with citizen oversight, potentially by replicating
+informational experiments in different stages of the political cycle._
+
+\noindent \textbf{3)} Reviewer 1 writes: "_Did the creators of the App
+actually gather information on school construction?_"
+
+> We have added a new section to the online appendix describing our data
+collection process (Appendix D). The section contains our data sources and a
+brief description of each outcome variables we employed in the paper. The
+variables we use were compiled by the Brazilian Ministry of Education. The new
+section is available below.
+
+> **Appendix D -- Outcome Data Collection**
+
+> _We collect the main outcomes using the data reported by the municipality to
+the Brazilian Ministry of Education. Note that this is the same data as the
+pre-treatment data that we use to feed in the app with delayed schools._
+
+> _The outcomes used in the paper are:_
+
+> _1. **Percentage of the project completed before the impact evaluation
+	 started**: This is a column in the Ministry of Education dataset. The data
+	 in this column were sampled in the beginning of the intervention._
+
+> _2. **Percentage of the project reported as completed by the end of the
+	 intervention period**: Another column in the Ministry of Education dataset.
+	 The data were sampled six months after the intervention._
+
+> _3. **Difference between the percentage reported as completed before and
+after the intervention**: The difference between (1) and (2) above. Note that
+according to @gerber2012field, this way to look into outcomes is positive, as
+having a pre-treatment covariate that highly predicts the outcome reduces the
+variance in the estimator considerably._
+
+> _4. **Dummy indicator for finished constructions**: The Ministry of Education
+	 dataset has a column with the construction status. We created a dummy to be
+	 one when the construction was reported as finished and zero otherwise. The
+	 data here were sampled six months after the intervention._
+
+> _5. **Dummy indicator for cancelled constructions**: Similarly, we created a
+	dummy variable from the Ministry of Education dataset indicating when the
+	construction was reported as cancelled. The data here were sampled six months
+	after the intervention._
+
+> _6. **Number of schools where construction companies updated the conclusion
+	 dates**: Lastly, the Ministry of Education dataset has a column with the
+	 construction estimated completion date. We took the completion dated
+	 reported before and six months after the intervention. If the dates
+	 differed, we coded as one, and zero otherwise._
+
+> _All these variables come from our manipulation of the Ministry of Education
+data. Collecting the outcomes in this way is superior than the alternative of
+gathering the data ourselves. First, we would not be able to manipulate the
+results and cherry-pick favourable results. Even if they have the best
+intentions, researchers may bias the results just by the choices they make in
+the data collection process. For instance, if we send an RA to collect the
+data, as she knows the app, she could unconsciously over-report positive
+results. This would bias our findings and undermine the credibility of our
+experiment. Second, using external data makes the results easily reproducible
+by other researchers. As the Ministry of Education has standardised data
+collection procedures, they greatly simplify and facilitate the reproduction of
+our findings._
+
+\noindent \textbf{4)} Reviewer 1 writes: "_Some of this basic information is
+fascinating, and two critical components to how we ought to interpret the
+results. For example, page 8 "The literature on bottom up accountability argues
+that more information about the shortcomings of public service provision will
+mobilise citizens who, in turn, would pressure state agents to produce better
+social policies. Our results do not lend support to that hypothesis." Your
+results suggest that providing information alone is not sufficient, but
+different analyses are required to evaluate the mobilization and pressure part
+of that equation._"
+
+> We fully agree with the reviewer and have changed the main text accordingly.
+We have rewritten several passages, from the abstract to the discussion, in
+order to highlight that our mechanism is indeed based on information provision
+and not exactly mobilisation. For instance, the first paragraph in the
+Discussion session has been rewritten as:
+
+> _In this paper, we discuss **whether delivering information to citizens via** a
+mobile phone application fosters ~~grassroots mobilisation~~ **community
+oversight** and political accountability in Brazil. Our two interventions show
+that the results are at best mixed. Although we find ~~an~~ **some treatment**
+effect on school cancelling rates in the first intervention, the app has no
+consistent impact on our outcomes of interest. These findings add to the
+studies that cast doubts on the relationship between bottom-up accountability
+and local policy performance [e.g., @banerjee2010pitfalls; @lieberman2014does;
+@raffler2018weakness]._
+
+Similarly, we have changed the Introduction to: 
+
+> _We use the TDP app to conduct two experimental interventions and test ~~its
+impact~~ **the impact of citizen oversight** on five outcomes related to school
+completion rates and complaints to public authorities. Overall, ~~our results
+show that~~ providing information to citizens has no consistent impact on
+policy outcomes._ [...] _Our results are in line with the
+latter group and suggest that local oversight is ineffective in altering
+government behaviour in Brazil._
+
+\noindent \textbf{5)} Reviewer 1 writes: "_A similar short coming is the lack
+of discussion of who downloaded the App, and if/how said characteristics
+correlate with municipal level predictors of school construction outcomes. It
+might be that the randomization "worked" at the municipal level (balance and
+manipulation tests suggests this is the case), but if the App was exclusively
+downloaded by teenagers (those most likely to be on Facebook, but least likely
+to care about public works information, and least likely to do something about
+it), then that could be the root of the problem. Indeed, the authors describe
+in the SI Appendix the ability to evaluate subsets of user data, I'm curious as
+to why they did not._"
+
+> The reviewer correctly points out that the usage of the app could have
+suffered from heterogeneous effects on the types of users achieved by the
+Facebook campaign. To clarify this point, first, we would like to note that the
+Facebook campaign was not randomised. This means that every municipality that
+had a delayed construction site in the Ministry of Education data was targeted,
+regardless of being in the treatment or the control group. In fact, the app
+could be downloaded in any Brazilian municipality, regardless of having a
+construction delayed on it. The App will automatically list the school sites
+closer to the user, even if the closest school is kilometres away from the
+user.
+
+> Second, the Brazilian countryside is still plagued by political violence
+against citizens acting against mayors. Because of this possibility, we decided
+to make the app completely anonymous. Although this carries a cost in terms of
+the analysis, it ensures that the citizens were not exposed in any way.
+Moreover, the randomization is known for washing out any the interference of
+any unobserved factor that could threat the identification of the causal
+effect. The success on observables reassures us that the randomisation was well
+performed, and probably eliminated the concern of heterogeneity from
+non-observables. However, we agree with the reviewer that the target public
+could be either outside Facebook, or being of a given demographic
+characteristic that we did not captured in our experiment. 
+
+> We have also included further information on the Facebook campaign in the
+> Appendix (section E):
+
+> **Appendix E: Facebook Tá de Pé Campaign**
+
+> _The app by itself would probably not have had an effect on the
+responsiveness of mayors. To boost usage and publicize the app, Transparência
+Brasil ran 64 Facebook campaigns throughout the country. The Facebook campaign
+concentrates the bulk of the investments in the beginning of the intervention.
+The app download data is in the second panel of Figures 2 and 3. For the
+Facebook interaction, we have the following statistics:_
+
+> _1. Impressions_
+	- _Mean: 36052.69_
+	- _Total for all campaigns: 5,155,535_
+
+> _2. App Download link clicks:_
+	- _Mean:  24398.65_
+	- _Total for all campaigns: 1,951,892
+
+> _As we see from the actual download activity, the people who indeed
+downloaded the app were much fewer than these numbers would suggest._
+
+> _We have chosen Facebook because the platform offers an easy and cheap method
+to spread information. Moreover, according to the Statista website, Facebook is
+used by 70 million Brazilians (60% of the entire adult population), and the
+demographics largely match the demographics publicised by the Brazilian
+Institute of Geography and Statistics. For instance, see the following
+websites:_
+
+> _1. [Statista Total Facebook
+> Users](https://www.statista.com/statistics/244936/number-of-facebook-users-in-brazil/)_
+
+> _2. [Statista Total Facebook Users by
+	 Age](https://www.statista.com/statistics/866282/facebook-user-share-brazil-age/)_
+
+
+\noindent \textbf{6)} Reviewer 1 writes: "_In light of the aforementioned
+nuance that is lacking but ought to be improved, I encourage the authors to
+take care in how they describe their experiment, the treatment and what we can
+infer. For example, the first sentence of the abstract asks: “Does grassroots
+participation improve public service delivery?” The analysis hinges not on
+participation (something on which we have no information), but the possibility
+of oversight._ [...] _This is but one example, I would encourage the authors to
+carefully revise an already polished manuscript with these sorts of clarifying
+issues in mind._"
+
+> We agree with the reviewer and have followed his/her suggestions for revising
+the phrasing of some of our passages. We believe the text has been
+significantly improved as a result. The changes can be read in several parts of
+the main text, but we would like to share some examples here. For instance, the
+abstract now reads:
+
+> _Does ~~grassroots participation~~ **local oversight** improve public service
+> delivery? We study the effect of a mobile phone application that allows
+> citizens to monitor school construction projects in Brazilian municipalities.
+> ~~The app provides a platform where users can submit photos of construction
+> sites, consult independent engineers, and contact the mayor's office about
+> project delays.~~ **The app prompts users to submit data about construction
+> sites, sends such crowdsourced information to independent engineers, and
+> contacts the mayors' offices about project delays.** Our results show that
+> the app has a null impact on the school construction indicators.
+> Additionally, we find that politicians are unresponsive to individual
+> requests. The results question the impact of ~~local~~ **bottom-up**
+> monitoring on public service performance and suggest that interventions
+> targeted ~~at other groups~~ **to other groups, or focusing on different
+> issues,** may produce better policy outcomes._
+
+Our explanation of the results on page 9 has been rewritten as:
+
+> _We find that the app only has a small effect on cancellation rates. The TDP
+application increases the likelihood of cancelling the construction in 2.07
+percent. While this result goes in the opposite direction of our theoretical
+expectations, the finding is inconsistent and does not replicate in the second
+experiment. All other coefficients are not statistically significant at
+conventional levels. On the one hand, the results indicate that our placebo
+outcome, the percentage of the invested executed before the intervention,
+indeed behaves as predicted. On the other hand, we expected the five remaining
+outcomes to improve after the introduction of the app. The literature on
+bottom-up accountability argues that delivering more information about the
+shortcomings of public services provision will ~~mobilise citizens who, in
+turn, would pressure state agents to produce better social policies~~ **put
+citizens in a position where they can monitor state agents and improve provider
+behaviour** [@raffler2018weakness]. Our results do not lend support to that
+hypothesis._
+
+\noindent \textbf{7)} Reviewer 1 writes: "_Can you address possible
+cross-municipality contamination?_"
+
+> The reviewer finally questions us about the possibility of cross-municipality
+> contamination. This would mean that the existence of the app in a
+> municipality could make mayors in other municipalities to act and increase
+> their efforts toward getting the schools finished. She/He is correct that, if
+> this is the case, the null result should not be surprising. However, looking
+> into changes in outcomes in the control and the treatment we see no effect of
+> proximity. Moreover, municipalities in Brazil are much insulated, and mayors
+> usually belong to different parties. There are about 35 active parties in
+> Brazil, which makes cross-municipality contact and information sharing costly
+> and difficult. Therefore, we believe that this possibility is remote.
+
+We would like to thank Reviewer 1 for his/her helpful comments and suggestions.
+
+\setlength{\parindent}{0cm} \setlength{\parskip}{5pt}

@@ -29,7 +29,7 @@ output:
 # Balance Tests \label{sec:bal-tests}
 
 The tables below show the results of the balance tests we conducted for
-interventions 1 and 2. Our list of covariates are: 
+interventions 1 and 2. Our covariates are: 
 
 1. Log of municipal population in 2015; 
 2. Log of number of poor families in each city; 
@@ -41,9 +41,9 @@ The data come from the Brazilian Ministry of Education and the National Census.
 
 In intervention 1, we randomised the treatment at the municipality level. We
 selected 150 municipalities for the control group while the rest were placed in
-the treatment group. The control group worked by deleting all the construction
-sites in control assigned cities. No difference between control and treatment
-variables is statistically significant.
+the treatment group. We created the control group by deleting all the
+construction sites in the selected cities. No difference between control and
+treatment variables is statistically significant.
 
 ```{r balance1, echo=TRUE, results='hide', warning=FALSE, message=FALSE, error=FALSE, tidy=TRUE}
 # R options
@@ -99,7 +99,7 @@ print(tab_IE1_balance)
 
 In intervention 2, we randomised the treatment at the school level. We placed
 15% of schools that could potentially appear in the app in the control group.
-We used block randomization, blocking by three characteristics:
+We used block randomisation, blocking by three characteristics:
 
 1. Brazilian State
 2. Construction Status (under construction, stopped, unfinished)
@@ -218,11 +218,11 @@ treatment involves the following procedures:
 2. Users access the app and add new information about school constructions
 	 near to their location.
 
-3. The app sends a message to the mayor's office asking details about the
+3. The app sends a message to the mayor's office requesting details about the
 	 project. If necessary, the message is also forwarded to other government
 	 oversight institutions such as the city council and the Brazilian Federal
-	 Comptroller. Below, we discuss the cases in which we forwarded the denounce
-	 to the authorities.
+	 Comptroller (CGU). Below, we discuss the cases in which we forwarded the
+	 denounce to the authorities.
 
 4. If the pressure over the mayors has an effect, we expect to witness
 	 improvements on governmental data regarding the school construction
@@ -247,16 +247,15 @@ sent them the user-provided pictures and auxiliary information. They issued a
 report on how much the construction was likely to be delayed.
 
 3.2. After we had the EWB report, we notified the mayor's office in compliance
-with Brazil's Freedom of Information Act. We communicated that a citizen had
-anonymously made a denounce about a school (fully identifying the school
-construction that we were referring to), and that the Engineers Without Borders
-found the construction delayed by a percentage that EWB provided. We submitted
-a request for the mayor's office to provide an explanation on why the
-construction was delayed, and asked for updated statistics on when the
-construction will be finished. According to the FOI law, they had twenty days
-to respond.
+with Brazil's Freedom of Information Act (FOI). We communicated that a citizen
+had anonymously made a denounce about a school (fully identifying the school
+construction that we were referring to), and that the Engineers without Borders
+found the construction delayed. We submitted a request for the mayor's office
+to provide an explanation on why the construction was delayed, and asked for
+updated statistics on when the construction will be finished. According to the
+FOI law, the mayor had twenty days to respond.
 
-3.3. If the response was found insufficient, we forwarded the denounce to
+3.3. If the response was deemed insufficient, we forwarded the denounce to
 the city council and to the Brazilian Federal Comptroller (CGU). As the
 denounce goes to these institutions, they can harm mayors by restricting access
 to Federal funds.
@@ -270,11 +269,10 @@ Education. The Ministry of Education provides monthly data on school
 constructions build with Federal Government resources and shows how many of
 them are delayed across the country. We use the finishing dates reported by the
 municipality at the time they sign the agreement with the Federal Government as
-our measure of construction delays. This data helped us to keep the app updated
-and the outcomes in the paper are selected to be six months before
-(pre-treatment) and after the intervention. This data was constantly updated by
-the Ministry of Education, and we found no red flags in the overall quality of
-the data.
+our measure of construction delays. This data helped us to keep the app
+updated. We selected outcomes six months before and after the treatment. The
+data were constantly updated by the Ministry of Education, and we found no red
+flags in the overall quality of their information.
 
 Therefore, steps (1), (3), and (4) were standardised and do not vary across the
 country. The only source of variation in our intervention should come from step
@@ -283,7 +281,7 @@ country. The only source of variation in our intervention should come from step
 In step (2), we applied the treatment by removing schools within municipalities
 out of the app. In the first intervention, which happened at the municipal
 level, we excluded all schools within a given randomly selected municipality.
-In the second intervention, we excluded randomly selected schools out of the
+In the second intervention, we randomly excluded selected schools out of the
 app. Removing a school means that the school was in the dataset provided by the
 Brazilian Ministry of Education, but it did not show up in the app. Therefore,
 our treatment effect represents the school being present (treatment) or absent
@@ -319,7 +317,7 @@ The outcomes used in the paper are:
 
 2. **Percentage of the project reported as completed by the end of the
 	 intervention period**: Another column in the Ministry of Education
-	 dataset. The data  were sampled six months after the intervention.
+	 dataset. The data were sampled six months after the intervention.
 
 3. **Difference between the percentage reported as completed before and after
 	 the intervention**: The difference between (1) and (2) above. Note
@@ -348,13 +346,13 @@ data. Collecting the outcomes in this way is superior than the alternative of
 gathering the data ourselves. First, we would not be able to manipulate the
 results and cherry-pick favourable results. Even if they have the best
 intentions, researchers may bias the results just by the choices they make in
-the data collection process. For instance, if we send a RA to collect the data,
-as she knows the app, she could unconsciously have a tendency to over-report
-positive results. This would severely bias our findings and undermine the
-credibility of our experiment. Second, using external data makes the results
-easily reproducible by other researchers. As the Ministry of Education has
-standardised data collection procedures, they greatly simplify and facilitate
-the reproduction of our findings.
+the data collection process. For instance, if we send an RA to collect the
+data, as she knows the app, she could unconsciously over-report positive
+results. This would bias our findings and undermine the credibility of our
+experiment. Second, using external data makes the results easily reproducible
+by other researchers. As the Ministry of Education has standardised data
+collection procedures, they greatly simplify and facilitate the reproduction of
+our findings.
 
 # Facebook Tá de Pé Campaign
 
@@ -381,7 +379,7 @@ spread information. Moreover, according to the Statista website, Facebook is
 used by 70 million Brazilians (60% of the entire adult population), and the
 demographics largely match the demographics publicised by the Brazilian
 Institute of Geography and Statistics. For instance, see the following
-webpages:
+websites:
 
 1. [Statista Total Facebook Users](https://www.statista.com/statistics/244936/number-of-facebook-users-in-brazil/)
 2. [Statista Total Facebook Users by Age](https://www.statista.com/statistics/866282/facebook-user-share-brazil-age/)
@@ -392,7 +390,7 @@ webpages:
 
 ## Intervention 1
 
-The code below replicates the findings of table 1 in the manuscript.
+The code below replicates table 1 in the manuscript.
 
 ```{r int1, echo=FALSE, warning=FALSE, message=FALSE, results='hide', cache=TRUE}
 load('../article/tdp.RData')
@@ -952,7 +950,10 @@ R$^{2}$ & 0.08 & 0.08 & 0.01 & 0.005 & 0.12 & 0.05 \\
 
 # Randomisation Inference
 
-We employ randomised inference to estimate the probability of the sharp null hypothesis over all possible randomisations that could have occurred under our research design. We fail to reject the null in all but the finished school indicator in experiment 1.
+We employ randomised inference to estimate the probability of the sharp null
+hypothesis over all possible randomisations that could have occurred under our
+research design. We fail to reject the null in all but the finished school
+indicator in experiment 1.
 
 ```{r ri, echo=FALSE, warning=FALSE, message=FALSE, results='hide', cache=TRUE, fig.width=7, fig.height=8, fig.show='hold', fig.align='center', fig.cap='\\label{fig:randomisation-inference}Sampling distribution of the estimated coefficient for our six outcomes in two interventions. Graphs on the left correspond to randomisation inference estimates for intervention 1 and those on the right describe the results for intervention 2.'}
 # Chunk randomization inference
@@ -1187,41 +1188,41 @@ improves public service outcomes in developing economies. Some of the papers
 find that bottom-up accountability has a significant impact on public service
 delivery:
 
-	- Bjorkman, Martina and Jakob Svensson. 2009. “Power to the People: Evidence
+	- Bjorkman, Martina and Jakob Svensson. 2009. "Power to the People: Evidence
 		from a Randomized Field Experiment of a Community-Based Monitoring Project
-		in Uganda.” Quarterly Journal of Economics 124(2):735–769.
-	- Bjorkman, Martina and Jakob Svensson. 2010. “When Is Community-Based
+		in Uganda." Quarterly Journal of Economics 124(2):735–769.
+	- Bjorkman, Martina and Jakob Svensson. 2010. "When Is Community-Based
 		Monitoring Effective? Evidence from a Randomized Experiment in Primary
-		Health in Uganda.” Journal of the European Economic Association
+		Health in Uganda." Journal of the European Economic Association
 		8(2-3):571–581. Bjorkman Nyqvist, Martina, Damien de Walque and Jakob
-		Svensson. 2017. “Experimental Evidence on the Long-Run Impact of
-		Community-Based Monitoring.” American Economic Journal: Applied Economics
+		Svensson. 2017. "Experimental Evidence on the Long-Run Impact of
+		Community-Based Monitoring." American Economic Journal: Applied Economics
 		9(1):33–69.
 
 However, other authors fail to find positive resuls for the same type of
 intervention, e.g.:
 
 * Banerjee, A. V., Banerji, R., Duflo, E., Glennerster, R., and Khemani, S.
-	2010. Pitfalls of Participatory Programs: Evidence from a Randomized
-		 Evaluation in Education in India. American Economic Journal: Economic
+	2010. "Pitfalls of Participatory Programs: Evidence from a Randomized
+		 Evaluation in Education in India." American Economic Journal: Economic
 		 Policy, 2(1):1–30.
-* Lieberman, E. S., Posner, D. N., and Tsai, L. L. 2014. Does Information Lead
+* Lieberman, E. S., Posner, D. N., and Tsai, L. L. 2014. "Does Information Lead
 	to More Active Citizenship? Evidence from an Education Intervention in Rural
-	Kenya. World Development, 60:69–83. Raffler, Pia, Dan Posner, and Doug
-	Parkerson. 2019. The Weakness of Bottom-up Accountability: Experimental
-	evidence from the Ugandan health sector. URL:
+	Kenya." World Development, 60:69–83. 
+* Raffler, Pia, Dan Posner, and Doug Parkerson. 2019. "The Weakness of Bottom-up
+	Accountability: Experimental Evidence from the Ugandan Health Sector." URL:
 	[`https://bit.ly/2L36vzI`](http://egap.org/sites/default/files/Posner%2C%20Dan_Paper.pdf)
 
 This project re-evaluates this theoretical controversy and proposes a new field
 experiment to test whether bottom-up accountability is effective to promote
 better policy outcomes. The results are substantively important as well. First,
-we conduct this experiment in a middle-income country, Brazil, but which has
+we conduct this experiment in a middle-income country, Brazil, which has
 municipalities whose social indicators match both those of developed and
 developing nations. Brazil is notably unequal in several characteristics, thus
 allowing us to infer results for different subgroups if required. Second, we
 are evaluating school constructions, and the presence of schools have essential
 consequences in terms of long-run economic development, the household income
-composition, and woman empowerment.
+composition, and women empowerment.
 
 ## Subjects and Context
 
@@ -1233,7 +1234,7 @@ data of all school constructions receiving funds from them.
 All schools constructions funded by the Brazilian Ministry of Education
 participated in this study. We had no schools excluded from the program.
 
-Interventions’ dates: We had three interventions here:
+Interventions' dates: We ran two interventions:
 
 * App impact evaluation 1: From August 2017 to February 2018. We call this
 	Intervention 1 throughout the text.
@@ -1242,7 +1243,7 @@ Interventions’ dates: We had three interventions here:
 
 ## Allocation Methods
 
-**Assignment procedure**: The treatment here was assigned by the municipality
+**Assignment Procedure**: The treatment here was assigned by the municipality
 in the first intervention, and at the school level in the second and third
 interventions.
 
@@ -1264,10 +1265,10 @@ for (i in 1:5000) {
 }
 ```
 
-And then we checked whether the randomisation had one of the covariates
-selected here significantly predicting the random assignment. We presented a
-vector of acceptable random assignment in these grounds, and the Brazilian
-Transparency selected the one we are using in the first intervention.
+Then, we checked whether the one of the selected covariates is a significant
+predictor of the random assignment. We presented a vector of acceptable random
+assignment in these grounds, and Transparência Brasil selected the one we use
+in the first intervention.
 
 For intervention 2, we selected 15% of the schools in the dataset that could
 either be placed in the treatment or in control in each of the interventions.
@@ -1314,26 +1315,26 @@ characteristics:
 1. Log of Municipal Population in 2015
 2. Log of Number of Poor Families (2010 IBGE Census)
 3. Log of Total Federal Transfers to the Municipality in 2016
-4. IDEB Indicator for primary school quality (2015 Ministry of Education)
-5. IDEB Indicator for secondary school quality (2015 Ministry of Education)
+4. IDEB Indicator for Primary School Quality (2015 Ministry of Education)
+5. IDEB Indicator for Secondary School Quality (2015 Ministry of Education)
 
-All the pre-treatment variables were not significant, as displayed in Section
+None of the pre-treatment variables were significant, as shown in Section
 \ref{sec:bal-tests}.
 
 ## Treatments
 
-* **Treatment groups**:
+* **Treatment Groups**:
 	- *Intervention 1*: Municipality with all schools funded by the Ministry of
 		Education showing up in the app.
 	- *Intervention 2*: School construction showing up in the app.
 
-* **Control groups**:
+* **Control Groups**:
 	- *Intervention 1*: Municipality with all schools funded by the Ministry of
 		Education **not** showing up in the app. 
 	- *Intervention 2*: Selected school constructions **not** showing up in the
 		app.
 
-* **Method of manipulation delivery**:
+* **Method of Manipulation Delivery**:
 	- *Intervention 1*: The municipalities in the treatment had all their school
 		constructions showing up in the app. 
 	- *Intervention 2*: The schools in the treatment group were showing up in the
@@ -1354,13 +1355,13 @@ All the pre-treatment variables were not significant, as displayed in Section
 3. The difference of the percentage invested in the end and in the beginning of
 	 the impact evaluation period
 4. Indicator for a construction finished during the impact evaluation period
-5. Indicator for a construction canceled during the impact evaluation period
+5. Indicator for a construction cancelled during the impact evaluation period
 6. Indicator for an updated conclusion date for the construction during the
 	 impact evaluation period
 
 * **CONSORT**
 
-Below follows the CONSORT chartflow:
+Below follows the CONSORT chart flow:
 
   + *Intervention 1*:
 
@@ -1603,9 +1604,12 @@ We run three types of analysis:
 
 1. Full regressions with all data available
 2. Full regressions using inverse probability weights
-3. Regression where we match the control group with a same-size treatment group on the proximity of covariates using genetic matching.
+3. Regression where we match the control group with a same-size treatment group
+	 on the proximity of covariates using genetic matching.
 
-All models use municipal-level cluster robust standard errors and state-level fixed effects. For all models, we also run regressions without clustering and without fixed effects.
+All models use municipal-level cluster robust standard errors and state-level
+fixed effects. For all models, we also run regressions without clusters or 
+fixed effects.
 
 # Other Information
 
@@ -1613,17 +1617,17 @@ All models use municipal-level cluster robust standard errors and state-level fi
 	this research used online data and was approved by the Brazilian Ministry of
 	Education.
 
-* **Pre-registration**: this research has been pre-registered on the EGAP
+* **Pre-Registration**: this research has been pre-registered on the EGAP
 	pre-registry tool: <https://egap.org/registration/4505>.
 
-* **Replication materials**: The replication materials for this project are
+* **Replication Materials**: The replication materials for this project are
 	available here: <https://github.com/umbertomig/tdp-accountability>.
 
 * **Funding**: This research received funding from the 2016 Google Social
 	Impact Challenge. Google did not interfere in any aspect of the research
 	design and analysis.
 
-* **Conflict of interests**: The authors of this analysis declare that there
+* **Conflict of Interests**: The authors of this analysis declare that there
 	are no conflict of interest.
 
 # Session Information
@@ -1631,7 +1635,7 @@ All models use municipal-level cluster robust standard errors and state-level fi
 We used `r R.version.string` to write the manuscript and this appendix. For the
 regression models estimation, we used the `lfe` package. We employed the
 `MatchIt` package to improve covariate matching. Everything in this report is
-fully automated and can be reproduced using R Markdown.
+fully automated and can be reproduced using RMarkdown.
 
 ```{r}
 sessionInfo()
