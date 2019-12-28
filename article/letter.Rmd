@@ -36,7 +36,7 @@ if (!require("kableExtra")) {
 
 \vspace{.1cm}
 
-\noindent 25 December 2019
+\noindent 28 December 2019
 
 \vspace{.5cm}
 
@@ -73,12 +73,12 @@ from local governments.
 Lastly, we have rewritten some parts of the main text to highlight two points:
 1) that our experiment hinges on participation only; 2) that the effect of
 mobilisation and pressure on school construction outcomes require further
-analyses. We believe our paper now reflects our results more accurately.
+analyses. We believe the paper now reflects our results more accurately.
 
 Below we discuss in more detail these and other changes we have made to the
-manuscript in response to comments from the editor and the reviewer. We thank
-the editor again for the opportunity to revise the manuscript, and the reviewer
-for his/her extremely helpful comments.
+manuscript in response to comments we had received. We thank the editor again
+for the opportunity to revise the manuscript, and the reviewer for his/her
+extremely helpful comments.
 
 \vspace{.5cm} \noindent Sincerely,
 
@@ -124,7 +124,7 @@ of the actual bottom-up accountability that may (or may not) have occurred._"
 
 > We have made several changes to the main paper and the online appendix to
 address this important concern. First, we have added a new section to the
-appendix (B) in order to clarify how we designed and conducted the experiment.
+appendix in order to clarify how we designed and conducted the experiment.
 We copy the text below:
 
 \newpage
@@ -236,17 +236,17 @@ action---but that also seems like an empirical question the authors could
 feasibly address_. [...] _Once people downloaded the App, did they use it?_"
 
 > To answer these questions, we have added Google Analytics data on _Tá de
-Pé_'s download and usage. This provide reliable and exogenous data
-about our experimental manipulation and the effectiveness of the treatment. The
-data confirm that app usage was significant. We add the following paragraph to
-the main text to show user engagement (page 8):
+Pé_'s download and usage. This provide exogenous and reliable data about our
+experimental manipulation and the effectiveness of the treatment. The data
+confirm that app usage was significant. We add the following paragraph to the
+main text to show user engagement (page 8):
 
 \newpage
 
 > _Data from Google Analytics suggest that users did engage with the TDP app.
-On average, each user launched 59.99 app sessions, which indicates their
-interest in the application. In total, the app had 53,928 screen
-visualisations, with an average of 2.42 screen visualisations per session._
+On average, each user launched 60 app sessions, which indicates their interest
+in the application. In total, the app had 53,928 screen visualisations, with an
+average of 2.42 screen visualisations per session._
 
 > We see that users not only downloaded the app but visualised
 different screens at each session. This means that users did check all pages of
@@ -372,7 +372,7 @@ of that equation._"
 > We fully agree with the reviewer and have changed the main text accordingly.
 We have rewritten several passages, from the abstract to the discussion, in
 order to highlight that our mechanism is indeed based on information provision
-and not exactly mobilisation. For instance, the first paragraph in the
+and not mobilisation _per se_. For instance, the first paragraph in the
 Discussion session has been rewritten as:
 
 > _In this paper, we discuss **whether delivering information to citizens via** a
@@ -394,6 +394,10 @@ show that~~ providing information to citizens has no consistent impact on
 policy outcomes._ [...] _Our results are in line with the
 latter group and suggest that local oversight is ineffective in altering
 government behaviour in Brazil._
+
+Other changes are marked as boldface in the main text.
+
+\vspace{.5cm}
 
 \noindent \textbf{5)} Reviewer 1 writes: "_A similar short coming is the lack
 of discussion of who downloaded the App, and if/how said characteristics
@@ -497,7 +501,7 @@ abstract now reads:
 > targeted ~~at other groups~~ **to other groups, or focusing on different
 > issues,** may produce better policy outcomes._
 
-Our explanation of the results on page 9 has been rewritten as:
+The Results section (page 9) has been rewritten as:
 
 > _We find that the app only has a small effect on cancellation rates. The TDP
 application increases the likelihood of cancelling the construction in 2.07
@@ -518,16 +522,17 @@ hypothesis._
 \noindent \textbf{7)} Reviewer 1 writes: "_Can you address possible
 cross-municipality contamination?_"
 
-> The reviewer finally questions us about the possibility of cross-municipality
-> contamination. This would mean that the existence of the app in a
-> municipality could make mayors in other municipalities to act and increase
-> their efforts toward getting the schools finished. She/He is correct that, if
-> this is the case, the null result should not be surprising. However, looking
-> into changes in outcomes in the control and the treatment we see no effect of
-> proximity. Moreover, municipalities in Brazil are much insulated, and mayors
-> usually belong to different parties. There are about 35 active parties in
-> Brazil, which makes cross-municipality contact and information sharing costly
-> and difficult. Therefore, we believe that this possibility is remote.
+> Lastly, the reviewer questions us about the possibility of
+> cross-municipality contamination. This would mean that the existence of the
+> app in a municipality could make mayors in other municipalities to act and
+> increase their efforts toward getting the schools finished. She/He is correct
+> that, if this is the case, the null result should not be surprising. However,
+> looking into changes in outcomes in the control and the treatment we see no
+> effect of proximity. Moreover, municipalities in Brazil are much insulated,
+> and mayors usually belong to different parties. There are about 35 active
+> parties in Brazil, which makes cross-municipality contact and information
+> sharing costly and difficult. Therefore, we believe that this possibility is
+> remote.
 
 We would like to thank Reviewer 1 for his/her helpful comments and suggestions.
 

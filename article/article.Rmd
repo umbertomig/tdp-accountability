@@ -247,7 +247,7 @@ the treatment implementation and the coding of the outcome variables.**
 \end{table}
 
 The first intervention was carried out from August 2017 to July 2018 using the
-Android version of TDP. The randomization was conduct at the municipal level.
+Android version of TDP. The randomisation was conducted at the municipal level.
 We randomly selected `r as.numeric(table(impact_evaluation_phase1$treat)[1])`
 municipalities to the control group and included 
 `r format(as.numeric(table(impact_evaluation_phase1$treat)[2]),
@@ -261,8 +261,9 @@ variables: 1) log of municipal population in 2015; 2) log of number of poor
 families in each city; 3) log of total federal transfers to the municipality in
 2016; 4) federal government indicator for primary school quality; 5) federal
 government indicator for secondary school quality. The data come from the
-Brazilian Ministry of Education and the Census. Balance tests show that the
-randomisation was successful and are available in the Supplementary Materials.
+Brazilian Ministry of Education and the 2010 Brazilian Census. Balance tests
+show that the randomisation was successful and are available in the
+Supplementary Materials.
 
 We also conducted two manipulation checks and analysed the number of TDP app
 downloads by municipality and over time. Figure \ref{fig:manipulation1}
@@ -400,7 +401,7 @@ p2
 
 **Data from Google Analytics suggest that users did engage with the TDP app. On
 average, each user launched `r format(round(mean(as.numeric(gsub('\\.', '',
-ga2$visualizacoes_de_tela))), 2), big.mark = ",")` app sessions, which
+ga2$visualizacoes_de_tela))), 1), big.mark = ",")` app sessions, which
 indicates their interest in the application. In total, the app had 
 `r format(sum(as.numeric(gsub('\\.', '', ga2$visualizacoes_de_tela))),
 big.mark = ",", scientific = F)` screen visualisations, with an average of 
@@ -992,14 +993,14 @@ app, find a school construction, and then report it---,we included
 a substantial number of schools in the treatment groups. Second, balance and
 manipulation tests indicate that the treatment allocation was successful, so we
 can rule out problems in the randomisation procedures. **Third, data from
-Google Analytics confirm that citizens did use the app and provided information
-to our dataset. This indicates that the treatment manipulation was effective.
-In this sense, it is unlikely that our results derive from low user response.**
-Fourth, after doing a series of robustness tests, we still find no firm
-evidence of treatment effect. Finally, note that the sign of the coefficients
-are frequently contrary to our theoretical expectations. This rules out
-a possible concern about statistical power with our small control group
-approach.
+Google Analytics confirm that citizens indeed used the app and provided
+information to our dataset. This indicates that the treatment manipulation was
+effective. In this sense, it is unlikely that our results derive from low user
+response.** Fourth, after doing a series of robustness tests, we still find no
+firm evidence of treatment effect. Finally, note that the sign of the
+coefficients are frequently contrary to our theoretical expectations. This
+rules out a possible concern about statistical power with our small control
+group approach.
 
 **We discuss some possible reasons why community monitoring did not work in our
 case**. ~~A~~ **One** plausible explanation is that individuals were unable to
