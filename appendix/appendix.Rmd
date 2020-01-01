@@ -210,61 +210,62 @@ p2
 
 # Treatment Definition and Mechanism
 
-In this section, we explain in detail how the _Tá de Pé_ app works. The
-treatment involves the following procedures:
+__In this section, we explain in detail how the _Tá de Pé_ app works. The
+treatment involves the following procedures:__
 
-1. Users download the app.
+**1. Users download the app.**
 
-2. Users access the app and add new information about school constructions
-	 near to their location.
+**2. Users access the app and add new information about school constructions**
+**near to their location.**
 
-3. The app sends a message to the mayor's office requesting details about the
-	 project. If necessary, the message is also forwarded to other government
-	 oversight institutions such as the city council and the Brazilian Federal
-	 Comptroller (CGU). Below, we discuss the cases in which we forwarded the
-	 denounce to the authorities.
+**3. The app sends a message to the mayor's office requesting details about
+the project. If necessary, the message is also forwarded to other government
+oversight institutions such as the city council and the Brazilian Federal
+Comptroller (CGU). Below, we discuss the cases in which we forwarded the
+denounce to the authorities.**
 
-4. If the pressure over the mayors has an effect, we expect to witness
+**4. If the pressure over the mayors has an effect, we expect to witness
 	 improvements on governmental data regarding the school construction
-	 progress.
+	 progress.**
 
-The treatment is a compounded treatment comprised of steps (2) to (4). To make
-sure that the only source of effect comes from step (2), we took the following
-precautions:
+**The treatment is a compounded treatment comprised of steps (2) to (4). To
+make sure that the only source of effect comes from step (2), we took the
+following precautions:**
 
-In step (1), we have implemented Facebook campaigns in municipalities that have
-school construction agreements with the Federal government. We did not
+**In step (1), we have implemented Facebook campaigns in municipalities that
+have school construction agreements with the Federal government. We did not
 discriminate any municipality in this step, and citizens living in
 municipalities in the treatment and in the control could equally have received
-the banners about the _Tá de Pé_ app. The Facebook campaign was not randomised.
+the banners about the _Tá de Pé_ app. The Facebook campaign was not
+randomised.**
 
-For step (3), we put a team of two data scientists to ensure that upon
+**For step (3), we put a team of two data scientists to ensure that upon
 receiving a denounce, the mayor's office, the city council, and the Brazilian
-Federal Comptroller (CGU) would be notified. The decision making funnel was:
+Federal Comptroller (CGU) would be notified. The decision making funnel was:**
 
-3.1. We notified the _Engineers without Borders_ (EWB) about the denounce and
+**3.1. We notified the _Engineers without Borders_ (EWB) about the denounce and
 sent them the user-provided pictures and auxiliary information. They issued a
-report on how much the construction was likely to be delayed.
+report on how much the construction was likely to be delayed.**
 
-3.2. After we had the EWB report, we notified the mayor's office in compliance
+**3.2. After we had the EWB report, we notified the mayor's office in compliance
 with Brazil's Freedom of Information Act (FOI). We communicated that a citizen
 had anonymously made a denounce about a school (fully identifying the school
 construction that we were referring to), and that the Engineers without Borders
 found the construction delayed. We submitted a request for the mayor's office
 to provide an explanation on why the construction was delayed, and asked for
 updated statistics on when the construction will be finished. According to the
-FOI law, the mayor had twenty days to respond.
+FOI law, the mayor had twenty days to respond.**
 
-3.3. If the response was deemed insufficient, we forwarded the denounce to
+**3.3. If the response was deemed insufficient, we forwarded the denounce to
 the city council and to the Brazilian Federal Comptroller (CGU). As the
 denounce goes to these institutions, they can harm mayors by restricting access
-to Federal funds.
+to Federal funds.**
 
-3.4. At each stage, a Twitter bot constructed by Transparência Brasil
+**3.4. At each stage, a Twitter bot constructed by Transparência Brasil
 (<https://twitter.com/tadepeapp>) reported the reception of a denounce and
-tracked the responses of the mayor, the city council, and the CGU.
+tracked the responses of the mayor, the city council, and the CGU.**
 
-In step (4), we relied on administrative data by the Brazilian Ministry of
+**In step (4), we relied on administrative data by the Brazilian Ministry of
 Education. The Ministry of Education provides monthly data on school
 constructions build with Federal Government resources and shows how many of
 them are delayed across the country. We use the finishing dates reported by the
@@ -272,76 +273,76 @@ municipality at the time they sign the agreement with the Federal Government as
 our measure of construction delays. This data helped us to keep the app
 updated. We selected outcomes six months before and after the treatment. The
 data were constantly updated by the Ministry of Education, and we found no red
-flags in the overall quality of their information.
+flags in the overall quality of their information.**
 
-Therefore, steps (1), (3), and (4) were standardised and do not vary across the
-country. The only source of variation in our intervention should come from step
-(2).
+**Therefore, steps (1), (3), and (4) were standardised and do not vary across
+the country. The only source of variation in our intervention should come from
+step (2).**
 
-In step (2), we applied the treatment by removing schools within municipalities
-out of the app. In the first intervention, which happened at the municipal
-level, we excluded all schools within a given randomly selected municipality.
-In the second intervention, we randomly excluded selected schools out of the
-app. Removing a school means that the school was in the dataset provided by the
-Brazilian Ministry of Education, but it did not show up in the app. Therefore,
-our treatment effect represents the school being present (treatment) or absent
-(control) in the app.
+**In step (2), we applied the treatment by removing schools within
+municipalities out of the app. In the first intervention, which happened at the
+municipal level, we excluded all schools within a given randomly selected
+municipality. In the second intervention, we randomly excluded selected schools
+out of the app. Removing a school means that the school was in the dataset
+provided by the Brazilian Ministry of Education, but it did not show up in the
+app. Therefore, our treatment effect represents the school being present
+(treatment) or absent (control) in the app.**
 
-We argue that the app promotes two crucial features of bottom-up
+**We argue that the app promotes two crucial features of bottom-up
 accountability. First, it helps people to access information that would
 otherwise be available only in an obscure spreadsheet on the Ministry of
 Education website. Second, whenever people find this information troublesome,
 we are providing an easy way to them to act upon the information. As the _Tá de
 Pé_ design was intuitive and straightforward, we believe that most of
-Brazilians would find it easy to use the app.
+Brazilians would find it easy to use the app.**
 
-Moreover, the success of treatment does not require that everyone in the
+**Moreover, the success of treatment does not require that everyone in the
 municipality uses it. The more usage means more pictures and denounces, and
 this represents more pressure over the mayors office, what could revert into a
 higher effect. However, just one denounce would be enough for the project to be
 successful, as the denounce can be directed to the Brazilian General
 Comptroller (CGU), and this could potentially deny future funding to the
-municipality.
+municipality.**
 
 # Outcome Data Collection
 
-We collect the main outcomes using the data reported by the municipality to the
-Brazilian Ministry of Education. Note that this is the same data as the
-pre-treatment data that we use to feed in the app with delayed schools.
+**We collect the main outcomes using the data reported by the municipality to
+the Brazilian Ministry of Education. Note that this is the same data as the
+pre-treatment data that we use to feed in the app with delayed schools.**
 
-The outcomes used in the paper are:
+**The outcomes used in the paper are:**
 
-1. **Percentage of the project completed before the impact evaluation
-	 started**: This is a column in the Ministry of Education dataset. The data
-	 in this column were sampled in the beginning of the intervention.
+**1. Percentage of the project completed before the impact evaluation started:
+	 This is a column in the Ministry of Education dataset. The data in this
+	 column were sampled in the beginning of the intervention.**
 
-2. **Percentage of the project reported as completed by the end of the
-	 intervention period**: Another column in the Ministry of Education
-	 dataset. The data were sampled six months after the intervention.
+**2. Percentage of the project reported as completed by the end of the
+	 intervention period: Another column in the Ministry of Education dataset.
+	 The data were sampled six months after the intervention.**
 
-3. **Difference between the percentage reported as completed before and after
-	 the intervention**: The difference between (1) and (2) above. Note
+**3. Difference between the percentage reported as completed before and after
+	 the intervention: The difference between (1) and (2) above. Note
 	 that according to @gerber2012field, this way to look into outcomes is
 	 positive, as having a pre-treatment covariate that highly predicts the
-	 outcome reduces the variance in the estimator considerably.
+	 outcome reduces the variance in the estimator considerably.**
 
-4. **Dummy indicator for finished constructions**: The Ministry of Education
+**4. Dummy indicator for finished constructions: The Ministry of Education
 	 dataset has a column with the construction status. We created a dummy to be
 	 one when the construction was reported as finished and zero otherwise. The
-	 data here were sampled six months after the intervention.
+	 data here were sampled six months after the intervention.**
 
-5. **Dummy indicator for cancelled constructions**: Similarly, we created a
+**5. Dummy indicator for cancelled constructions: Similarly, we created a
 	dummy variable from the Ministry of Education dataset indicating when the
 	construction was reported as cancelled. The data here were sampled six months
-	after the intervention.
+	after the intervention.**
 
-6. **Number of schools where construction companies updated the conclusion
-	 dates**: Lastly, the Ministry of Education dataset has a column with the
+**6. Number of schools where construction companies updated the conclusion
+	 dates: Lastly, the Ministry of Education dataset has a column with the
 	 construction estimated completion date. We took the completion dated
 	 reported before and six months after the intervention. If the dates
-	 differed, we coded as one, and zero otherwise.
+	 differed, we coded as one, and zero otherwise.**
 
-All these variables come from our manipulation of the Ministry of Education
+**All these variables come from our manipulation of the Ministry of Education
 data. Collecting the outcomes in this way is superior than the alternative of
 gathering the data ourselves. First, we would not be able to manipulate the
 results and cherry-pick favourable results. Even if they have the best
@@ -352,37 +353,40 @@ results. This would bias our findings and undermine the credibility of our
 experiment. Second, using external data makes the results easily reproducible
 by other researchers. As the Ministry of Education has standardised data
 collection procedures, they greatly simplify and facilitate the reproduction of
-our findings.
+our findings.**
 
 # Facebook Tá de Pé Campaign
 
-The app by itself would probably not have had an effect on the responsiveness
+**The app by itself would probably not have had an effect on the responsiveness
 of mayors. To boost usage and publicize the app, Transparência Brasil ran 64
 Facebook campaigns throughout the country. The Facebook campaign concentrates
 the bulk of the investments in the beginning of the intervention. The app
 download data is in the second panel of Figures 2 and 3. For the Facebook
-interaction, we have the following statistics:
+interaction, we have the following statistics:**
 
-1. Impressions
-  - Mean: `r mean(fballt$impressoes)`
-  - Total for all campaigns: `r sum(fballt$impressoes)`
+**1. Impressions**
+- **Mean: `r format(round(mean(fballt$impressoes),2), big.mark = ",")`**
+	- **Total for all campaigns: `r format(sum(fballt$impressoes), big.mark = ",")`**
 
-2. App Download link clicks:
-  - Mean: `r mean(fballt$impressoes[fballt$tipo_de_resultado=='Instalações do aplicativo para celular'])`
-  - Total for all campaigns: `r sum(fballt$impressoes[fballt$tipo_de_resultado=='Instalações do aplicativo para celular'])`
+**2. App Download link clicks:
+	- Mean: `r format(mean(fballt$impressoes[fballt$tipo_de_resultado=='Instalações do aplicativo para celular']), big.mark = ",")`**
+  - **Total for all campaigns: `r format(sum(fballt$impressoes[fballt$tipo_de_resultado=='Instalações do aplicativo para celular']), big.mark = ",")`**
 
-As we see from the actual download activity, the people who indeed downloaded
-the app were much fewer than these numbers would suggest.
+**As we see from the actual download activity, the people who indeed downloaded
+the app were much fewer than these numbers would suggest.**
 
-We have chosen Facebook because the platform offers an easy and cheap method to
-spread information. Moreover, according to the Statista website, Facebook is
+**We have chosen Facebook because the platform offers an easy and cheap method
+to spread information. Moreover, according to the Statista website, Facebook is
 used by 70 million Brazilians (60% of the entire adult population), and the
 demographics largely match the demographics publicised by the Brazilian
 Institute of Geography and Statistics. For instance, see the following
-websites:
+websites:**
 
-1. [Statista Total Facebook Users](https://www.statista.com/statistics/244936/number-of-facebook-users-in-brazil/)
-2. [Statista Total Facebook Users by Age](https://www.statista.com/statistics/866282/facebook-user-share-brazil-age/)
+**1. [Statista Total Facebook
+Users](https://www.statista.com/statistics/244936/number-of-facebook-users-in-brazil/)**
+
+**2. [Statista Total Facebook Users by
+	 Age](https://www.statista.com/statistics/866282/facebook-user-share-brazil-age/)**
 
 \newpage
 
