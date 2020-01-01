@@ -8,16 +8,16 @@ This GitHub repository contains data and documented R code for ["Bottom-Up Accou
 
 You can cite the article as: 
 
-> Freire, D., Galdino, M., Mignozzetti, U. 2019. "Bottom-Up Accountability and Public Service Provision: Evidence from a Field Experiment in Brazil", _SocArXiv_, DOI: <https://osf.io/preprints/socarxiv/keznu>.
+> Freire, D., Galdino, M., Mignozzetti, U. 2020. "Bottom-Up Accountability and Public Service Provision: Evidence from a Field Experiment in Brazil", _SocArXiv_, DOI: <https://osf.io/preprints/socarxiv/keznu>.
 
 BibTeX entry:
 
 ```
-@misc{freire2019paper,
+@misc{freire2020paper,
   title={Bottom-Up Accountability and Public Service Provision: Evidence from a Field Experiment in Brazil},
   author={Freire, Danilo and Galdino, Manoel and Mignozzetti, Umberto},
   pages={1--15},
-  year={2019},
+  year={2020},
   howpublished = {\href{https://osf.io/9a6ch}{\texttt{https://osf.io/preprints/socarxiv/keznu}}}
 }
 `
