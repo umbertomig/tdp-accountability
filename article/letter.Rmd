@@ -36,7 +36,7 @@ if (!require("kableExtra")) {
 
 \vspace{.1cm}
 
-\noindent 28 December 2019
+\noindent 3 January, 2020
 
 \vspace{.5cm}
 
@@ -51,7 +51,7 @@ many revisions to the paper along the lines suggested by the editor and the
 anonymous reviewer and we believe the manuscript has improved significantly as
 a result.
 
-We have worked specially hard to clarify the connection between information
+We have worked especially hard to clarify the connection between information
 provision and mobilisation, a point emphasised by both the editor and the
 reviewer. Our efforts in that regard include, first, two sections in the online
 appendix with a detailed description of _Tá de Pé_'s functionalities and the
@@ -61,7 +61,7 @@ Second, we provide a thorough discussion of our additional data sources in
 sections 3 and 4 of the appendix. More specifically, we show how the Brazilian
 Ministry of Education collects and publicises their data and how we use that
 information to evaluate the robustness of our findings. We believe the new
-sections help give the results a clearer interpretation and strenghten our main
+sections help give the results a clearer interpretation and strengthen our main
 arguments.
 
 Related, we have included information on app use and app downloads, which
@@ -173,7 +173,7 @@ compliance with Brazil's Freedom of Information Act (FOI). We communicated that
 a citizen had anonymously made a denounce about a school (fully identifying the
 school construction that we were referring to), and that the Engineers without
 Borders found the construction delayed. We submitted a request for the mayor's
-office to provide an explanation on why the construction was delayed, and asked
+office to provide an explanation on why the construction was delayed and asked
 for updated statistics on when the construction will be finished. According to
 the FOI law, the mayor had twenty days to respond._
 
@@ -213,15 +213,15 @@ app. Therefore, our treatment effect represents the school being present
 accountability. First, it helps people to access information that would
 otherwise be available only in an obscure spreadsheet on the Ministry of
 Education website. Second, whenever people find this information troublesome,
-we are providing an easy way to them to act upon the information. As the _Tá de
-Pé_ design was intuitive and straightforward, we believe that most of
+we are providing an easy way for them to act upon the information. As the _Tá
+de Pé_ design was intuitive and straightforward, we believe that most 
 Brazilians would find it easy to use the app._
 
 > _Moreover, the success of treatment does not require that everyone in the
 municipality uses it. The more usage means more pictures and denounces, and
-this represents more pressure over the mayors office, what could revert into a
-higher effect. However, just one denounce would be enough for the project to be
-successful, as the denounce can be directed to the Brazilian General
+this represents more pressure over the mayors' office, which could revert into
+a higher effect. However, just one denounce would be enough for the project to
+be successful, as the denounce can be directed to the Brazilian General
 Comptroller (CGU), and this could potentially deny future funding to the
 municipality._
 
@@ -236,7 +236,7 @@ action---but that also seems like an empirical question the authors could
 feasibly address_. [...] _Once people downloaded the App, did they use it?_"
 
 > To answer these questions, we have added Google Analytics data on _Tá de
-Pé_'s download and usage. This provide exogenous and reliable data about our
+Pé_'s download and usage. This provides exogenous and reliable data about our
 experimental manipulation and the effectiveness of the treatment. The data
 confirm that app usage was significant. We add the following paragraph to the
 main text to show user engagement (page 8):
@@ -253,7 +253,7 @@ different screens at each session. This means that users did check all pages of
 the app, including those with information about local school constructions.
 Moreover, figures 2 and 3 in the main text (pages 7 and 8) also show that the
 downloads were widespread across the country. Considering Brazil's large
-territory, we believe this is robust evidence of an effective treatment
+territory, we believe this is robust evidence of effective treatment
 manipulation.  
 
 > As we note in Appendix C, one denounce would be sufficient for the city
@@ -284,7 +284,7 @@ differentiate the effect of political corruption from those of spending cuts.
 Due to the severe economic crisis in 2014--2016, the Brazilian federal
 government introduced discretionary spending limits that affected public
 investment [@rossi2016impactos]. Politicians may argue that delays in school
-constructions are not derived from their misuse of government funds, but from
+constructions are not derived from their misuse of government funds but from
 the austerity measures. If this is the case, citizens will not blame local
 politicians for the underprovision of public goods. Consequently,
 representatives can dismiss individual requests as the issue is unlikely to
@@ -294,7 +294,7 @@ escalate._
 treatment. As the experiment was fielded right after Brazil's municipal
 elections, incumbents might have disregarded the requests because they did not
 see the demands as politically costly in the short run. Having just taken
-office, mayors might have focused their attention to the formation of
+office, mayors might have focused their attention on the formation of
 government coalitions or to budget concerns. Future research may evaluate how
 electoral dynamics interact with citizen oversight, potentially by replicating
 informational experiments in different stages of the political cycle._
@@ -318,7 +318,7 @@ pre-treatment data that we use to feed in the app with delayed schools._
 
 > _1. **Percentage of the project completed before the impact evaluation
 	 started**: This is a column in the Ministry of Education dataset. The data
-	 in this column were sampled in the beginning of the intervention._
+	 in this column were sampled at the beginning of the intervention._
 
 > _2. **Percentage of the project reported as completed by the end of the
 	 intervention period**: Another column in the Ministry of Education dataset.
@@ -347,7 +347,7 @@ variance in the estimator considerably._
 	 differed, we coded as one, and zero otherwise._
 
 > _All these variables come from our manipulation of the Ministry of Education
-data. Collecting the outcomes in this way is superior than the alternative of
+data. Collecting the outcomes in this way is superior to the alternative of
 gathering the data ourselves. First, we would not be able to manipulate the
 results and cherry-pick favourable results. Even if they have the best
 intentions, researchers may bias the results just by the choices they make in
@@ -425,13 +425,13 @@ user.
 against citizens acting against mayors. Because of this possibility, we decided
 to make the app completely anonymous. Although this carries a cost in terms of
 the analysis, it ensures that the citizens were not exposed in any way.
-Moreover, the randomization is known for washing out any the interference of
-any unobserved factor that could threat the identification of the causal
+Moreover, the randomisation is known for washing out any the interference of
+any unobserved factor that could threaten the identification of the causal
 effect. The success on observables reassures us that the randomisation was well
 performed, and probably eliminated the concern of heterogeneity from
 non-observables. However, we agree with the reviewer that the target public
-could be either outside Facebook, or being of a given demographic
-characteristic that we did not captured in our experiment. 
+could be either outside Facebook or being of a given demographic
+characteristic that we did not capture in our experiment. 
 
 > We have also included further information on the Facebook campaign in the
 > Appendix (section E):
@@ -441,7 +441,7 @@ characteristic that we did not captured in our experiment.
 > _The app by itself would probably not have had an effect on the
 responsiveness of mayors. To boost usage and publicize the app, Transparência
 Brasil ran 64 Facebook campaigns throughout the country. The Facebook campaign
-concentrates the bulk of the investments in the beginning of the intervention.
+concentrates the bulk of the investments at the beginning of the intervention.
 The app download data is in the second panel of Figures 2 and 3. For the
 Facebook interaction, we have the following statistics:_
 

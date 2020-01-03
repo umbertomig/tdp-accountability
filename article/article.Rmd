@@ -3,7 +3,7 @@ title:  |
         | Bottom-Up Accountability and Public Service Provision: Evidence from a Field Experiment in Brazil
 author:
 date: \today
-abstract: "Does ~~grassroots participation~~ **local oversight** improve public service delivery? We study the effect of a mobile phone application that allows citizens to monitor school construction projects in Brazilian municipalities. ~~The app provides a platform where users can submit photos of construction sites, consult independent engineers, and contact the mayor's office about project delays.~~ **The app prompts users to submit data about construction sites, sends such crowdsourced information to independent engineers, and contacts the mayors' offices about project delays.** Our results show that the app has a null impact on the school construction indicators. Additionally, we find that politicians are unresponsive to individual requests. The results question the impact of ~~local~~ **bottom-up** monitoring on public service performance and suggest that interventions targeted ~~at other groups~~ **to other groups, or focusing on different issues,** may produce better policy outcomes."
+abstract: "Does ~~grassroots participation~~ **local oversight** improve public service delivery? We study the effect of a mobile phone application that allows citizens to monitor school construction projects in Brazilian municipalities. ~~The app provides a platform where users can submit photos of construction sites, consult independent engineers, and contact the mayor's office about project delays.~~ **The app prompts users to submit data about construction sites, sends such crowdsourced information to independent engineers, and contacts the mayors' offices about project delays.** Our results show that the app has a null impact on school construction indicators. Additionally, we find that politicians are unresponsive to individual requests. The results question the impact of ~~local~~ **bottom-up** monitoring on public service performance and suggest that interventions targeted at other groups, or focused on different issues, may produce better policy outcomes."
 abstractspacing: double
 keywords: accountability, Brazil, impact evaluation, state capacity, technology
 fontsize: 12pt
@@ -115,7 +115,7 @@ impact~~ **the impact of citizen oversight** on five outcomes related to school
 completion rates and complaints to public authorities. Overall, ~~our results
 show that~~ providing information to citizens has no consistent impact on
 policy outcomes. In the first experiment, we find that the TDP app increased
-the likelihood of construction cancellation by 2 percent, but the result does
+the likelihood of construction cancellation by 2 per cent, but the result does
 not replicate. The remaining five models have null results. In our second
 intervention, none of the estimations reach conventional levels of statistical
 significance. Importantly, all coefficients are small, what suggests that even
@@ -989,15 +989,15 @@ and local policy performance [e.g., @banerjee2010pitfalls; @lieberman2014does;
 What factors, then, are driving these results? It seems unlikely that the null
 results derive from flaws in the research design. First, our study is well
 powered. Although the treatment is indirect---the person has to download the
-app, find a school construction, and then report it---,we included
-a substantial number of schools in the treatment groups. Second, balance and
+app, find a school construction, and then report it---, we included a
+substantial number of schools in the treatment groups. Second, balance and
 manipulation tests indicate that the treatment allocation was successful, so we
 can rule out problems in the randomisation procedures. **Third, data from
 Google Analytics confirm that citizens indeed used the app and provided
 information to our dataset. This indicates that the treatment manipulation was
 effective. In this sense, it is unlikely that our results derive from low user
 response.** Fourth, after doing a series of robustness tests, we still find no
-firm evidence of treatment effect. Finally, note that the sign of the
+firm evidence of treatment effect. Finally, note that the signs of the
 coefficients are frequently contrary to our theoretical expectations. This
 rules out a possible concern about statistical power with our small control
 group approach.
@@ -1009,7 +1009,7 @@ Due to the severe economic crisis in 2014--2016, the Brazilian federal
 government introduced discretionary spending limits that affected public
 investment [@rossi2016impactos]. Politicians may argue that
 delays in school constructions are not derived from their misuse of government
-funds, but from the austerity measures. If this is the case, citizens will not
+funds but from the austerity measures. If this is the case, citizens will not
 blame local politicians for the underprovision of public goods. Consequently,
 representatives can dismiss individual requests as the issue is unlikely to
 escalate.
@@ -1018,7 +1018,7 @@ escalate.
 treatment. As the experiment was fielded right after Brazil's municipal
 elections, incumbents might have disregarded the requests because they did not
 see the demands as politically costly in the short run. Having just taken
-office, mayors might have focused their attention to the formation of
+office, mayors might have focused their attention on the formation of
 government coalitions or to budget concerns. Future research may evaluate how
 electoral dynamics interact with citizen oversight, potentially by replicating
 informational experiments in different stages of the political cycle.**

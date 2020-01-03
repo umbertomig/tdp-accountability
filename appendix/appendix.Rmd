@@ -3,7 +3,7 @@ title: |
        | Supplementary Materials for "Bottom-Up Accountability and Public Service Provision: Evidence from a Field Experiment in Brazil"
 author:
 date: \today
-abstract: "Does local oversight improve public service delivery? We study the effect of a mobile phone application that allows citizens to monitor school construction projects in Brazilian municipalities. The app prompts users to submit data about construction sites, sends such crowdsourced information to independent engineers, and contacts the mayors' offices about project delays. Our results show that the app has a null impact on the school construction indicators. Additionally, we find that politicians are unresponsive to individual requests. The results question the impact of bottom-up monitoring on public service performance and suggest that interventions targeted to other groups, or focusing on different issues, may produce better policy outcomes."
+abstract: "Does local oversight improve public service delivery? We study the effect of a mobile phone application that allows citizens to monitor school construction projects in Brazilian municipalities. The app prompts users to submit data about construction sites, sends such crowdsourced information to independent engineers, and contacts the mayors' offices about project delays. Our results show that the app has a null impact on school construction indicators. Additionally, we find that politicians are unresponsive to individual requests. The results question the impact of bottom-up monitoring on public service performance and suggest that interventions targeted at other groups, or focused on different issues, may produce better policy outcomes."
 abstractspacing: double
 keywords: accountability, Brazil, impact evaluation, state capacity, technology
 fontfamily: libertine
@@ -229,7 +229,7 @@ denounce to the authorities.**
 	 progress.**
 
 **The treatment is a compounded treatment comprised of steps (2) to (4). To
-make sure that the only source of effect comes from step (2), we took the
+make sure that the only source of the effect comes from step (2), we took the
 following precautions:**
 
 **In step (1), we have implemented Facebook campaigns in municipalities that
@@ -252,7 +252,7 @@ with Brazil's Freedom of Information Act (FOI). We communicated that a citizen
 had anonymously made a denounce about a school (fully identifying the school
 construction that we were referring to), and that the Engineers without Borders
 found the construction delayed. We submitted a request for the mayor's office
-to provide an explanation on why the construction was delayed, and asked for
+to provide an explanation on why the construction was delayed and asked for
 updated statistics on when the construction will be finished. According to the
 FOI law, the mayor had twenty days to respond.**
 
@@ -292,15 +292,15 @@ app. Therefore, our treatment effect represents the school being present
 accountability. First, it helps people to access information that would
 otherwise be available only in an obscure spreadsheet on the Ministry of
 Education website. Second, whenever people find this information troublesome,
-we are providing an easy way to them to act upon the information. As the _Tá de
-Pé_ design was intuitive and straightforward, we believe that most of
+we are providing an easy way for them to act upon the information. As the _Tá
+de Pé_ design was intuitive and straightforward, we believe that most
 Brazilians would find it easy to use the app.**
 
 **Moreover, the success of treatment does not require that everyone in the
 municipality uses it. The more usage means more pictures and denounces, and
-this represents more pressure over the mayors office, what could revert into a
-higher effect. However, just one denounce would be enough for the project to be
-successful, as the denounce can be directed to the Brazilian General
+this represents more pressure over the mayors' office, which could revert into
+a higher effect. However, just one denounce would be enough for the project to
+be successful, as the denounce can be directed to the Brazilian General
 Comptroller (CGU), and this could potentially deny future funding to the
 municipality.**
 
@@ -314,7 +314,7 @@ pre-treatment data that we use to feed in the app with delayed schools.**
 
 **1. Percentage of the project completed before the impact evaluation started:
 	 This is a column in the Ministry of Education dataset. The data in this
-	 column were sampled in the beginning of the intervention.**
+	 column were sampled at the beginning of the intervention.**
 
 **2. Percentage of the project reported as completed by the end of the
 	 intervention period: Another column in the Ministry of Education dataset.
@@ -343,7 +343,7 @@ pre-treatment data that we use to feed in the app with delayed schools.**
 	 differed, we coded as one, and zero otherwise.**
 
 **All these variables come from our manipulation of the Ministry of Education
-data. Collecting the outcomes in this way is superior than the alternative of
+data. Collecting the outcomes in this way is superior to the alternative of
 gathering the data ourselves. First, we would not be able to manipulate the
 results and cherry-pick favourable results. Even if they have the best
 intentions, researchers may bias the results just by the choices they make in
@@ -360,7 +360,7 @@ our findings.**
 **The app by itself would probably not have had an effect on the responsiveness
 of mayors. To boost usage and publicize the app, Transparência Brasil ran 64
 Facebook campaigns throughout the country. The Facebook campaign concentrates
-the bulk of the investments in the beginning of the intervention. The app
+the bulk of the investments at the beginning of the intervention. The app
 download data is in the second panel of Figures 2 and 3. For the Facebook
 interaction, we have the following statistics:**
 
