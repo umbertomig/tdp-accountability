@@ -592,8 +592,8 @@ R$^{2}$ & 0.16 & 0.14 & 0.05 & 0.02 & 0.07 & 0.13 \\
 \end{table}
 
 We find that the app only has a small effect on cancellation rates. The TDP
-application increases the likelihood of cancelling the construction by `r
-round(100*resInt1[[2]][[20]]$coefficients[1], 2)` percent. While this result
+application increases the likelihood of cancelling the construction by 
+`r round(100*resInt1[[2]][[20]]$coefficients[1], 2)` percent. While this result
 goes in the opposite direction of our theoretical expectations, the finding is
 inconsistent and does not replicate in the second experiment. All other
 coefficients are not statistically significant at conventional levels. On the
