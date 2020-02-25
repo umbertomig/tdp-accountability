@@ -134,7 +134,7 @@ we find that the TDP app increased the likelihood of construction cancellation
 by 2 per cent, but the result does not replicate. The remaining five models
 have null results. In our second intervention, none of the estimations reach
 conventional levels of statistical significance. Importantly, all coefficients
-are small, what suggests that even if the TDP app had a significant effect on
+are small, which suggests that even if the TDP app had a significant effect on
 the outcomes, its substantive impact would be negligible.
 
 The findings raise questions about the ability of citizens to hold
@@ -170,7 +170,7 @@ to community demands.
 [^tdp]: _Tá de Pé_ is an informal Brazilian expression for 'is it done?'.
 Literally, it means 'standing on its feet' in Portuguese.
 
-Transparência Brazil built the app in from January to March 2017 and tested it
+Transparência Brazil built the app from January to March 2017 and tested it
 in May of that year. The first stable Android version was deployed on Google
 Play on 14 August 2017. A version for iOS came about six months later. In
 October 2017, Transparência Brazil started a Facebook campaign in order to
@@ -214,7 +214,7 @@ Engineers without Borders International and <https://esf.org.br> for
 information on the Brazilian office.
 
 The TDP also received feedback from Brazilian computer scientists and policy
-analists. In 2017 and 2018, Transparência Brasil announced two team programming
+analysts. In 2017 and 2018, Transparência Brasil announced two team programming
 competitions, called 'Tá de Pé Hackathons', where contributors could fix code
 bugs and suggest new functionalities to the TDP project. One of these
 innovations consists of a Twitter bot (<https://twitter.com/tadepeapp>) which
@@ -347,7 +347,7 @@ devices. Second, we randomised the intervention at the school level, with
 scientific = FALSE)` treatment units. We used blocked randomisation stratified
 by Brazilian states, school construction status (under construction, stopped,
 unfinished), and whether the municipality spent more on school construction
-that the distribution median. Finally, the intervention period lasted from
+than the distribution median. Finally, the intervention period lasted from
 August 2018 to July 2019.
 
 Balance tests and manipulation checks were also successful for intervention 2.
@@ -592,8 +592,8 @@ R$^{2}$ & 0.16 & 0.14 & 0.05 & 0.02 & 0.07 & 0.13 \\
 \end{table}
 
 We find that the app only has a small effect on cancellation rates. The TDP
-application increases the likelihood of cancelling the construction in 
-`r round(100*resInt1[[2]][[20]]$coefficients[1], 2)` percent. While this result
+application increases the likelihood of cancelling the construction by `r
+round(100*resInt1[[2]][[20]]$coefficients[1], 2)` percent. While this result
 goes in the opposite direction of our theoretical expectations, the finding is
 inconsistent and does not replicate in the second experiment. All other
 coefficients are not statistically significant at conventional levels. On the
@@ -607,11 +607,12 @@ provider behaviour [@raffler2018weakness]. Our results do not lend support to
 that hypothesis.
 
 Table \ref{tab:results2} shows the results of the second intervention. The
-treatment does not have a statistically significant effect on any our outcomes
-of interest, including the placebo. This raises further questions about the
-effect of the TDP app on school completion. Note that the effect signs are also
-inconsistent with improving the outcomes, what demonstrates that our results do
-not derive from low statistical power or the reduced control group size.
+treatment does not have a statistically significant effect on any of our
+outcomes of interest, including the placebo. This raises further questions
+about the effect of the TDP app on school completion. Note that the effect
+signs are also inconsistent with improving the outcomes, which demonstrates
+that our results do not derive from low statistical power or the reduced
+control group size.
 
 ```{r int2, echo=FALSE, warning=FALSE, message=FALSE, results='hide',cache=TRUE}
 load("tdp.RData")
